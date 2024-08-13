@@ -130,7 +130,7 @@
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
                   data-bs-auto-close="outside" aria-expanded="false">
                   <i class="bx bx-bell bx-sm"></i>
-                  <span class="badge bg-danger rounded-pill badge-notifications" id="notification-count">0</span>
+                  <span class="badge bg-success rounded-pill badge-notifications" id="notification-count">0</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end py-0">
                   <li class="dropdown-menu-header border-bottom">
@@ -257,7 +257,7 @@
                 <div class="card">
                   <div class="d-flex row">
                     <div class="card-body" style="padding: 15px;">
-                      <button class="btn w-10 btn-danger float-end mx-4">Add new accreditation</button>
+                      <button class="btn w-10 btn-danger float-end mx-4 text-white">Add new accreditation</button>
                       <div class="wrapper">
                         <header>
                           <p class="current-date"></p>
@@ -290,27 +290,27 @@
                   <div class="card-body" style="padding: 15px;">
                     <h3 class="card-title text-dark">Today's Accreditation</h3>
                     <ul>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
-                      <li>Title Accreditation</li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
+                      <li class="d-flex justify-content-between">Title Accreditation <span>12:00 AM</span></li>
                     </ul>
                   </div>
                 </div>

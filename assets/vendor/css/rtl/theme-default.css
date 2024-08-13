@@ -1616,7 +1616,7 @@ li.ui-timepicker-selected,
 .bg-menu-theme .menu-link,
 .bg-menu-theme .menu-horizontal-prev,
 .bg-menu-theme .menu-horizontal-next {
-  color: #697a8d;
+  color: #1c1d1e;
 }
 .bg-menu-theme .menu-link:hover,
 .bg-menu-theme .menu-link:focus,
@@ -1624,12 +1624,12 @@ li.ui-timepicker-selected,
 .bg-menu-theme .menu-horizontal-prev:focus,
 .bg-menu-theme .menu-horizontal-next:hover,
 .bg-menu-theme .menu-horizontal-next:focus {
-  color: #566a7f;
+  color: #1c1d1e;
 }
 .bg-menu-theme .menu-link.active,
 .bg-menu-theme .menu-horizontal-prev.active,
 .bg-menu-theme .menu-horizontal-next.active {
-  color: #566a7f;
+  color: #1c1d1e;
 }
 .bg-menu-theme .menu-item.disabled .menu-link,
 .bg-menu-theme .menu-horizontal-prev.disabled,
@@ -1638,7 +1638,7 @@ li.ui-timepicker-selected,
 }
 .bg-menu-theme .menu-item.open:not(.menu-item-closing) > .menu-toggle,
 .bg-menu-theme .menu-item.active > .menu-link {
-  color: #566a7f;
+  color: #1c1d1e;
 }
 .bg-menu-theme .menu-item.active > .menu-link:not(.menu-toggle) {
   background-color: #fff;
@@ -1677,7 +1677,7 @@ li.ui-timepicker-selected,
   );
 }
 .bg-menu-theme .menu-text {
-  color: #566a7f;
+  color: #1c1d1e;
 }
 .bg-menu-theme .menu-header {
   color: #8f9baa;
@@ -1762,7 +1762,7 @@ html:not(.layout-menu-collapsed)
   .menu-inner
   .menu-item
   .menu-link:not(.active):hover {
-  background-color: rgba(252, 229, 189, 1);
+  background-color: rgb(92, 200, 92);
 }
 .bg-menu-theme
   .menu-inner
@@ -1775,11 +1775,11 @@ html:not(.layout-menu-collapsed)
   color: #23272e;
 }
 .bg-menu-theme .menu-inner > .menu-item.active > .menu-link {
-  color: #23272e;
-  background-color: rgba(252, 215, 151, 1) !important;
+  color: #fff;
+  background-color: rgba(0, 100, 0, 1) !important;
 }
 .bg-menu-theme .menu-inner > .menu-item.active:before {
-  background: #fea500;
+  background: #006400;
 }
 .bg-menu-theme .menu-sub > .menu-item > .menu-link:before {
   background-color: #b4bdc6 !important;
@@ -1796,7 +1796,7 @@ html:not(.layout-menu-collapsed)
   border: 7px solid #f5f5f9;
 }
 .app-brand .layout-menu-toggle i {
-  color: #fea500;
+  color: #00ff00;
 }
 .app-brand .layout-menu-toggle .menu-inner > .menu-header::before {
   background-color: #b4bdc6;

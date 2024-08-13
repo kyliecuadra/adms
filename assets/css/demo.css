@@ -125,15 +125,15 @@
 }
 
 .btn {
-  background-color: #fea500 !important;
-  color: #23272e !important;
-  border-color: #fea500 !important;
+  background-color: #006400 !important;
+  color: #fff !important;
+  border-color: #006400 !important;
 }
 
 .btn:hover {
-  background-color: #23272e !important;
-  color: #fea500 !important;
-  border-color: #23272e !important;
+  background-color: #008600 !important;
+  color: #fff !important;
+  border-color: #008600 !important;
 }
 
 
