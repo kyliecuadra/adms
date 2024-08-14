@@ -69,7 +69,7 @@
           </li>
           <!-- Calendar -->
           <li class="menu-item">
-            <a href="forms.php" class="menu-link">
+            <a href="calendar.php" class="menu-link">
               <i class='menu-icon tf-icons bx bx-calendar'></i>
               <div class="text-truncate" data-i18n="Calendar">Calendar</div>
             </a>
@@ -257,8 +257,8 @@
                 <div class="card">
                   <div class="d-flex row">
                     <div class="card-body" style="padding: 15px;">
-                      <button class="btn w-10 btn-danger float-end mx-4 text-white">Add new accreditation</button>
-                      <div class="wrapper">
+                    <button class="btn w-10 btn-danger float-end mx-4 text-white" type="button"  data-bs-toggle="modal" data-bs-target="#addNewAccreditationModal">Add New Accreditation</button>
+                    <div class="wrapper">
                         <header>
                           <p class="current-date"></p>
                           <div class="icons">
@@ -321,8 +321,7 @@
             </div>
             <!-- Modal to add new record -->
             <!-- Vertically centered modal -->
-            <div class="modal fade" id="add-user" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-              aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal fade" id="add-user" tabindex="-1" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -497,6 +496,59 @@
               </div>
             </div>
             <!-- MY PROFILE MODAL END -->
+
+
+
+<!-- ADD NEW ACCREDITATION MODAL START -->
+<div class="modal fade" id="addNewAccreditationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Set New Accreditation</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <select class="form-select" aria-label="Colleges placeholder="Colleges">
+          <option selected>Colleges</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+        <br>
+        <select class="form-select" aria-label="Programs" placeholder="Programs">
+          <option selected>Programs</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+        <br>
+        <select class="form-select" aria-label="AACCUP Level placeholder="AACCUP Level">
+          <option selected>AACCUP Level</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+        <br>
+        <label for="start-date">Start Date</label>
+      <input class="form-control" type="date" id="start-date" required>
+      <br>
+      <label for="end-date">End Date</label>
+      <input class="form-control" type="date" id="end-date" required>
+
+        </form>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="setAccreditation()"> Set </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ADD NEW ACCREDITATION MODAL END -->
 
             <!-- / Content -->
             <div class="content-backdrop fade"></div>
