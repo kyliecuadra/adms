@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
   data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template">
@@ -78,7 +77,7 @@
             </a>
           </li>
           <!-- Documents -->
-          <li class="menu-item" >
+          <li class="menu-item">
             <a href="documents.php" class="menu-link">
               <i class="menu-icon tf-icons bx bx-user"></i>
               <div class="text-truncate" data-i18n="Documents">Documents</div>
@@ -197,103 +196,233 @@
         <div class="content-wrapper">
           <!-- Content -->
           <div class="container-xxl flex-grow-1 container-p-y">
-            <!-- DOCUMENTS TABLE START -->
+            <!--  USERS PAGE TABLE START -->
 
             <div class="card px-4 py-4">
-              <div>
-                <button class="btn w-15 btn-danger float-start mb-4 mx-4 text-white" data-bs-toggle="modal" data-bs-target="#addDocumentModal">All Users</button>
-                <button class="btn w-15 btn-danger float-start mb-4 mx-4 text-white" data-bs-toggle="modal" data-bs-target="#addDocumentModal">Admin</button>
-                <button class="btn w-15 btn-danger float-start mb-4 mx-4 text-white" data-bs-toggle="modal" data-bs-target="#addDocumentModal">Area Coordinator</button>
-                <button class="btn w-15 btn-danger float-start mb-4 mx-4 text-white" data-bs-toggle="modal" data-bs-target="#addDocumentModal">Quality Assurance</button>
+              <div class="d-flex justify-content-between">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="ido-tab" data-bs-toggle="tab" data-bs-target="#ido" type="button" role="tab" aria-controls="ido" aria-selected="true">IDO</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="area-tab" data-bs-toggle="tab" data-bs-target="#area" type="button" role="tab" aria-controls="area" aria-selected="false">Area Coordinator</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="quaac-tab" data-bs-toggle="tab" data-bs-target="#quaac" type="button" role="tab" aria-controls="quaac" aria-selected="false">Quality Area Coordinator</button>
+                  </li>
+                  <li class="nav-item" role="presentation" style="margin-left: 45em;">
+                    <button class="nav-link" id="campus-tab" data-bs-toggle="tab" data-bs-target="#campus" type="button" role="tab" aria-controls="campus" aria-selected="false">Campuses</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="college-tab" data-bs-toggle="tab" data-bs-target="#college" type="button" role="tab" aria-controls="college" aria-selected="false">Colleges</button>
+                  </li>
+                </ul>
               </div>
-              
-              <table id="documents" class="mr-2 table table-hover table-bordered table-responsive">
+
+              <div class="tab-content" id="myTabContent">
+                <!-- IDO TAB START -->
+                <div class="tab-pane fade show active" id="ido" role="tabpanel" aria-labelledby="ido-tab">
+                  <table id="idoTable" class="mr-2 table table-hover table-bordered table-responsive">
                     <thead>
-                        <tr>
+                      <tr>
                         <th><strong>Name</strong></th>
                         <th><strong>Email</strong></th>
                         <th><strong>Password</strong></th>
                         <th><strong>Status</strong></th>
-                        <th><strong>Set Role</strong></th>
                     </thead>
                     <tbody>
-                    <tr>
-                            <td>Charde</td>
-                            <td>Marshall</td>
-                            <td>Regional Director</td>
-                            <td>San Francisco</td>
-                            <td><a href="#">+</a> </td>
-                        </tr>
-
-                        <tr>
-                            <td>Charde</td>
-                            <td>Marshall</td>
-                            <td>Regional Director</td>
-                            <td>San Francisco</td>
-                            <td><a href="#">+</a> </td>
-                        </tr>
-
-                        <tr>
-                            <td>Charde</td>
-                            <td>Marshall</td>
-                            <td>Regional Director</td>
-                            <td>San Francisco</td>
-                            <td><a href="#">+</a> </td>
-                        </tr>
-
-                        <tr>
-                            <td>Charde</td>
-                            <td>Marshall</td>
-                            <td>Regional Director</td>
-                            <td>San Francisco</td>
-                            <td><a href="#">+</a> </td>
-                        </tr>
-
-                        <tr>
-                            <td>Charde</td>
-                            <td>Marshall</td>
-                            <td>Regional Director</td>
-                            <td>San Francisco</td>
-                            <td><a href="#">+</a> </td>
-                        </tr>
-
-                        <tr>
-                            <td>Charde</td>
-                            <td>Marshall</td>
-                            <td>Regional Director</td>
-                            <td>San Francisco</td>
-                            <td><a href="#">+</a> </td>
-                        </tr>
-
-                        <tr>
-                            <td>Charde</td>
-                            <td>Marshall</td>
-                            <td>Regional Director</td>
-                            <td>San Francisco</td>
-                            <td><a href="#">+</a> </td>
-                        </tr>
-
-                        <tr>
-                            <td>Kylie Cudra</td>
-                            <td>Baliw</td>
-                            <td>Tuleg</td>
-                            <td>bano</td>
-                            <<td><a href="#">+</a> </td>
-                        </tr>
-
-                        <tr>
-                            <td>Charde</td>
-                            <td>Marshall</td>
-                            <td>Regional Director</td>
-                            <td>San Francisco</td>
-                            <td><a href="#">+</a> </td>
-                        </tr>
+                      <tr>
+                        <td>Alice Johnson</td>
+                        <td>alice.johnson@email.com</td>
+                        <td>**hashed_password_1**</td>
+                        <td>Active</td>
+                      </tr>
+                      <tr>
+                        <td>Bob Smith</td>
+                        <td>bob.smith@email.com</td>
+                        <td>**hashed_password_2**</td>
+                        <td>Inactive</td>
+                      </tr>
+                      <tr>
+                        <td>Charlie Brown</td>
+                        <td>charlie.brown@email.com</td>
+                        <td>**hashed_password_3**</td>
+                        <td>Active</td>
+                      </tr>
+                      <tr>
+                        <td>Dana White</td>
+                        <td>dana.white@email.com</td>
+                        <td>**hashed_password_4**</td>
+                        <td>Suspended</td>
+                      </tr>
+                      <tr>
+                        <td>Eve Black</td>
+                        <td>eve.black@email.com</td>
+                        <td>**hashed_password_5**</td>
+                        <td>Active</td>
+                      </tr>
 
                     </tbody>
 
-              </table>
+                  </table>
+                </div>
+                <!-- IDO TAB END -->
+                 <!-- AREA COORDINATOR TAB START -->
+                <div class="tab-pane fade" id="area" role="tabpanel" aria-labelledby="area-tab">
+                  <table id="areaTable" class="mr-2 table table-hover table-bordered table-responsive">
+                    <thead>
+                      <tr>
+                        <th><strong>Name</strong></th>
+                        <th><strong>Email</strong></th>
+                        <th><strong>Password</strong></th>
+                        <th><strong>Status</strong></th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>John Doe</td>
+                        <td>john.doe@admin.com</td>
+                        <td>**hashed_password_6**</td>
+                        <td>Active</td>
+                      </tr>
+                      <tr>
+                        <td>Jane Smith</td>
+                        <td>jane.smith@admin.com</td>
+                        <td>**hashed_password_7**</td>
+                        <td>Active</td>
+                      </tr>
+                      <tr>
+                        <td>Michael Jordan</td>
+                        <td>michael.jordan@admin.com</td>
+                        <td>**hashed_password_8**</td>
+                        <td>Inactive</td>
+                      </tr>
+                      <tr>
+                        <td>Sarah Connor</td>
+                        <td>sarah.connor@admin.com</td>
+                        <td>**hashed_password_9**</td>
+                        <td>Active</td>
+                      </tr>
+                      <tr>
+                        <td>Peter Parker</td>
+                        <td>peter.parker@admin.com</td>
+                        <td>**hashed_password_10**</td>
+                        <td>Suspended</td>
+                      </tr>
+
+                    </tbody>
+
+                  </table>
+                </div>
+                <!-- AREA COORDINATOR TAB END -->
+                 <!-- QUALITY AREA COORDINATOR TAB START -->
+                <div class="tab-pane fade" id="quaac" role="tabpanel" aria-labelledby="quaac-tab">
+                  <table id="quaacTable" class="mr-2 table table-hover table-bordered table-responsive">
+                    <thead>
+                      <tr>
+                        <th><strong>Name</strong></th>
+                        <th><strong>Email</strong></th>
+                        <th><strong>Password</strong></th>
+                        <th><strong>Status</strong></th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Tom Hanks</td>
+                        <td>tom.hanks@guest.com</td>
+                        <td>**hashed_password_11**</td>
+                        <td>Active</td>
+                      </tr>
+                      <tr>
+                        <td>Emma Watson</td>
+                        <td>emma.watson@guest.com</td>
+                        <td>**hashed_password_12**</td>
+                        <td>Active</td>
+                      </tr>
+                      <tr>
+                        <td>Robert Downey</td>
+                        <td>robert.downey@guest.com</td>
+                        <td>**hashed_password_13**</td>
+                        <td>Inactive</td>
+                      </tr>
+                      <tr>
+                        <td>Natalie Portman</td>
+                        <td>natalie.portman@guest.com</td>
+                        <td>**hashed_password_14**</td>
+                        <td>Suspended</td>
+                      </tr>
+                      <tr>
+                        <td>Chris Hemsworth</td>
+                        <td>chris.hemsworth@guest.com</td>
+                        <td>**hashed_password_15**</td>
+                        <td>Active</td>
+                      </tr>
+
+                    </tbody>
+
+                  </table>
+                </div>
+                <!-- QUALITY AREA COORDINATOR TAB END -->
+                 <!-- CAMPUS TAB START -->
+                <div class="tab-pane fade" id="campus" role="tabpanel" aria-labelledby="campus-tab">
+                  <button class="btn mb-3 float-end">Add Campus</button>
+                  <table id="campusTable" class="mr-2 table table-hover table-bordered table-responsive">
+                    <thead>
+                      <tr>
+                        <th><strong>Name</strong></th>
+                        <th><strong>Address</strong></th>
+                        <th><strong>Action</strong></th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Don Severino</td>
+                        <td>Indang, Cavite</td>
+                        <td class="d-flex justify-content-around"><button class="btn btn-secondary">Update</button><button class="btn" style="background-color: #ff3e1d !important; border-color: #ff3e1d !important;">Delete</button></td>
+                      </tr>
+                      <tr>
+                        <td>Naic</td>
+                        <td>Naic, Cavite</td>
+                        <td class="d-flex justify-content-around"><button class="btn btn-secondary">Update</button><button class="btn" style="background-color: #ff3e1d !important; border-color: #ff3e1d !important;">Delete</button></td>
+                      </tr>
+                      <tr>
+                        <td>Silang</td>
+                        <td>Silang, Cavite</td>
+                        <td class="d-flex justify-content-around"><button class="btn btn-secondary">Update</button><button class="btn" style="background-color: #ff3e1d !important; border-color: #ff3e1d !important;">Delete</button></td>
+                      </tr>
+                    </tbody>
+
+                  </table>
+                </div>
+                <!-- CAMPUS TAB END -->
+                 <!-- COLLEGES TAB START -->
+                <div class="tab-pane fade" id="college" role="tabpanel" aria-labelledby="college-tab">
+                  <button class="btn mb-3 float-end">Add College</button>
+                  <table id="collegeTable" class="mr-2 table table-hover table-bordered table-responsive">
+                    <thead>
+                      <tr>
+                        <th><strong>Name</strong></th>
+                        <th><strong>Action</strong></th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>College of Engineering and Information Technology</td>
+                        <td class="d-flex justify-content-around"><button class="btn btn-secondary">Update</button><button class="btn" style="background-color: #ff3e1d !important; border-color: #ff3e1d !important;">Delete</button></td>
+                      </tr>
+                      <tr>
+                        <td>College of Nursing</td>
+                        <td class="d-flex justify-content-around"><button class="btn btn-secondary">Update</button><button class="btn" style="background-color: #ff3e1d !important; border-color: #ff3e1d !important;">Delete</button></td>
+                      </tr>
+                      <tr>
+                        <td>College of Arts and Science</td>
+                        <td class="d-flex justify-content-around"><button class="btn btn-secondary">Update</button><button class="btn" style="background-color: #ff3e1d !important; border-color: #ff3e1d !important;">Delete</button></td>
+                      </tr>
+                    </tbody>
+
+                  </table>
+                </div>
+                <!-- COLLEGE TAB END -->
+
+              </div>
             </div>
-            <!-- DOCUMENTS TABLE END -->
+            <!-- USERS PAGE TABLE END -->
           </div>
           <!-- Content wrapper -->
         </div>
@@ -321,14 +450,15 @@
     <script src="../assets/js/main.js"></script>
     <!-- Page JS -->
     <script>
- $(document).ready(function() {
-      $('#documents').DataTable({
+      $(document).ready(function() {
+        $('#idoTable, #areaTable, #quaacTable').DataTable({
           "paging": true,
           "searching": true,
           "ordering": true,
-          "info": true
+          "info": true,
+          "pageLength": 10 // Number of rows to show per page
+        });
       });
-  });
     </script>
 </body>
 

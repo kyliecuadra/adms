@@ -8685,7 +8685,7 @@ html:not([dir="rtl"])
   outline: none !important;
 }
 .nav-tabs .nav-item .nav-link {
-  color: #566a7f;
+  color: #000;
   border: 0;
   border-radius: 0;
 }
@@ -8694,7 +8694,8 @@ html:not([dir="rtl"])
   color: #566a7f;
 }
 .nav-tabs .nav-item .nav-link:not(.active) {
-  background-color: #eceef1;
+  background-color: #006400;
+  color: #fff;
 }
 .nav-tabs .nav-item .nav-link.disabled {
   color: #c7cdd4;
@@ -8709,7 +8710,7 @@ html:not([dir="rtl"])
 .nav-tabs .nav-link:not(.active):focus,
 .nav-pills .nav-link:not(.active):hover,
 .nav-pills .nav-link:not(.active):focus {
-  color: #697a8d;
+  color: #fcfc5c;
 }
 .nav-tabs:not(.nav-fill):not(.nav-justified) .nav-link,
 .nav-pills:not(.nav-fill):not(.nav-justified) .nav-link {
