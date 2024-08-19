@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-  <title>IDO Dashboard</title>
+  <title>Users</title>
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="../assets/img/icon.png" />
   <!-- Fonts -->
@@ -78,7 +78,7 @@
           </li>
           <!-- Documents -->
           <li class="menu-item">
-            <a href="documents.php" class="menu-link">
+            <a href="documents/campus.php" class="menu-link">
               <i class="menu-icon tf-icons bx bx-user"></i>
               <div class="text-truncate" data-i18n="Documents">Documents</div>
             </a>
@@ -102,6 +102,13 @@
             <a href="" class="menu-link">
               <i class="menu-icon tf-icons bx bx-file"></i>
               <div class="text-truncate" data-i18n="Users">Users</div>
+            </a>
+          </li>
+          <!-- Configuration -->
+          <li class="menu-item">
+            <a href="configuration/campus.php" class="menu-link">
+              <i class='menu-icon tf-icons bx bx-wrench'></i>
+              <div class="text-truncate" data-i18n="System Configuration">System Configuration</div>
             </a>
           </li>
           <!-- Logout -->
@@ -202,21 +209,14 @@
               <div class="d-flex justify-content-between">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="ido-tab" data-bs-toggle="tab" data-bs-target="#ido" type="button" role="tab" aria-controls="ido" aria-selected="true">IDO</button>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="area-tab" data-bs-toggle="tab" data-bs-target="#area" type="button" role="tab" aria-controls="area" aria-selected="false">Area Coordinator</button>
+                    <button class="nav-link active" id="ido-tab" data-bs-toggle="tab" data-bs-target="#ido" type="button" role="tab" aria-controls="ido" aria-selected="true">Users</button>
                   </li>
                   <li class="nav-item" role="presentation">
                     <button class="nav-link" id="quaac-tab" data-bs-toggle="tab" data-bs-target="#quaac" type="button" role="tab" aria-controls="quaac" aria-selected="false">Quality Area Coordinator</button>
                   </li>
-                  <li class="nav-item" role="presentation" style="margin-left: 45em;">
-                    <button class="nav-link" id="campus-tab" data-bs-toggle="tab" data-bs-target="#campus" type="button" role="tab" aria-controls="campus" aria-selected="false">Campuses</button>
-                  </li>
                   <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="college-tab" data-bs-toggle="tab" data-bs-target="#college" type="button" role="tab" aria-controls="college" aria-selected="false">Colleges</button>
+                    <button class="nav-link" id="area-tab" data-bs-toggle="tab" data-bs-target="#area" type="button" role="tab" aria-controls="area" aria-selected="false">Area Coordinator</button>
                   </li>
-                </ul>
               </div>
 
               <div class="tab-content" id="myTabContent">
@@ -229,6 +229,7 @@
                         <th><strong>Email</strong></th>
                         <th><strong>Password</strong></th>
                         <th><strong>Status</strong></th>
+                        <th><strong>Role</strong></th>
                     </thead>
                     <tbody>
                       <tr>
@@ -236,30 +237,35 @@
                         <td>alice.johnson@email.com</td>
                         <td>**hashed_password_1**</td>
                         <td>Active</td>
+                        <td>QUAAC</td>
                       </tr>
                       <tr>
                         <td>Bob Smith</td>
                         <td>bob.smith@email.com</td>
                         <td>**hashed_password_2**</td>
                         <td>Inactive</td>
+                        <td>Area Coordinator</td>
                       </tr>
                       <tr>
                         <td>Charlie Brown</td>
                         <td>charlie.brown@email.com</td>
                         <td>**hashed_password_3**</td>
                         <td>Active</td>
+                        <td>QUAAC</td>
                       </tr>
                       <tr>
                         <td>Dana White</td>
                         <td>dana.white@email.com</td>
                         <td>**hashed_password_4**</td>
                         <td>Suspended</td>
+                        <td>Area Coordinator</td>
                       </tr>
                       <tr>
                         <td>Eve Black</td>
                         <td>eve.black@email.com</td>
                         <td>**hashed_password_5**</td>
                         <td>Active</td>
+                        <td>Area Coordinator</td>
                       </tr>
 
                     </tbody>
@@ -267,15 +273,16 @@
                   </table>
                 </div>
                 <!-- IDO TAB END -->
-                 <!-- AREA COORDINATOR TAB START -->
-                <div class="tab-pane fade" id="area" role="tabpanel" aria-labelledby="area-tab">
-                  <table id="areaTable" class="mr-2 table table-hover table-bordered table-responsive">
+                <!-- AREA COORDINATOR TAB START -->
+                <div class="tab-pane fade" id="quaac" role="tabpanel" aria-labelledby="quaac-tab">
+                  <table id="quaacTable" class="mr-2 table table-hover table-bordered table-responsive">
                     <thead>
                       <tr>
                         <th><strong>Name</strong></th>
                         <th><strong>Email</strong></th>
                         <th><strong>Password</strong></th>
                         <th><strong>Status</strong></th>
+                        <th><strong>Action</strong></th>
                     </thead>
                     <tbody>
                       <tr>
@@ -283,30 +290,35 @@
                         <td>john.doe@admin.com</td>
                         <td>**hashed_password_6**</td>
                         <td>Active</td>
+                        <td><button class="btn">Set Role</button></td>
                       </tr>
                       <tr>
                         <td>Jane Smith</td>
                         <td>jane.smith@admin.com</td>
                         <td>**hashed_password_7**</td>
                         <td>Active</td>
+                        <td><button class="btn" style="background-color: #ff3e1d !important; color: #fff !important;">Remove Role</button></td>
                       </tr>
                       <tr>
                         <td>Michael Jordan</td>
                         <td>michael.jordan@admin.com</td>
                         <td>**hashed_password_8**</td>
                         <td>Inactive</td>
+                        <td><button class="btn">Set Role</button></td>
                       </tr>
                       <tr>
                         <td>Sarah Connor</td>
                         <td>sarah.connor@admin.com</td>
                         <td>**hashed_password_9**</td>
                         <td>Active</td>
+                        <td><button class="btn" style="background-color: #ff3e1d !important; color: #fff !important;">Remove Role</button></td>
                       </tr>
                       <tr>
                         <td>Peter Parker</td>
                         <td>peter.parker@admin.com</td>
                         <td>**hashed_password_10**</td>
                         <td>Suspended</td>
+                        <td><button class="btn" style="background-color: #ff3e1d !important; color: #fff !important;">Remove Role</button></td>
                       </tr>
 
                     </tbody>
@@ -314,9 +326,9 @@
                   </table>
                 </div>
                 <!-- AREA COORDINATOR TAB END -->
-                 <!-- QUALITY AREA COORDINATOR TAB START -->
-                <div class="tab-pane fade" id="quaac" role="tabpanel" aria-labelledby="quaac-tab">
-                  <table id="quaacTable" class="mr-2 table table-hover table-bordered table-responsive">
+                <!-- QUALITY AREA COORDINATOR TAB START -->
+                <div class="tab-pane fade" id="area" role="tabpanel" aria-labelledby="area-tab">
+                  <table id="areaTable" class="mr-2 table table-hover table-bordered table-responsive">
                     <thead>
                       <tr>
                         <th><strong>Name</strong></th>
@@ -361,9 +373,9 @@
                   </table>
                 </div>
                 <!-- QUALITY AREA COORDINATOR TAB END -->
-                 <!-- CAMPUS TAB START -->
+                <!-- CAMPUS TAB START -->
                 <div class="tab-pane fade" id="campus" role="tabpanel" aria-labelledby="campus-tab">
-                  <button class="btn mb-3 float-end">Add Campus</button>
+                  <button class="btn mb-3 float-end" data-bs-toggle="modal" data-bs-target="#addCampusModal">Add Campus</button>
                   <table id="campusTable" class="mr-2 table table-hover table-bordered table-responsive">
                     <thead>
                       <tr>
@@ -392,9 +404,9 @@
                   </table>
                 </div>
                 <!-- CAMPUS TAB END -->
-                 <!-- COLLEGES TAB START -->
+                <!-- COLLEGES TAB START -->
                 <div class="tab-pane fade" id="college" role="tabpanel" aria-labelledby="college-tab">
-                  <button class="btn mb-3 float-end">Add College</button>
+                  <button class="btn mb-3 float-end" data-bs-toggle="modal" data-bs-target="#addCollegeModal">Add College</button>
                   <table id="collegeTable" class="mr-2 table table-hover table-bordered table-responsive">
                     <thead>
                       <tr>
@@ -427,39 +439,82 @@
           <!-- Content wrapper -->
         </div>
 
-
-        <!-- / Layout page -->
+        <!-- ADD CAMPUS MODAL START -->
+        <div class="modal fade" id="addCampusModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered"">
+    <div class=" modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Campus</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <label for="end-date">Campus</label>
+              <input class="form-control" type="text" id="campusName" placeholder="Campus Name" required>
+              <label for="end-date">Location</label>
+              <input class="form-control" type="text" id="campusLocation" placeholder="Campus Location" required>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Add Campus</button>
+            </div>
+          </div>
+        </div>
       </div>
-      <!-- Overlay -->
-      <div class="layout-overlay layout-menu-toggle"></div>
-      <!-- Drag Target Area To SlideIn Menu On Small Screens -->
-      <div class="drag-target"></div>
+      <!-- ADD CAMPUS MODAL END -->
+
+      <!-- ADD COLLEGE MODAL START -->
+      <div class="modal fade" id="addCollegeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered"">
+    <div class=" modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add College</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <label for="end-date">College</label>
+            <input class="form-control" type="text" id="collegeName" placeholder="College Name" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Add College</button>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- / Layout wrapper -->
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-    <script src="../assets/bootstrap/js/popper.min.js"></script>
-    <script src="../assets/vendor/js/bootstrap.js"></script>
-    <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="../assets/vendor/libs/hammer/hammer.js"></script>
-    <script src="../assets/vendor/libs/i18n/i18n.js"></script>
-    <script src="../assets/vendor/libs/typeahead-js/typeahead.js"></script>
-    <script src="../assets/vendor/js/menu.js"></script>
-    <!-- endbuild -->
-    <!-- Main JS -->
-    <script src="../assets/js/main.js"></script>
-    <!-- Page JS -->
-    <script>
-      $(document).ready(function() {
-        $('#idoTable, #areaTable, #quaacTable').DataTable({
-          "paging": true,
-          "searching": true,
-          "ordering": true,
-          "info": true,
-          "pageLength": 10 // Number of rows to show per page
-        });
+    <!-- ADD COLLEGE MODAL END -->
+
+    <!-- / Layout page -->
+  </div>
+  <!-- Overlay -->
+  <div class="layout-overlay layout-menu-toggle"></div>
+  <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+  <div class="drag-target"></div>
+  </div>
+  <!-- / Layout wrapper -->
+  <!-- Core JS -->
+  <!-- build:js assets/vendor/js/core.js -->
+  <script src="../assets/bootstrap/js/popper.min.js"></script>
+  <script src="../assets/vendor/js/bootstrap.js"></script>
+  <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+  <script src="../assets/vendor/libs/hammer/hammer.js"></script>
+  <script src="../assets/vendor/libs/i18n/i18n.js"></script>
+  <script src="../assets/vendor/libs/typeahead-js/typeahead.js"></script>
+  <script src="../assets/vendor/js/menu.js"></script>
+  <!-- endbuild -->
+  <!-- Main JS -->
+  <script src="../assets/js/main.js"></script>
+  <!-- Page JS -->
+  <script>
+    $(document).ready(function() {
+      $('#idoTable, #areaTable, #quaacTable').DataTable({
+        "paging": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "pageLength": 10 // Number of rows to show per page
       });
-    </script>
+    });
+  </script>
 </body>
 
 </html>

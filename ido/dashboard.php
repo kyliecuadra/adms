@@ -76,7 +76,7 @@
           </li>
           <!-- Documents -->
           <li class="menu-item">
-            <a href="documents.php" class="menu-link">
+            <a href="documents/campus.php" class="menu-link">
               <i class="menu-icon tf-icons bx bx-file"></i>
               <div class="text-truncate" data-i18n="Documents">Documents</div>
             </a>
@@ -100,6 +100,13 @@
             <a href="users.php" class="menu-link">
               <i class="menu-icon tf-icons bx bx-user"></i>
               <div class="text-truncate" data-i18n="Users">Users</div>
+            </a>
+          </li>
+          <!-- Configuration -->
+          <li class="menu-item">
+            <a href="configuration/campus.php" class="menu-link">
+              <i class='menu-icon tf-icons bx bx-wrench'></i>
+              <div class="text-truncate" data-i18n="System Configuration">System Configuration</div>
             </a>
           </li>
           <!-- Logout -->
@@ -228,8 +235,8 @@
                       <div class="row d-flex px-4">
                         <div class="col"><i class="bx bx-user" style="font-size: 75px;"></i></div>
                         <div class="col h2 d-flex flex-column justify-content-center align-items-center text-dark">
-                        <span id="count">0</span>
-                        <span class="label">Users</span>
+                          <span id="count">0</span>
+                          <span class="label">Users</span>
                         </div>
                       </div>
                     </div>
@@ -243,8 +250,8 @@
                       <div class="row d-flex px-4">
                         <div class="col"><i class="bx bx-message-dots" style="font-size: 75px;"></i></div>
                         <div class="col h2 d-flex flex-column justify-content-center align-items-center text-dark">
-                        <span id="count">0</span>
-                        <span class="label">Messages</span>
+                          <span id="count">0</span>
+                          <span class="label">Messages</span>
                         </div>
                       </div>
                     </div>
@@ -257,8 +264,8 @@
                 <div class="card">
                   <div class="d-flex row">
                     <div class="card-body" style="padding: 15px;">
-                    <button class="btn w-10 btn-danger float-end mx-4 text-white" type="button"  data-bs-toggle="modal" data-bs-target="#addNewAccreditationModal">Add New Accreditation</button>
-                    <div class="wrapper">
+                      <button class="btn w-10 btn-danger float-end mx-4 text-white" type="button" data-bs-toggle="modal" data-bs-target="#addNewAccreditationModal">Add New Accreditation</button>
+                      <div class="wrapper">
                         <header>
                           <p class="current-date"></p>
                           <div class="icons">
@@ -499,56 +506,56 @@
 
 
 
-<!-- ADD NEW ACCREDITATION MODAL START -->
-<div class="modal fade" id="addNewAccreditationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Set New Accreditation</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          &times;
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <select class="form-select" aria-label="Colleges placeholder="Colleges">
-          <option selected>Colleges</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-        <br>
-        <select class="form-select" aria-label="Programs" placeholder="Programs">
-          <option selected>Programs</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-        <br>
-        <select class="form-select" aria-label="AACCUP Level placeholder="AACCUP Level">
-          <option selected>AACCUP Level</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-        <br>
-        <label for="start-date">Start Date</label>
-      <input class="form-control" type="date" id="start-date" required>
-      <br>
-      <label for="end-date">End Date</label>
-      <input class="form-control" type="date" id="end-date" required>
+            <!-- ADD NEW ACCREDITATION MODAL START -->
+            <div class="modal fade" id="addNewAccreditationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Set New Accreditation</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                      &times;
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form>
+                      <select class="form-select" aria-label="Colleges placeholder=" Colleges">
+                        <option selected>Colleges</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                      </select>
+                      <br>
+                      <select class="form-select" aria-label="Programs" placeholder="Programs">
+                        <option selected>Programs</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                      </select>
+                      <br>
+                      <select class="form-select" aria-label="AACCUP Level placeholder=" AACCUP Level">
+                        <option selected>AACCUP Level</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                      </select>
+                      <br>
+                      <label for="start-date">Start Date</label>
+                      <input class="form-control" type="date" id="start-date" required>
+                      <br>
+                      <label for="end-date">End Date</label>
+                      <input class="form-control" type="date" id="end-date" required>
 
-        </form>
-      </div>
-      
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="setAccreditation()"> Set </button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- ADD NEW ACCREDITATION MODAL END -->
+                    </form>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="setAccreditation()"> Set </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- ADD NEW ACCREDITATION MODAL END -->
 
             <!-- / Content -->
             <div class="content-backdrop fade"></div>

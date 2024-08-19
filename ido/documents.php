@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-  <title>IDO Dashboard</title>
+  <title>Documents</title>
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="../assets/img/icon.png" />
   <!-- Fonts -->
@@ -77,7 +77,7 @@
             </a>
           </li>
           <!-- Documents -->
-          <li class="menu-item  active open">
+          <li class="menu-item active open">
             <a href="" class="menu-link">
               <i class="menu-icon tf-icons bx bx-file"></i>
               <div class="text-truncate" data-i18n="Documents">Documents</div>
@@ -102,6 +102,13 @@
             <a href="users.php" class="menu-link">
               <i class="menu-icon tf-icons bx bx-user"></i>
               <div class="text-truncate" data-i18n="Users">Users</div>
+            </a>
+          </li>
+          <!-- Configuration -->
+          <li class="menu-item">
+            <a href="configuration/campus.php" class="menu-link">
+              <i class='menu-icon tf-icons bx bx-wrench'></i>
+              <div class="text-truncate" data-i18n="System Configuration">System Configuration</div>
             </a>
           </li>
           <!-- Logout -->

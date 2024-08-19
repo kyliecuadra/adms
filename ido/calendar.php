@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-  <title>IDO Dashboard</title>
+  <title>Calendar</title>
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="../assets/img/icon.png" />
   <!-- Fonts -->
@@ -21,9 +21,7 @@
   <!-- Core CSS -->
   <link rel="stylesheet" href="../assets/vendor/css/rtl/core.css" class="template-customizer-core-css" />
   <link rel="stylesheet" href="../assets/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css" />
-  <link rel="stylesheet" href="../assets/css/calendar.css" />
-  <!-- FullCalendar CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/demo.css" />
   <!-- Vendors CSS -->
   <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
   <link rel="stylesheet" href="../assets/vendor/libs/typeahead-js/typeahead.css" />
@@ -41,6 +39,8 @@
   <script src="../assets/js/toastr.min.js"></script>
   <link rel="stylesheet" href="../assets/css/toastr.css" />
   <script type="text/javascript" src="../config/toastr_config.js"></script>
+  <!-- FullCalendar CSS -->
+  <link href="assets/css/fullcalendar.css" rel="stylesheet">
 </head>
 
 <body>
@@ -63,23 +63,22 @@
         <div class="menu-inner-shadow"></div>
         <ul class="menu-inner py-1">
           <!-- Dashboard -->
-          <li class="menu-item ">
-            <a href="dashboard.php" class="menu-link">
+          <li class="menu-item">
+            <a href="#" class="menu-link">
               <i class="menu-icon tf-icons bx bx-home-circle"></i>
               <div class="text-truncate" data-i18n="Dashboard">Dashboard</div>
             </a>
           </li>
-          
           <!-- Calendar -->
           <li class="menu-item active open">
-            <a href="#" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-calendar"></i>
+            <a href="calendar.php" class="menu-link">
+              <i class='menu-icon tf-icons bx bx-calendar'></i>
               <div class="text-truncate" data-i18n="Calendar">Calendar</div>
             </a>
           </li>
           <!-- Documents -->
           <li class="menu-item">
-            <a href="documents.php" class="menu-link">
+            <a href="documents/campus.php" class="menu-link">
               <i class="menu-icon tf-icons bx bx-file"></i>
               <div class="text-truncate" data-i18n="Documents">Documents</div>
             </a>
@@ -103,6 +102,13 @@
             <a href="users.php" class="menu-link">
               <i class="menu-icon tf-icons bx bx-user"></i>
               <div class="text-truncate" data-i18n="Users">Users</div>
+            </a>
+          </li>
+          <!-- Configuration -->
+          <li class="menu-item">
+            <a href="configuration/campus.php" class="menu-link">
+              <i class='menu-icon tf-icons bx bx-wrench'></i>
+              <div class="text-truncate" data-i18n="System Configuration">System Configuration</div>
             </a>
           </li>
           <!-- Logout -->
@@ -189,73 +195,62 @@
           </div>
         </nav>
         <!-- / Navbar -->
+        <!-- Content wrapper -->
         <div class="content-wrapper">
           <!-- Content -->
           <div class="container-xxl flex-grow-1 container-p-y">
-            <!-- DOCUMENTS TABLE START -->
-
+            <!-- CALENDAR START -->
             <div class="card px-4 py-4">
-              <div>
               <div class="row">
-            <!-- Calendar -->
-            <div class="col-lg-6 mb-4">
-                <div class="card calendar-card">
+                <!-- Calendar -->
+                <div class="col-lg-6 mb-4">
+                  <div class="card calendar-card">
                     <div class="card-body">
-                        <div id="calendar" class="calendar"></div>
-                        <button class="btn w-100  add-event-btn text-white" type="button" data-toggle="modal" data-target="#addNewEventModal">Add New Event</button>
+                      <div id="calendar" class="calendar"></div>
+                      <button class="btn w-100  add-event-btn text-white" type="button" data-toggle="modal" data-target="#addNewEventModal">Add New Event</button>
                     </div>
+                  </div>
                 </div>
-            </div>
-
-            <!-- Event Viewer -->
-            <div class="col-lg-6 mb-4">
-                <div class="card event-viewer-card">
+                <div class="col-lg-6 mb-4 h-100">
+                  <div class="card event-viewer-card">
                     <div class="card-body">
-                        <h3 class="card-title text-dark">Event Details</h3>
-                        <ul class="event-list" id="event-list">
-                            <!-- Event details will be populated here -->
-                        </ul>
+                      <h3 class="card-title text-dark">Event Details</h3>
+                      <ul class="event-list" id="event-list">
+                        <!-- Event details will be populated here -->
+                      </ul>
                     </div>
+                  </div>
                 </div>
+              </div>
             </div>
-        </div>
-            </div>
-            <!-- DOCUMENTS TABLE END -->
-          </div>
-          <!-- Content wrapper -->
-        </div>
+            <!-- CALENDAR START -->
 
-
-
-    <!-- Modal for Adding New Event -->
-    <div class="modal fade" id="addNewEventModal" tabindex="-1" role="dialog" aria-labelledby="addNewEventModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document" >
-            <div class="modal-content">
-                <div class="modal-header">
+            <!-- Modal for Adding New Event -->
+            <div class="modal fade" id="addNewEventModal" tabindex="-1" role="dialog" aria-labelledby="addNewEventModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
                     <h5 class="modal-title" id="addNewEventModalLabel">Add New Event</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                      <span aria-hidden="true">&times;</span>
                     </button>
-                </div>
-                <div class="modal-body">
+                  </div>
+                  <div class="modal-body">
                     <form id="addEventForm">
-                        <div class="form-group">
-                            <label for="eventTitle">Event Title</label>
-                            <input type="text" class="form-control" id="eventTitle" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="eventDate">Event Date</label>
-                            <input type="date" class="form-control" id="eventDate" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add Event</button>
+                      <div class="form-group">
+                        <label for="eventTitle">Event Title</label>
+                        <input type="text" class="form-control" id="eventTitle" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="eventDate">Event Date</label>
+                        <input type="date" class="form-control" id="eventDate" required>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Add Event</button>
                     </form>
+                  </div>
                 </div>
+              </div>
             </div>
-        </div>
-    </div>
-
-
-
             <!-- / Content -->
             <div class="content-backdrop fade"></div>
           </div>
@@ -277,87 +272,94 @@
     <script src="../assets/vendor/libs/hammer/hammer.js"></script>
     <script src="../assets/vendor/libs/i18n/i18n.js"></script>
     <script src="../assets/vendor/libs/typeahead-js/typeahead.js"></script>
-   <!-- Bootstrap and jQuery -->
-   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="../assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+
     <!-- FullCalendar JS -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.min.js"></script>
-    <!-- endbuild -->
     <!-- Main JS -->
     <script src="../assets/js/main.js"></script>
     <!-- Page JS -->
+
     <script>
-$(document).ready(function () {
-            // Initialize calendar
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                dateClick: function(info) {
-                    fetchEvents(info.dateStr);
-                },
-                events: 'get-events.php', // Adjust the URL to your server-side script
-                editable: true,
-                selectable: true,
-                eventClick: function(info) {
-                    var event = info.event;
-                    displayEventDetails(event.id);
-                }
-            });
-            calendar.render();
-
-            // Fetch events based on selected date
-            function fetchEvents(date) {
-                $.ajax({
-                    url: 'get-event-details.php', // Adjust the URL to your server-side script
-                    type: 'GET',
-                    data: { date: date },
-                    success: function(response) {
-                        $('#event-list').html(response);
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(xhr.responseText); // Log the error response for debugging
-                        $('#event-list').html('<li>Error loading event details.</li>');
-                    }
-                });
-            }
-
-            // Add new event
-            $('#addEventForm').on('submit', function(event) {
-                event.preventDefault();
-                var title = $('#eventTitle').val();
-                var date = $('#eventDate').val();
-                $.ajax({
-                    url: 'add-event.php', // Adjust the URL to your server-side script
-                    type: 'POST',
-                    data: { title: title, date: date },
-                    success: function(response) {
-                        $('#addNewEventModal').modal('hide');
-                        calendar.refetchEvents();
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(xhr.responseText); // Log the error response for debugging
-                    }
-                });
-            });
-
-            // Display event details
-            function displayEventDetails(eventId) {
-                $.ajax({
-                    url: 'get-event-details.php', // Adjust the URL to your server-side script
-                    type: 'GET',
-                    data: { id: eventId },
-                    success: function(response) {
-                        $('#event-list').html(response);
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(xhr.responseText); // Log the error response for debugging
-                        $('#event-list').html('<li>Error loading event details.</li>');
-                    }
-                });
-            }
+      $(document).ready(function() {
+        // Initialize calendar
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+          dateClick: function(info) {
+            fetchEvents(info.dateStr);
+          },
+          events: 'get-events.php', // Adjust the URL to your server-side script
+          editable: true,
+          selectable: true,
+          eventClick: function(info) {
+            var event = info.event;
+            displayEventDetails(event.id);
+          }
         });
+        calendar.render();
+
+        // Fetch events based on selected date
+        function fetchEvents(date) {
+          $.ajax({
+            url: 'get-event-details.php', // Adjust the URL to your server-side script
+            type: 'GET',
+            data: {
+              date: date
+            },
+            success: function(response) {
+              $('#event-list').html(response);
+            },
+            error: function(xhr, status, error) {
+              console.log(xhr.responseText); // Log the error response for debugging
+              $('#event-list').html('<li>Error loading event details.</li>');
+            }
+          });
+        }
+
+        // Add new event
+        $('#addEventForm').on('submit', function(event) {
+          event.preventDefault();
+          var title = $('#eventTitle').val();
+          var date = $('#eventDate').val();
+          $.ajax({
+            url: 'add-event.php', // Adjust the URL to your server-side script
+            type: 'POST',
+            data: {
+              title: title,
+              date: date
+            },
+            success: function(response) {
+              $('#addNewEventModal').modal('hide');
+              calendar.refetchEvents();
+            },
+            error: function(xhr, status, error) {
+              console.log(xhr.responseText); // Log the error response for debugging
+            }
+          });
+        });
+
+        // Display event details
+        function displayEventDetails(eventId) {
+          $.ajax({
+            url: 'get-event-details.php', // Adjust the URL to your server-side script
+            type: 'GET',
+            data: {
+              id: eventId
+            },
+            success: function(response) {
+              $('#event-list').html(response);
+            },
+            error: function(xhr, status, error) {
+              console.log(xhr.responseText); // Log the error response for debugging
+              $('#event-list').html('<li>Error loading event details.</li>');
+            }
+          });
+        }
+      });
     </script>
+
 </body>
 
 </html>
