@@ -1,3 +1,18 @@
+<?php
+require ("../config/db_connection.php");
+
+session_start();
+require ("../config/session_timeout.php");
+
+if(!isset($_SESSION['id'])){
+  header("location: ../config/not_login-error.html");
+}
+else{
+  if($_SESSION['role'] != "ido"){
+    header("location: ../config/user_level-error.html");
+  }
+}
+?>
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
   data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template">
@@ -64,7 +79,7 @@
         <ul class="menu-inner py-1">
           <!-- Dashboard -->
           <li class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="dashboard.php" class="menu-link">
               <i class="menu-icon tf-icons bx bx-home-circle"></i>
               <div class="text-truncate" data-i18n="Dashboard">Dashboard</div>
             </a>
@@ -113,7 +128,7 @@
           </li>
           <!-- Logout -->
           <li class="menu-item">
-            <a href="forms.php" class="menu-link">
+            <a href="../logout.php" class="menu-link">
               <i class='menu-icon tf-icons bx bx-log-out'></i>
               <div class="text-truncate" data-i18n="Logout">Logout</div>
             </a>
