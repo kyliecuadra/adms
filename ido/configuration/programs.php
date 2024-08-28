@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>Programs</title>
+    <title>System Configuration</title>
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../../assets/img/icon.png" />
     <!-- Fonts -->
@@ -209,10 +209,11 @@
   <ol class="breadcrumb fs-4">
     <li class="breadcrumb-item"><a href="campus.php">Campus</a></li>
     <li class="breadcrumb-item"><a href="colleges.php">Colleges</a></li>
+    <li class="breadcrumb-item"><a href="departments.php">Departments</a></li>
     <li class="breadcrumb-item active" aria-current="page">Programs</li>
   </ol>
 </nav>
-                                <button class="btn">Add Program</button>
+                                <button class="btn" data-bs-toggle="modal" data-bs-target="#addProgramModal">Add Program</button>
                             </div>
                             <table id="campusTable" class="mr-2 table table-hover table-bordered table-responsive">
                                 <thead>
@@ -270,6 +271,25 @@
     </div>
     <!-- / Layout page -->
     </div>
+    <!-- ADD PROGRAM MODAL START -->
+    <div class="modal fade" id="addProgramModal" tabindex="-1" aria-labelledby="addProgramModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Program</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control" placeholder="Program Name">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Add Program</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- ADD PROGRAM MODAL END -->
     <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle"></div>
     <!-- Drag Target Area To SlideIn Menu On Small Screens -->

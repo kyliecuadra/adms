@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>IDO Dashboard</title>
+    <title>System Configuration</title>
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../../assets/img/icon.png" />
     <!-- Fonts -->
@@ -211,7 +211,7 @@
     <li class="breadcrumb-item active" aria-current="page">Colleges</li>
   </ol>
 </nav>
-                                <button class="btn">Add College</button>
+                                <button class="btn" data-bs-toggle="modal" data-bs-target="#addCollegeModal">Add College</button>
                             </div>
                             <table id="campusTable" class="mr-2 table table-hover table-bordered table-responsive">
                                 <thead>
@@ -223,7 +223,7 @@
                                         <td class="d-flex justify-content-between">College 1
                                             <div>
                                                 <a href=""><i class='text-danger fs-3 bx bx-trash'></i></a>
-                                                <a href="programs.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
+                                                <a href="departments.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
                                         </td>
                         </div>
                         </tr>
@@ -231,7 +231,7 @@
                             <td class="d-flex justify-content-between">College 2
                                 <div>
                                     <a href=""><i class='text-danger fs-3 bx bx-trash'></i></a>
-                                    <a href="programs.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
+                                    <a href="departments.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
                             </td>
                     </div>
                     </tr>
@@ -239,7 +239,7 @@
                         <td class="d-flex justify-content-between">College 3
                             <div>
                                 <a href=""><i class='text-danger fs-3 bx bx-trash'></i></a>
-                                <a href="programs.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
+                                <a href="departments.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
                         </td>
                 </div>
                 </tr>
@@ -247,7 +247,7 @@
                     <td class="d-flex justify-content-between">College 4
                         <div>
                             <a href=""><i class='text-danger fs-3 bx bx-trash'></i></a>
-                            <a href="programs.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
+                            <a href="departments.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
                     </td>
             </div>
             </tr>
@@ -255,7 +255,7 @@
                 <td class="d-flex justify-content-between">College 5
                     <div>
                         <a href=""><i class='text-danger fs-3 bx bx-trash'></i></a>
-                        <a href="programs.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
+                        <a href="departments.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
                 </td>
         </div>
         </tr>
@@ -263,7 +263,7 @@
             <td class="d-flex justify-content-between">College 6
                 <div>
                     <a href=""><i class='text-danger fs-3 bx bx-trash'></i></a>
-                    <a href="programs.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
+                    <a href="departments.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
             </td>
     </div>
     </tr>
@@ -275,6 +275,27 @@
     </div>
     <!-- / Layout page -->
     </div>
+
+    <!-- ADD COLLEGE MODAL START -->
+    <div class="modal fade" id="addCollegeModal" tabindex="-1" aria-labelledby="addCollegeModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add College</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control" placeholder="College Name">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Add College</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- ADD COLLEGE MODAL END -->
+
     <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle"></div>
     <!-- Drag Target Area To SlideIn Menu On Small Screens -->

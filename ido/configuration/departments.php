@@ -205,92 +205,97 @@
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="card px-4 py-4">
                             <div class="d-flex justify-content-between mb-3">
-                                <nav aria-label="breadcrumb">
-                                    <ol class="breadcrumb fs-4">
-                                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Campus</a></li>
-                                    </ol>
-                                </nav>
-                                <button class="btn" data-bs-toggle="modal" data-bs-target="#addCampusModal">Add Campus</button>
+                            <nav aria-label="breadcrumb">
+  <ol class="breadcrumb fs-4">
+    <li class="breadcrumb-item text-primary"><a href="campus.php">Campus</a></li>
+    <li class="breadcrumb-item text-primary"><a href="colleges.php">Colleges</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Departments</li>
+  </ol>
+</nav>
+                                <button class="btn" data-bs-toggle="modal" data-bs-target="#addDepartmentModal">Add Department</button>
                             </div>
                             <table id="campusTable" class="mr-2 table table-hover table-bordered table-responsive">
                                 <thead>
                                     <tr>
-                                        <th><strong>Campus Name</strong></th>
+                                        <th><strong>Department Name</strong></th>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="d-flex justify-content-between">Don Severino
+                                        <td class="d-flex justify-content-between">Department 1
                                             <div>
                                                 <a href=""><i class='text-danger fs-3 bx bx-trash'></i></a>
-                                                <a href="colleges.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
+                                                <a href="programs.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
                                         </td>
                         </div>
                         </tr>
                         <tr>
-                            <td class="d-flex justify-content-between">Trece
+                            <td class="d-flex justify-content-between">Department 2
                                 <div>
                                     <a href=""><i class='text-danger fs-3 bx bx-trash'></i></a>
-                                    <a href="colleges.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
+                                    <a href="programs.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
                             </td>
                     </div>
                     </tr>
                     <tr>
-                        <td class="d-flex justify-content-between">Naic
+                        <td class="d-flex justify-content-between">Department 3
                             <div>
                                 <a href=""><i class='text-danger fs-3 bx bx-trash'></i></a>
-                                <a href="colleges.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
+                                <a href="programs.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
                         </td>
                 </div>
                 </tr>
                 <tr>
-                    <td class="d-flex justify-content-between">Silang
+                    <td class="d-flex justify-content-between">Department 4
                         <div>
                             <a href=""><i class='text-danger fs-3 bx bx-trash'></i></a>
-                            <a href="colleges.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
+                            <a href="programs.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
                     </td>
             </div>
             </tr>
             <tr>
-                <td class="d-flex justify-content-between">General Trias
+                <td class="d-flex justify-content-between">Department 5
                     <div>
                         <a href=""><i class='text-danger fs-3 bx bx-trash'></i></a>
-                        <a href="colleges.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
+                        <a href="programs.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
                 </td>
         </div>
         </tr>
         <tr>
-            <td class="d-flex justify-content-between">Rosario
+            <td class="d-flex justify-content-between">Department 6
                 <div>
                     <a href=""><i class='text-danger fs-3 bx bx-trash'></i></a>
-                    <a href="colleges.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
+                    <a href="programs.php"><i class='text-success fs-3 bx bx-right-arrow-circle'></i></a>
             </td>
     </div>
     </tr>
+
     </tbody>
+
     </table>
     </div>
     </div>
     <!-- / Layout page -->
     </div>
-    <!-- ADD CAMPUS MODAL START -->
-    <div class="modal fade" id="addCampusModal" tabindex="-1" aria-labelledby="addCampusModal" aria-hidden="true">
+
+    <!-- ADD COLLEGE MODAL START -->
+    <div class="modal fade" id="addDepartmentModal" tabindex="-1" aria-labelledby="addDepartmentModal" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Campus</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Add Department</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <input type="text" class="form-control" placeholder="Campus Name">
+        <input type="text" class="form-control" placeholder="Department Name">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Add Campus</button>
+        <button type="button" class="btn btn-primary">Add Department</button>
       </div>
     </div>
   </div>
 </div>
-    <!-- ADD CAMPUS MODAL END -->
+    <!-- ADD COLLEGE MODAL END -->
 
     <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle"></div>
