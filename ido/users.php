@@ -1,3 +1,18 @@
+<?php
+require ("../config/db_connection.php");
+
+session_start();
+require ("../config/session_timeout.php");
+
+if(!isset($_SESSION['id'])){
+  header("location: ../config/not_login-error.html");
+}
+else{
+  if($_SESSION['role'] != "ido"){
+    header("location: ../config/user_level-error.html");
+  }
+}
+?>
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
   data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template">
@@ -113,7 +128,7 @@
           </li>
           <!-- Logout -->
           <li class="menu-item">
-            <a href="forms.php" class="menu-link">
+            <a href="../logout.php" class="menu-link">
               <i class='menu-icon tf-icons bx bx-log-out'></i>
               <div class="text-truncate" data-i18n="Logout">Logout</div>
             </a>
@@ -209,7 +224,7 @@
               <div class="d-flex justify-content-between">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="ido-tab" data-bs-toggle="tab" data-bs-target="#ido" type="button" role="tab" aria-controls="ido" aria-selected="true">Users</button>
+                    <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="users" aria-selected="true">Users</button>
                   </li>
                   <li class="nav-item" role="presentation">
                     <button class="nav-link" id="quaac-tab" data-bs-toggle="tab" data-bs-target="#quaac" type="button" role="tab" aria-controls="quaac" aria-selected="false">Quality Area Coordinator</button>
@@ -221,216 +236,77 @@
 
               <div class="tab-content" id="myTabContent">
                 <!-- IDO TAB START -->
-                <div class="tab-pane fade show active" id="ido" role="tabpanel" aria-labelledby="ido-tab">
-                  <table id="idoTable" class="mr-2 table table-hover table-bordered table-responsive">
+                <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
+                  <table id="usersTable" class="mr-2 table table-hover table-bordered table-responsive">
                     <thead>
                       <tr>
                         <th><strong>Name</strong></th>
+                        <th><strong>Campus</strong></th>
+                        <th><strong>College</strong></th>
+                        <th><strong>Phone Number</strong></th>
                         <th><strong>Email</strong></th>
                         <th><strong>Password</strong></th>
-                        <th><strong>Status</strong></th>
                         <th><strong>Role</strong></th>
+                        <th><strong>Status</strong></th>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Alice Johnson</td>
-                        <td>alice.johnson@email.com</td>
-                        <td>**hashed_password_1**</td>
-                        <td>Active</td>
-                        <td>QUAAC</td>
-                      </tr>
-                      <tr>
-                        <td>Bob Smith</td>
-                        <td>bob.smith@email.com</td>
-                        <td>**hashed_password_2**</td>
-                        <td>Inactive</td>
-                        <td>Area Coordinator</td>
-                      </tr>
-                      <tr>
-                        <td>Charlie Brown</td>
-                        <td>charlie.brown@email.com</td>
-                        <td>**hashed_password_3**</td>
-                        <td>Active</td>
-                        <td>QUAAC</td>
-                      </tr>
-                      <tr>
-                        <td>Dana White</td>
-                        <td>dana.white@email.com</td>
-                        <td>**hashed_password_4**</td>
-                        <td>Suspended</td>
-                        <td>Area Coordinator</td>
-                      </tr>
-                      <tr>
-                        <td>Eve Black</td>
-                        <td>eve.black@email.com</td>
-                        <td>**hashed_password_5**</td>
-                        <td>Active</td>
-                        <td>Area Coordinator</td>
-                      </tr>
-
+                      
                     </tbody>
 
                   </table>
                 </div>
                 <!-- IDO TAB END -->
-                <!-- AREA COORDINATOR TAB START -->
+                 <!-- QUALITY AREA COORDINATOR TAB START -->
+                
                 <div class="tab-pane fade" id="quaac" role="tabpanel" aria-labelledby="quaac-tab">
-                  <table id="quaacTable" class="mr-2 table table-hover table-bordered table-responsive">
+                  <table id="quaacTable" class="mr-2 table table-hover table-bordered table-responsive w-100">
                     <thead>
                       <tr>
-                        <th><strong>Name</strong></th>
+                      <th><strong>Name</strong></th>
+                        <th><strong>Campus</strong></th>
+                        <th><strong>College</strong></th>
+                        <th><strong>Phone Number</strong></th>
                         <th><strong>Email</strong></th>
                         <th><strong>Password</strong></th>
                         <th><strong>Status</strong></th>
                         <th><strong>Action</strong></th>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>John Doe</td>
-                        <td>john.doe@admin.com</td>
-                        <td>**hashed_password_6**</td>
-                        <td>Active</td>
-                        <td><button class="btn">Set Role</button></td>
-                      </tr>
-                      <tr>
-                        <td>Jane Smith</td>
-                        <td>jane.smith@admin.com</td>
-                        <td>**hashed_password_7**</td>
-                        <td>Active</td>
-                        <td><button class="btn" style="background-color: #ff3e1d !important; color: #fff !important;">Remove Role</button></td>
-                      </tr>
-                      <tr>
-                        <td>Michael Jordan</td>
-                        <td>michael.jordan@admin.com</td>
-                        <td>**hashed_password_8**</td>
-                        <td>Inactive</td>
-                        <td><button class="btn">Set Role</button></td>
-                      </tr>
-                      <tr>
-                        <td>Sarah Connor</td>
-                        <td>sarah.connor@admin.com</td>
-                        <td>**hashed_password_9**</td>
-                        <td>Active</td>
-                        <td><button class="btn" style="background-color: #ff3e1d !important; color: #fff !important;">Remove Role</button></td>
-                      </tr>
-                      <tr>
-                        <td>Peter Parker</td>
-                        <td>peter.parker@admin.com</td>
-                        <td>**hashed_password_10**</td>
-                        <td>Suspended</td>
-                        <td><button class="btn" style="background-color: #ff3e1d !important; color: #fff !important;">Remove Role</button></td>
-                      </tr>
-
-                    </tbody>
-
-                  </table>
-                </div>
-                <!-- AREA COORDINATOR TAB END -->
-                <!-- QUALITY AREA COORDINATOR TAB START -->
-                <div class="tab-pane fade" id="area" role="tabpanel" aria-labelledby="area-tab">
-                  <table id="areaTable" class="mr-2 table table-hover table-bordered table-responsive">
-                    <thead>
-                      <tr>
-                        <th><strong>Name</strong></th>
-                        <th><strong>Email</strong></th>
-                        <th><strong>Password</strong></th>
-                        <th><strong>Status</strong></th>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Tom Hanks</td>
-                        <td>tom.hanks@guest.com</td>
-                        <td>**hashed_password_11**</td>
-                        <td>Active</td>
-                      </tr>
-                      <tr>
-                        <td>Emma Watson</td>
-                        <td>emma.watson@guest.com</td>
-                        <td>**hashed_password_12**</td>
-                        <td>Active</td>
-                      </tr>
-                      <tr>
-                        <td>Robert Downey</td>
-                        <td>robert.downey@guest.com</td>
-                        <td>**hashed_password_13**</td>
-                        <td>Inactive</td>
-                      </tr>
-                      <tr>
-                        <td>Natalie Portman</td>
-                        <td>natalie.portman@guest.com</td>
-                        <td>**hashed_password_14**</td>
-                        <td>Suspended</td>
-                      </tr>
-                      <tr>
-                        <td>Chris Hemsworth</td>
-                        <td>chris.hemsworth@guest.com</td>
-                        <td>**hashed_password_15**</td>
-                        <td>Active</td>
-                      </tr>
-
                     </tbody>
 
                   </table>
                 </div>
                 <!-- QUALITY AREA COORDINATOR TAB END -->
-                <!-- CAMPUS TAB START -->
-                <div class="tab-pane fade" id="campus" role="tabpanel" aria-labelledby="campus-tab">
-                  <button class="btn mb-3 float-end" data-bs-toggle="modal" data-bs-target="#addCampusModal">Add Campus</button>
-                  <table id="campusTable" class="mr-2 table table-hover table-bordered table-responsive">
-                    <thead>
+                <!-- AREA COORDINATOR TAB START -->
+                <div class="tab-pane fade" id="area" role="tabpanel" aria-labelledby="area-tab">
+                  <table id="areaTable" class="mr-2 table table-hover table-bordered table-responsive w-100">
+                  <thead>
                       <tr>
-                        <th><strong>Name</strong></th>
-                        <th><strong>Address</strong></th>
-                        <th><strong>Action</strong></th>
+                      <th><strong>Name</strong></th>
+                        <th><strong>Campus</strong></th>
+                        <th><strong>College</strong></th>
+                        <th><strong>Phone Number</strong></th>
+                        <th><strong>Email</strong></th>
+                        <th><strong>Password</strong></th>
+                        <th><strong>Status</strong></th>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Don Severino</td>
-                        <td>Indang, Cavite</td>
-                        <td class="d-flex justify-content-around"><button class="btn btn-secondary">Update</button><button class="btn" style="background-color: #ff3e1d !important; border-color: #ff3e1d !important;">Delete</button></td>
-                      </tr>
-                      <tr>
-                        <td>Naic</td>
-                        <td>Naic, Cavite</td>
-                        <td class="d-flex justify-content-around"><button class="btn btn-secondary">Update</button><button class="btn" style="background-color: #ff3e1d !important; border-color: #ff3e1d !important;">Delete</button></td>
-                      </tr>
-                      <tr>
-                        <td>Silang</td>
-                        <td>Silang, Cavite</td>
-                        <td class="d-flex justify-content-around"><button class="btn btn-secondary">Update</button><button class="btn" style="background-color: #ff3e1d !important; border-color: #ff3e1d !important;">Delete</button></td>
-                      </tr>
                     </tbody>
 
                   </table>
                 </div>
-                <!-- CAMPUS TAB END -->
-                <!-- COLLEGES TAB START -->
-                <div class="tab-pane fade" id="college" role="tabpanel" aria-labelledby="college-tab">
-                  <button class="btn mb-3 float-end" data-bs-toggle="modal" data-bs-target="#addCollegeModal">Add College</button>
-                  <table id="collegeTable" class="mr-2 table table-hover table-bordered table-responsive">
-                    <thead>
-                      <tr>
-                        <th><strong>Name</strong></th>
-                        <th><strong>Action</strong></th>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>College of Engineering and Information Technology</td>
-                        <td class="d-flex justify-content-around"><button class="btn btn-secondary">Update</button><button class="btn" style="background-color: #ff3e1d !important; border-color: #ff3e1d !important;">Delete</button></td>
-                      </tr>
-                      <tr>
-                        <td>College of Nursing</td>
-                        <td class="d-flex justify-content-around"><button class="btn btn-secondary">Update</button><button class="btn" style="background-color: #ff3e1d !important; border-color: #ff3e1d !important;">Delete</button></td>
-                      </tr>
-                      <tr>
-                        <td>College of Arts and Science</td>
-                        <td class="d-flex justify-content-around"><button class="btn btn-secondary">Update</button><button class="btn" style="background-color: #ff3e1d !important; border-color: #ff3e1d !important;">Delete</button></td>
-                      </tr>
-                    </tbody>
+                <!-- AREA COORDINATOR TAB END -->
+                
+              <!-- UPDATE QUAAC STATUS MODAL START -->
+              <div class="modal fade" id="setStatusModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content" id="setStatus">
 
-                  </table>
+                  </div>
                 </div>
-                <!-- COLLEGE TAB END -->
+              </div>
+              <!-- UPDATE QUAAC STATUS MODAL END -->
+
 
               </div>
             </div>
@@ -438,50 +314,6 @@
           </div>
           <!-- Content wrapper -->
         </div>
-
-        <!-- ADD CAMPUS MODAL START -->
-        <div class="modal fade" id="addCampusModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered"">
-    <div class=" modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Add Campus</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <label for="end-date">Campus</label>
-              <input class="form-control" type="text" id="campusName" placeholder="Campus Name" required>
-              <label for="end-date">Location</label>
-              <input class="form-control" type="text" id="campusLocation" placeholder="Campus Location" required>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Add Campus</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- ADD CAMPUS MODAL END -->
-
-      <!-- ADD COLLEGE MODAL START -->
-      <div class="modal fade" id="addCollegeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered"">
-    <div class=" modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add College</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <label for="end-date">College</label>
-            <input class="form-control" type="text" id="collegeName" placeholder="College Name" required>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Add College</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- ADD COLLEGE MODAL END -->
 
     <!-- / Layout page -->
   </div>
@@ -505,15 +337,136 @@
   <script src="../assets/js/main.js"></script>
   <!-- Page JS -->
   <script>
-    $(document).ready(function() {
-      $('#idoTable, #areaTable, #quaacTable').DataTable({
-        "paging": true,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "pageLength": 10 // Number of rows to show per page
-      });
+$(document).ready(function() {
+    var users = "users";
+    var quaac = "quaac";
+    var taskforce = "taskforce";
+// FOR USERS TABLE
+    $('#usersTable').DataTable({
+        ajax: {
+            url: 'get_users.php',
+            type: 'GET', // Use GET or POST based on your preference
+            data: { identifier: users }, // Send userId to PHP script
+            dataSrc: 'data'
+        },
+        columns: [
+            { data: 'name' },
+            { data: 'campus' },
+            { data: 'college' },
+            { data: 'phoneNumber' },
+            { data: 'email' },
+            { data: 'password' },
+            { data: 'role' },
+            { data: 'status' },
+        ],
+        order: [[0, 'desc']],
+        paging: true,
+        searching: true,
+        ordering: true,
+        responsive: true
     });
+
+    // FOR QUAAC TABLE
+    $('#quaacTable').DataTable({
+    ajax: {
+        url: 'get_users.php',
+        type: 'GET', // Use GET or POST based on your preference
+        data: { identifier: 'quaac' }, // Send identifier to PHP script
+        dataSrc: 'data'
+    },
+    columns: [
+        { data: 'name' },
+        { data: 'campus' },
+        { data: 'college' },
+        { data: 'phoneNumber' },
+        { data: 'email' },
+        { data: 'password' },
+        { data: 'status' },
+        {
+            // Add a new column for the button
+            data: 'status',
+            render: function(data, type, row) {
+                // Check status and return appropriate button HTML
+                if (data === 'INACTIVE') {
+                    return '<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#setStatusModal" onclick="getQuaacInfo(\'setRole\', '+row.id+')">Set Role</button>';
+                } else if (data === 'ACTIVE') {
+                    return '<button class="btn btn-danger remove-role" style="background-color: #ff3e1d !important; border-color: #ff3e1d !important;" data-bs-toggle="modal" data-bs-target="#setStatusModal" onclick="getQuaacInfo(\'removeRole\', '+row.id+')">Remove Role</button>';
+                } else {
+                    return ''; // Return an empty string if status is neither 'active' nor 'inactive'
+                }
+            }
+        }
+    ],
+    order: [[0, 'desc']],
+    paging: true,
+    searching: true,
+    ordering: true,
+    responsive: true
+});
+
+
+    // FOR TASKFORCE TABLE
+    $('#areaTable').DataTable({
+        ajax: {
+            url: 'get_users.php',
+            type: 'GET', // Use GET or POST based on your preference
+            data: { identifier: taskforce }, // Send userId to PHP script
+            dataSrc: 'data'
+        },
+        columns: [
+            { data: 'name' },
+            { data: 'campus' },
+            { data: 'college' },
+            { data: 'phoneNumber' },
+            { data: 'email' },
+            { data: 'password' },
+            { data: 'status' },
+        ],
+        order: [[0, 'desc']],
+        paging: true,
+        searching: true,
+        ordering: true,
+        responsive: true
+    });
+});
+
+
+// SETTING QUAAC ROLE SCRIPT START
+function getQuaacInfo(status, id){
+    $.ajax({
+      url: "setQuaacStatus.php",
+      type: "POST",
+      data: {
+        txt: 'getInfo', 
+        status: status,
+        id:id
+      },
+      success: function (data, status) {
+        $('#setStatus').html(data);
+      }
+    });
+  }
+
+  function setQuaacStatus(status, id){
+    $.ajax({
+      url: "setQuaacStatus.php",
+      type: "POST",
+      data: {
+        txt: 'setStatus', 
+        status: status,
+        id:id,
+      },
+      success: function (response) {
+        if(response == 'success'){
+          toastr.success("Status Updated!");
+          $('#quaacTable').DataTable().ajax.reload();
+        } else {
+          toastr.error("Error updating status!");
+        }
+      }
+    });
+  }
+// SETTING QUAAC ROLE SCRIPT END
   </script>
 </body>
 

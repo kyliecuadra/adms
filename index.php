@@ -1,19 +1,18 @@
 <?php 
 require ("config/db_connection.php");
-require("config/archive-script.php");
+
 session_start(); 
 
-if (isset($_SESSION['id']))
+if (isset($_SESSION['email']))
 { 
-
-    if ($_SESSION['user_level'] == "Admin") {
-        header("location: admin/dashboard.php");
+    if ($_SESSION['role'] == "ido") {
+        header("location: ido/dashboard.php");
     }
-    elseif($_SESSION['user_level'] == "Faculty"){
-        header("location: faculty/dashboard.php");
+    elseif($_SESSION['role'] == "quaac"){
+        header("location: quaac/dashboard.php");
     }
     else{
-        header("location: student/dashboard.php");
+        header("location: areacoordinator/dashboard.php");
     }
 }
 ?>
@@ -42,64 +41,71 @@ if (isset($_SESSION['id']))
             <div class="formBox  d-flex justify-content-center align-items-center flex-column">
                 <img class="mb-4" src="assets/img/logo.png" alt="">
                 <div class="mb-3">
-                    <input class="form-control" type="number" placeholder="ID Number" name="userID" id="userID" autofocus>
+                    <input class="form-control" type="email" placeholder="Email" name="email" id="email" autofocus>
                 </div>
                 <div class="mb-3">
                     <input class="form-control" type="password" id="password" name="password" placeholder="Password">
                 </div>
                 <div class="mb-3">
-                    <p>Don't have an account? <a href="register.php"> Sign up.</a></p>
+                    <p >Don't have an account? <a href="register.php"> Sign up.</a></p>
                     <button class="submitBtn btn" type="submit" onclick="login()">Sign In</button>
                 </div>
+                <div class="d-flex justify-content-end w-100">
+                <p class="small mb-0 me-5 ">
+                     <a href="contactus.php " class="text-decoration-none">Contact us</a>
+                </p>
+            </div>
             </div>
         </div>
     </main>
 
-    
     <script>
         window.onload = function(){
-            document.getElementById("userID").value = '';
+            document.getElementById("email").value = '';
             document.getElementById("password").value = '';
         }
 
         function login() {
-            var userID = $('#userID').val();
+            var email = $('#email').val();
             var password = $('#password').val();
 
-            if (userID != "" && password != "") {
-              $.ajax({
-                url: "login.php",
-                type: "POST",
-                data: {
-                  userID: userID,
-                  password: password,
-              },
-              success: function (data, status) {
-                  if (data == "Admin") {
-                    toastr.success("Login Successful");
-                    location.replace("admin/dashboard.php");
-                }
-                else if (data == "Faculty") {
-                    toastr.success("Login Successful");
-                    location.replace("faculty/dashboard.php");
-                }
-                else if (data == "Student") {
-                    toastr.success("Login Successful");
-                    location.replace("student/dashboard.php");
-                }
-                else {
-                    toastr.error("Incorrect ID Number or password!");
-                }
+            if (email != "" && password != "") {
+                $.ajax({
+                    url: "login.php",
+                    type: "POST",
+                    data: {
+                        email: email,
+                        password: password,
+                    },
+                    success: function (data, status) {
+                        if (data == "ido") {
+                            toastr.success("Login Successful");
+                            location.replace("ido/dashboard.php");
+                        }
+                        else if (data == "quaac") {
+                            toastr.success("Login Successful");
+                            location.replace("quaac/dashboard.php");
+                        }
+                        else if (data == "areacoordinator") {
+                            toastr.success("Login Successful");
+                            location.replace("areacoordinator/dashboard.php");
+                        }
+                        else if (data == "inactive") {
+                            toastr.error("Account Deactivated!");
+                        }
+                        else {
+                            toastr.error("Incorrect email or password!");
+                        }
+                    }
+                });
             }
-        });
-          }
-          else {
-              toastr.error("Please fill the fields!");
-          }
-      }
-  </script>
-  <!-- LOCAL SCRIPTS -->
-  <script type="text/javascript" src="assets/bootstrap/js/popper.min.js"></script>
-  <script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
+            else {
+                toastr.error("Please fill in all the fields!");
+            }
+        }
+    </script>
+    <!-- LOCAL SCRIPTS -->
+    <script type="text/javascript" src="assets/bootstrap/js/popper.min.js"></script>
+    <script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
