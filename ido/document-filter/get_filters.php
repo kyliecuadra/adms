@@ -1,0 +1,135 @@
+<?php
+require("../../config/db_connection.php");
+
+// Initialize an empty array for the data
+$data = array();
+
+// Check if 'identifier' parameter is set and equals "campus"
+if (isset($_GET['identifier']) && $_GET['identifier'] === "campus") {
+    // SQL query to get campus data
+    $query = "SELECT * FROM university_structure GROUP BY campus";
+    
+    // Execute the query
+    $result = mysqli_query($conn, $query);
+    
+    // Check if the query was successful
+    if ($result) {
+        // Fetch data
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = array(
+                    'id' => $row['id'],
+                    'campus' => $row['campus'] // Ensure this matches the DataTable 'campus' column
+                );
+            }
+        }
+        
+        // Free the result set
+        mysqli_free_result($result);
+    } else {
+        // Handle query error
+        echo json_encode(array('error' => 'Query failed: ' . mysqli_error($conn)));
+        exit();
+    }
+}
+elseif (isset($_GET['identifier']) && $_GET['identifier'] === "college") {
+    $campusName = $_GET['campus'];
+    // SQL query to get campus data
+    $query = "SELECT * FROM university_structure WHERE campus = '$campusName' AND colleges != '' GROUP BY colleges";
+    
+    // Execute the query
+    $result = mysqli_query($conn, $query);
+    
+    // Check if the query was successful
+    if ($result) {
+        // Fetch data
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = array(
+                    'id' => $row['id'],
+                    'campus' => $row['campus'], // Ensure this matches the DataTable 'campus' column
+                    'college' => $row['colleges'] // Ensure this matches the DataTable 'colleges' column
+                );
+            }
+        }
+        
+        // Free the result set
+        mysqli_free_result($result);
+    } else {
+        // Handle query error
+        echo json_encode(array('error' => 'Query failed: ' . mysqli_error($conn)));
+        exit();
+    }
+}
+elseif (isset($_GET['identifier']) && $_GET['identifier'] === "area") {
+    $campusName = $_GET['campus'];
+    $collegeName = $_GET['college'];
+    // SQL query to get campus data
+    $query = "SELECT * FROM document_filter WHERE campus = '$campusName' AND colleges = '$collegeName' AND area != '' GROUP BY area";
+    
+    // Execute the query
+    $result = mysqli_query($conn, $query);
+    
+    // Check if the query was successful
+    if ($result) {
+        // Fetch data
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = array(
+                    'id' => $row['id'],
+                    'campus' => $row['campus'], // Ensure this matches the DataTable 'campus' column
+                    'college' => $row['colleges'], // Ensure this matches the DataTable 'colleges' column
+                    'area' => $row['area'] // Ensure this matches the DataTable 'area' column
+                );
+            }
+        }
+        
+        // Free the result set
+        mysqli_free_result($result);
+    } else {
+        // Handle query error
+        echo json_encode(array('error' => 'Query failed: ' . mysqli_error($conn)));
+        exit();
+    }
+}
+else {
+    $campusName = $_GET['campus'];
+    $collegeName = $_GET['college'];
+    $areaName = $_GET['area'];
+    // SQL query to get campus data
+    $query = "SELECT * FROM document_filter WHERE campus = '$campusName' AND colleges = '$collegeName' AND area = '$areaName' AND parameter != '' GROUP BY parameter";
+    
+    // Execute the query
+    $result = mysqli_query($conn, $query);
+    
+    // Check if the query was successful
+    if ($result) {
+        // Fetch data
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = array(
+                    'id' => $row['id'],
+                    'campus' => $row['campus'], // Ensure this matches the DataTable 'campus' column
+                    'college' => $row['colleges'], // Ensure this matches the DataTable 'colleges' column
+                    'area' => $row['area'], // Ensure this matches the DataTable 'area' column
+                    'parameter' => $row['parameter'] // Ensure this matches the DataTable 'parameter' column
+                );
+            }
+        }
+        
+        // Free the result set
+        mysqli_free_result($result);
+    } else {
+        // Handle query error
+        echo json_encode(array('error' => 'Query failed: ' . mysqli_error($conn)));
+        exit();
+    }
+
+}
+
+// Output the data as JSON
+echo json_encode(array('data' => $data));
+
+// Close the database connection
+mysqli_close($conn);
+?>
