@@ -12,6 +12,15 @@ if (isset($_GET['id'])) {
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     $events = mysqli_fetch_assoc($result); // Fetch single event
+} elseif (isset($_GET['today'])) {
+    $today = strtotime($_GET['today']);
+    $dateStart = date('Y-m-01 00:00:00', $today); // First day of the month
+    $dateEnd = date('Y-m-t 23:59:59', $today); // Last day of the month
+    $stmt = mysqli_prepare($conn, "SELECT title, description, datestart, dateend FROM accreditation_schedule WHERE datestart >= ? AND datestart <= ?");
+    mysqli_stmt_bind_param($stmt, "ss", $dateStart, $dateEnd); // Use the correct variables
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $events = mysqli_fetch_all($result, MYSQLI_ASSOC); // Fetch all events in range
 } elseif (isset($_GET['date'])) {
     $date = $_GET['date'];
     $stmt = mysqli_prepare($conn, "SELECT title, description, datestart, dateend FROM accreditation_schedule WHERE DATE(datestart) = ?");
@@ -27,8 +36,8 @@ mysqli_close($conn);
 // Return results based on the query type
 if (isset($id) && $events) {
     echo json_encode($events); // Return the single event found
-} elseif (isset($date)) {
-    echo json_encode($events); // Return all events found
+} elseif (isset($_GET['today']) || isset($_GET['date'])) {
+    echo json_encode($events); // Return events found within the specified range
 } else {
     echo json_encode(['error' => 'No events found.']);
 }

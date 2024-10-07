@@ -1,20 +1,21 @@
 <?php 
-require ("config/db_connection.php");
+require("config/db_connection.php");
 
+// Delete archived documents older than 5 years
 mysqli_query($conn, "DELETE FROM archived_documents WHERE archived_date < NOW() - INTERVAL 5 YEAR");
 
-session_start(); 
+session_start();
 
-if (isset($_SESSION['email']))
-{ 
+if (isset($_SESSION['email'])) { 
     if ($_SESSION['role'] == "ido") {
         header("location: ido/dashboard.php");
-    }
-    elseif($_SESSION['role'] == "quaac"){
+        exit;
+    } elseif ($_SESSION['role'] == "quaac") {
         header("location: quaac/dashboard.php");
-    }
-    else{
+        exit;
+    } else {
         header("location: areacoordinator/dashboard.php");
+        exit;
     }
 }
 ?>
@@ -25,11 +26,10 @@ if (isset($_SESSION['email']))
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="assets/img/icon.png" />
-    <!-- LOCAL STYLES -->
     <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/toastr.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-    <!-- LOCAL SCRIPTS -->
+    
     <script type="text/javascript" src="assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="assets/js/toastr.min.js"></script>
     <script type="text/javascript" src="config/toastr_config.js"></script>
@@ -63,6 +63,40 @@ if (isset($_SESSION['email']))
         </div>
     </main>
 
+    <ul class="slideshow-container">
+    <li>
+        <div>
+            <h3>Truth</h3>
+        </div>
+    </li>
+    <li>
+        <div>
+            <h3>Excellence</h3>
+        </div>
+    </li>
+    <li>
+        <div>
+            <h3>Service</h3>
+        </div>
+    </li>
+    <li>
+        <div>
+            <h3>Morally Upright</h3>
+        </div>
+    </li>
+    <li>
+        <div>
+            <h3>Globally Competitive</h3>
+        </div>
+    </li>
+    <li>
+        <div>
+            <h3>Equality</h3>
+        </div>
+    </li>
+</ul>
+
+
     <script>
         window.onload = function() {
             document.getElementById("email").value = '';
@@ -72,6 +106,13 @@ if (isset($_SESSION['email']))
         function login() {
             var email = $('#email').val();
             var password = $('#password').val();
+            const validDomain = '@cvsu.edu.ph';
+
+            // Check if email ends with the valid domain
+            if (!email.endsWith(validDomain)) {
+                toastr.error("Only CvSU email is accepted!");
+                return; // Prevent form submission
+            }
 
             if (email && password) {
                 $.ajax({
@@ -81,7 +122,7 @@ if (isset($_SESSION['email']))
                         email: email,
                         password: password,
                     },
-                    success: function(data, status) {
+                    success: function(data) {
                         if (data === "ido") {
                             toastr.success("Login Successful");
                             location.replace("ido/dashboard.php");
@@ -99,7 +140,7 @@ if (isset($_SESSION['email']))
                             toastr.error("Incorrect email or password!");
                         }
                     },
-                    error: function(xhr, status, error) {
+                    error: function() {
                         toastr.error("An error occurred. Please try again later.");
                     }
                 });
@@ -108,7 +149,6 @@ if (isset($_SESSION['email']))
             }
         }
     </script>
-    <!-- LOCAL SCRIPTS -->
     <script type="text/javascript" src="assets/bootstrap/js/popper.min.js"></script>
     <script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>

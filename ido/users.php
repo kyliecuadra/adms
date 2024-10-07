@@ -1,3 +1,17 @@
+<?php
+require("../config/db_connection.php");
+
+session_start();
+require("../config/session_timeout.php");
+
+if (!isset($_SESSION['id'])) {
+  header("location: ../config/not_login-error.html");
+} else {
+  if ($_SESSION['role'] != "ido") {
+    header("location: ../config/user_level-error.html");
+  }
+}
+?>
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
   data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template">
@@ -97,6 +111,13 @@
               <div class="text-truncate" data-i18n="Users">Users</div>
             </a>
           </li>
+          <!-- Messages -->
+          <li class="menu-item">
+            <a href="message.php" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-chat"></i>
+              <div class="text-truncate" data-i18n="Messages">Messages</div>
+            </a>
+          </li>
           <!-- Configuration -->
           <li class="menu-item">
             <a href="configuration/campus.php" class="menu-link">
@@ -178,7 +199,7 @@
                     <div class="dropdown-divider"></div>
                   </li>
                   <li>
-                    <a class="dropdown-item text-muted" onclick="editUser(<?php echo $_SESSION['id'] ?>)"
+                    <a class="dropdown-item text-muted" onclick="openUpdateModal(<?php echo $_SESSION['id']; ?>)""
                       style="cursor: pointer;">
                       <i class="bx bx-user me-2"></i>
                       <span class="align-middle">My Profile</span>
@@ -197,7 +218,6 @@
           <!-- Content -->
           <div class="container-xxl flex-grow-1 container-p-y">
             <!--  USERS PAGE TABLE START -->
-
             <div class="card px-4 py-4">
               <div class="d-flex justify-content-between">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -284,6 +304,62 @@
                 </div>
               </div>
               <!-- UPDATE QUAAC STATUS MODAL END -->
+
+              <!-- MY PROFILE MODAL START -->
+            <div class="modal fade" id="userProfile" tabindex="-1" aria-labelledby="userProfileLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="userProfileLabel">My Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="updateUserForm">
+                      <input type="hidden" name="id" id="userId">
+                      <div class="row mb-3">
+                        <div class="col">
+                          <label for="fname" class="form-label">First Name</label>
+                          <input type="text" class="form-control" name="fname" id="fname" required readonly>
+                        </div>
+                        <div class="col">
+                          <label for="mname" class="form-label">Middle Name</label>
+                          <input type="text" class="form-control" name="mname" id="mname" readonly>
+                        </div>
+                        <div class="col">
+                          <label for="lname" class="form-label">Last Name</label>
+                          <input type="text" class="form-control" name="lname" id="lname" required readonly>
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col">
+                          <label for="email" class="form-label">Email</label>
+                          <input type="email" class="form-control" name="email" id="email" required readonly>
+                        </div>
+                        <div class="col">
+                          <label for="phonenumber" class="form-label">Phone Number</label>
+                          <input type="text" class="form-control" name="phonenumber" id="phonenumber" required readonly>
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col">
+                          <label for="role" class="form-label">Role</label>
+                          <input type="text" class="form-control" name="role" id="role" required readonly>
+                        </div>
+                        <div class="col">
+                          <label for="profileCampus" class="form-label">Campus</label>
+                          <input type="text" class="form-control" name="profileCampus" id="profileCampus" required readonly>
+                        </div>
+                        <div class="col">
+                          <label for="profileCollege" class="form-label">College</label>
+                          <input type="text" class="form-control" name="profileCollege" id="profileCollege" required readonly>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- MY PROFILE MODAL END -->
 
 
               </div>
@@ -445,6 +521,35 @@ function getQuaacInfo(status, id){
     });
   }
 // SETTING QUAAC ROLE SCRIPT END
+
+// MY PROFILE START
+function openUpdateModal(userId) {
+        fetch(`../config/get_user.php?id=${userId}`).then(response => response.json()).then(data => {
+          if (data.success) {
+            const user = data.user;
+            // Populate modal fields
+            document.getElementById('userId').value = user.id;
+            document.getElementById('fname').value = user.fname;
+            document.getElementById('mname').value = user.mname;
+            document.getElementById('lname').value = user.lname;
+            document.getElementById('email').value = user.email;
+            document.getElementById('phonenumber').value = user.phonenumber;
+            document.getElementById('role').value = user.role;
+            // Set selected options for dropdowns
+            document.getElementById('profileCampus').value = user.campus || '';
+            document.getElementById('profileCollege').value = user.college || '';
+            // Show the modal
+            var modal = new bootstrap.Modal(document.getElementById('userProfile'));
+            modal.show();
+          } else {
+            alert('Failed to load user data: ' + data.message);
+          }
+        }).catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while fetching user data.');
+        });
+      }
+      // MY PROFILE END
   </script>
 </body>
 

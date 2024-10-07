@@ -1,7 +1,6 @@
 <?php
 require("../../config/db_connection.php");
-
-// Define the target directory where files will be uploaded
+session_start();
 $targetDir = "../../assets/documents/";
 
 if (!file_exists($targetDir)) {
@@ -23,13 +22,27 @@ if (isset($_FILES['fileInput']) && isset($_POST['area']) && isset($_POST['parame
 
     mysqli_begin_transaction($conn);
 
+    $success = true;
+
     for ($i = 0; $i < count($files['name']); $i++) {
+        $newFileName = ''; // Initialize the variable here
+
         if ($files['error'][$i] === UPLOAD_ERR_OK) {
-            $fileName = basename($files["name"][$i]);
-            $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+            $fileName = preg_replace('/[^a-zA-Z0-9-_\.]/', '_', $files["name"][$i]);
+            $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
             $fileBaseName = pathinfo($fileName, PATHINFO_FILENAME);
 
-            // Create a unique file name if the file already exists
+            $allowedExtensions = ['pdf'];
+            if (!in_array($fileExtension, $allowedExtensions)) {
+                $response[] = array('status' => 'error', 'message' => 'Invalid file type: ' . $fileName);
+                continue;
+            }
+
+            if ($files['size'][$i] > 50 * 1024 * 1024) {
+                $response[] = array('status' => 'error', 'message' => 'File size exceeds limit for: ' . $fileName);
+                continue;
+            }
+
             $targetFilePath = $targetDir . $fileName;
             $counter = 1;
             while (file_exists($targetFilePath)) {
@@ -39,24 +52,52 @@ if (isset($_FILES['fileInput']) && isset($_POST['area']) && isset($_POST['parame
             }
 
             if (move_uploaded_file($files["tmp_name"][$i], $targetFilePath)) {
+                // Assign the unique filename after a successful move
+                $newFileName = $counter > 1 ? $fileBaseName . '_' . ($counter - 1) . '.' . $fileExtension : $fileName;
+
                 $query = "INSERT INTO documents (area, parameter, quality, campus, college, program, benchmark, file_name, upload_date) VALUES ('$area', '$parameter', '$quality', '$campus', '$college', '$programs', '$benchmark', '$newFileName', '$uploadDate')";
 
                 if (mysqli_query($conn, $query)) {
+                    // Insert notification for users with 'quaac' role
+                    $notificationDescription = "<strong>".$_SESSION['email']."</strong> uploaded a new document for ".$college." in ".$campus.".<small>.$area; .$parameter;.$quality</small>";
+                    $quaacQuery = "SELECT id FROM users WHERE role = 'quaac'";
+                    $quaacResult = mysqli_query($conn, $quaacQuery);
+
+                    if ($quaacResult && mysqli_num_rows($quaacResult) > 0) {
+                        while ($quaacUser = mysqli_fetch_assoc($quaacResult)) {
+                            $recipientUserId = $quaacUser['id'];
+                            $notificationInsert = "INSERT INTO notifications (recipient_user_id, notification_description) VALUES ('$recipientUserId', '$notificationDescription')";
+                            mysqli_query($conn, $notificationInsert);
+                        }
+                    }
                     $response[] = array('status' => 'success', 'message' => 'File uploaded and data saved successfully.', 'fileName' => $newFileName);
                 } else {
-                    mysqli_rollback($conn);
+                    $success = false;
                     $response[] = array('status' => 'error', 'message' => 'Failed to insert data into the database: ' . mysqli_error($conn));
-                    break; // Exit the loop on error
+                    break;
                 }
             } else {
+                $success = false;
                 $response[] = array('status' => 'error', 'message' => 'Failed to move uploaded file: ' . $fileName);
             }
         } else {
-            $response[] = array('status' => 'error', 'message' => 'Error during file upload for: ' . $files['name'][$i]);
+            $success = false;
+            switch ($files['error'][$i]) {
+                case UPLOAD_ERR_INI_SIZE:
+                case UPLOAD_ERR_FORM_SIZE:
+                    $response[] = array('status' => 'error', 'message' => 'File size is too large for: ' . $files['name'][$i]);
+                    break;
+                default:
+                    $response[] = array('status' => 'error', 'message' => 'Error during file upload for: ' . $files['name'][$i]);
+            }
         }
     }
 
-    mysqli_commit($conn); // Commit all successful inserts
+    if ($success) {
+        mysqli_commit($conn); // Commit only if all succeeded
+    } else {
+        mysqli_rollback($conn);
+    }
 } else {
     $response[] = array('status' => 'error', 'message' => 'No file uploaded or missing form data.');
 }

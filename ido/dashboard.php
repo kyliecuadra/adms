@@ -134,6 +134,13 @@ if (!isset($_SESSION['id'])) {
               <div class="text-truncate" data-i18n="Users">Users</div>
             </a>
           </li>
+          <!-- Messages -->
+          <li class="menu-item">
+            <a href="message.php" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-chat"></i>
+              <div class="text-truncate" data-i18n="Messages">Messages</div>
+            </a>
+          </li>
           <!-- Configuration -->
           <li class="menu-item">
             <a href="configuration/campus.php" class="menu-link">
@@ -208,7 +215,7 @@ if (!isset($_SESSION['id'])) {
                     <div class="dropdown-divider"></div>
                   </li>
                   <li>
-                    <a class="dropdown-item text-muted" onclick="editUser(<?php echo $_SESSION['id'] ?>)" style="cursor: pointer;">
+                    <a class="dropdown-item text-muted" onclick="openUpdateModal(<?php echo $_SESSION['id']; ?>)" style="cursor: pointer;">
                       <i class="bx bx-user me-2"></i>
                       <span class="align-middle">My Profile</span>
                     </a>
@@ -282,7 +289,7 @@ if (!isset($_SESSION['id'])) {
               </div>
               <div class="col-lg-3 mb-4 order-0">
                 <!-- Card for Messages -->
-                <a href="" class="card card-hover text-decoration-none">
+                <a href="message.php" class="card card-hover text-decoration-none">
                   <div class="d-flex align-items-end row">
                     <div class="card-body" style="padding: 15px;">
                       <div class="row d-flex px-4">
@@ -290,7 +297,7 @@ if (!isset($_SESSION['id'])) {
                           <i class="bx bx-message-dots" style="font-size: 75px;"></i> <!-- Icon for Messages -->
                         </div>
                         <div class="col h2 d-flex flex-column justify-content-center align-items-center">
-                          <span id="count">0</span> <!-- Placeholder for message count -->
+                          <span id="messages-count">0</span> <!-- Placeholder for message count -->
                           <span class="label">Messages</span> <!-- Label for the card -->
                         </div>
                       </div>
@@ -314,7 +321,7 @@ if (!isset($_SESSION['id'])) {
                   <!-- Add h-100 class here -->
                   <div class="card-body d-flex flex-column">
                     <!-- Add d-flex and flex-column classes -->
-                    <h3 class="card-title text-dark">Accreditation Details</h3>
+                    <h3 class="card-title text-dark" id="event-title">Accreditation Details</h3>
                     <ul class="event-list" id="event-list">
                       <!-- Event details will be populated here -->
                     </ul>
@@ -324,81 +331,61 @@ if (!isset($_SESSION['id'])) {
               <!-- ACCREDITATION LIST END -->
             </div>
             <!-- MY PROFILE MODAL START -->
-            <div class="modal fade" id="my-profile" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal fade" id="userProfile" tabindex="-1" aria-labelledby="userProfileLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h3 class="modal-title" id="staticBackdropLabel">My Profile</h3>
+                    <h5 class="modal-title" id="userProfileLabel">My Profile</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    <form action="" method="POST" class="signin" enctyp="multipart/form-data">
-                      <div class="first_form">
-                        <h4>Personal Information</h4>
-                        <div class="mb-4 row">
-                          <div class="col-lg-12 col-md-12 col-xs-12 mb-1">
-                            <input class="form-control capitalize" type="text" id="user_name" placeholder="Name" required>
-                          </div>
+                    <form id="updateUserForm">
+                      <input type="hidden" name="id" id="userId">
+                      <div class="row mb-3">
+                        <div class="col">
+                          <label for="fname" class="form-label">First Name</label>
+                          <input type="text" class="form-control" name="fname" id="fname" required readonly>
                         </div>
-                        <div class="row">
-                          <div class="col-lg-4 col-md-4 col-xs-4 mb-1">
-                            <input class="form-control" type="number" id="user_enumber" placeholder="Employee Number" required>
-                          </div>
-                          <div class="col-lg-4 col-md-4 col-xs-4 mb-1">
-                            <select class="form-control text-secondary" id="user_designation" required>
-                              <option selected>Designation</option>
-                            </select>
-                          </div>
-                          <div class="col-lg-4 col-md-4 col-xs-4 mb-1">
-                            <select class="form-control text-secondary" id="user_department" required>
-                              <option selected>Department</option>
-                            </select>
-                          </div>
+                        <div class="col">
+                          <label for="mname" class="form-label">Middle Name</label>
+                          <input type="text" class="form-control" name="mname" id="mname" readonly>
+                        </div>
+                        <div class="col">
+                          <label for="lname" class="form-label">Last Name</label>
+                          <input type="text" class="form-control" name="lname" id="lname" required readonly>
                         </div>
                       </div>
-                      <div class="row">
-                        <h4>Contact Information</h4>
-                        <div class="col-lg-6 col-md-6 col-xs-6 mb-1">
-                          <input class="form-control" type="email" id="user_email" placeholder="Email Address" required>
-                          <div style="color: red; font-size: 12px;" id="email_validation"></div>
+                      <div class="row mb-3">
+                        <div class="col">
+                          <label for="email" class="form-label">Email</label>
+                          <input type="email" class="form-control" name="email" id="email" required readonly>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-xs-6 mb-1">
-                          <div class="input-group flex-nowrap">
-                            <span class="input-group-text bg-secondary text-white">+63</span>
-                            <input type="tel" class="form-control" id="user_cnumber" placeholder="123 456 7890" maxlength="12">
-                          </div>
+                        <div class="col">
+                          <label for="phonenumber" class="form-label">Phone Number</label>
+                          <input type="text" class="form-control" name="phonenumber" id="phonenumber" required readonly>
                         </div>
                       </div>
-                      <div class="second_form">
-                        <h4>Password</h4>
-                        <div class="row">
-                          <div class="col-lg-12 col-md-12 col-xs-12 mb-1">
-                            <input class="form-control" type="password" id="user_passwordInput" placeholder="Password" required>
-                          </div>
+                      <div class="row mb-3">
+                        <div class="col">
+                          <label for="role" class="form-label">Role</label>
+                          <input type="text" class="form-control" name="role" id="role" required readonly>
+                        </div>
+                        <div class="col">
+                          <label for="profileCampus" class="form-label">Campus</label>
+                          <input type="text" class="form-control" name="profileCampus" id="profileCampus" required readonly>
+                        </div>
+                        <div class="col">
+                          <label for="profileCollege" class="form-label">College</label>
+                          <input type="text" class="form-control" name="profileCollege" id="profileCollege" required readonly>
                         </div>
                       </div>
-                      <div class="third_form">
-                        <h4>Profile Picture</h4>
-                        <div class="row">
-                          <div class="col-lg-12 col-md-12 col-xs-12">
-                            <input class="form-control" type="file" id="user_profilepicture" accept="image/*" id="imageFile" required>
-                            <div id="img_validation" class="text-danger"></div>
-                          </div>
-                        </div>
-                      </div>
+                    </form>
                   </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="editUserDetail()">Update</button>
-                    <input type="hidden" name="" id="hidden_userid">
-                  </div>
-                  </form>
                 </div>
               </div>
             </div>
             <!-- MY PROFILE MODAL END -->
             <!-- ADD NEW ACCREDITATION MODAL START -->
-            <!-- Add Accreditation Schedule Modal -->
             <div class="modal fade" id="addNewAccreditationModal" tabindex="-1" aria-labelledby="addNewAccreditationModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -498,7 +485,6 @@ if (!isset($_SESSION['id'])) {
     <!-- Page JS -->
     <script>
       // POPULATE COLLEGE COMPONENTS DROPDOWN START
-      // POPULATE COLLEGE COMPONENTS DROPDOWN START
       $(document).ready(function() {
         // Function to populate select element with options
         function populateSelect(selectElement, data) {
@@ -587,7 +573,7 @@ if (!isset($_SESSION['id'])) {
             $('#documents-count').text(data.documents);
             $('#requests-count').text(data.requests);
             $('#users-count').text(data.users);
-            //$('#messages-count').text(data.messages);
+            $('#messages-count').text(data.messages);
           },
           error: function(xhr, status, error) {
             console.error('Error fetching counts:', error);
@@ -595,113 +581,102 @@ if (!isset($_SESSION['id'])) {
         });
         // DASHBOARD CARD COUNTS END
       });
-      // EDIT PROFILE START
-      function editUser(id) {
-        $('#hidden_userid').val(id);
-        $.post("my-profile.php", {
-          id: id
-        }, function(data, status) {
-          var user = JSON.parse(data);
-          $('#user_enumber').val(user.user_id);
-          $('#user_name').val(user.name);
-          $('#user_designation').val(user.designation);
-          $('#user_department').val(user.department);
-          $('#user_cnumber').val(user.contactNumber);
-          $('#user_email').val(user.email);
-          $('#user_passwordInput').val(user.password);
-          $('#user_profilepicture').val(user.password);
-        });
-        $('#my-profile').modal("show");
-      }
 
-      function editUserDetail() {
-        var enumber = $('#user_enumber').val();
-        var name = $('#user_name').val();
-        var designation = $('#user_designation').val();
-        var department = $('#user_department').val();
-        var cnumber = $('#user_cnumber').val();
-        var email = $('#user_email').val();
-        var password = $('#user_passwordInput').val();
-        var picture = $('#user_profilepicture')[0].files[0]; // Get the file object
-        var hidden_userid = $('#hidden_userid').val();
-        var formData = new FormData();
-        formData.append('hidden_userid', hidden_userid);
-        formData.append('enumber', enumber);
-        formData.append('name', name);
-        formData.append('designation', designation);
-        formData.append('department', department);
-        formData.append('cnumber', cnumber);
-        formData.append('email', email);
-        formData.append('password', password);
-        formData.append('picture', picture);
-        $.ajax({
-          url: 'my-profile.php',
-          type: 'POST',
-          data: formData,
-          processData: false, // Important: prevent jQuery from processing the data
-          contentType: false, // Important: set contentType to false
-          success: function(data) {
-            $('#my-profile').modal("hide");
-            console.log(data);
-            toastr.success("User Updated!");
-            setTimeout(function() {
-              location.reload();
-            }, 1000);
-          },
-          error: function(xhr, status, error) {
-            console.error('Error updating user:', error);
-            toastr.error("Error updating user. Please try again.");
+      // MY PROFILE START
+      function openUpdateModal(userId) {
+        fetch(`../config/get_user.php?id=${userId}`).then(response => response.json()).then(data => {
+          if (data.success) {
+            const user = data.user;
+            // Populate modal fields
+            document.getElementById('userId').value = user.id;
+            document.getElementById('fname').value = user.fname;
+            document.getElementById('mname').value = user.mname;
+            document.getElementById('lname').value = user.lname;
+            document.getElementById('email').value = user.email;
+            document.getElementById('phonenumber').value = user.phonenumber;
+            document.getElementById('role').value = user.role;
+            // Set selected options for dropdowns
+            document.getElementById('profileCampus').value = user.campus || '';
+            document.getElementById('profileCollege').value = user.college || '';
+            // Show the modal
+            var modal = new bootstrap.Modal(document.getElementById('userProfile'));
+            modal.show();
+          } else {
+            alert('Failed to load user data: ' + data.message);
           }
+        }).catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while fetching user data.');
         });
       }
-      // EDIT PROFILE END
+      // MY PROFILE END
+
       // NOTIFICATION START
-      function notificationUpdate() {
-        // Your AJAX code here
-        var notification = 'notification';
-        $.ajax({
-          url: "notification.php",
-          type: "POST",
-          data: {
-            notification: notification,
-          },
-          success: function(data, status) {
-            console.log(data);
-          }
-        });
-      }
       $(document).ready(function() {
-        $.ajax({
-          url: 'notification-count.php', // URL to your server-side script that generates the notification
-          type: 'GET',
-          success: function(response) {
-            // Display the notification to the user
-            $("#notification-count").html(response);
-            if (response === '0' || response.trim() === '') {
-              $('#notification-count').css('display', 'none');
-            } else {
-              $('#notification-count').css('display', 'inline-block');
-            }
-          },
-          error: function(xhr, status, error) {
-            console.error('Error:', error);
-          }
-        });
-        $.ajax({
-          url: 'notification.php', // URL to your server-side script that generates the notification
-          type: 'GET',
-          success: function(response) {
-            // Display the notification to the user
-            $("#notification").html(response); // You can use any notification library or custom HTML/CSS here
-          },
-          error: function(xhr, status, error) {
-            console.error('Error:', error);
-          }
+        // Initial load of notification count
+        updateNotificationCount();
+        // Event listener for the notification icon
+        $('.nav-item.dropdown-notifications').on('click', function() {
+          notificationUpdate();
         });
       });
+
+      function updateNotificationCount() {
+        $.ajax({
+          url: '../config/get_notification_count.php', // PHP file to get notification count
+          type: 'GET',
+          success: function(count) {
+            $('#notification-count').text(count);
+          },
+          error: function() {
+            console.error("Error fetching notification count");
+          }
+        });
+      }
+
+      function notificationUpdate() {
+        $.ajax({
+          url: '../config/fetch_notifications.php', // PHP file to fetch notifications
+          type: 'GET',
+          dataType: 'json',
+          success: function(data) {
+            $('#notification').empty(); // Clear existing notifications
+            if (data.length > 0) {
+              data.forEach(function(notification) {
+                // Format the created_at date
+                const date = new Date(notification.timestamp);
+                const options = {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                };
+                const formattedDate = date.toLocaleString('en-US', options);
+                $('#notification').append(`
+                        <li class="list-group-item text-dark">
+                            ${notification.description} <br>
+                            <small class="text-success">${formattedDate}</small>
+                        </li>
+                    `);
+              });
+            } else {
+              $('#notification').append('<li class="list-group-item">No new notifications.</li>');
+            }
+            // Update the notification count after displaying the notifications
+            updateNotificationCount();
+          },
+          error: function() {
+            console.error("Error fetching notifications");
+          }
+        });
+      }
       // NOTIFICATION END
       // CALENDAR START
       $(document).ready(function() {
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const currentMonthName = monthNames[new Date().getMonth()];
+        $('#event-title').html("Accreditations for " + currentMonthName);
         // Call fetchEvents with the current date when the calendar is rendered
         const currentDate = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
         fetchEvents(currentDate); // Fetch events for today's date
@@ -744,7 +719,7 @@ if (!isset($_SESSION['id'])) {
             url: 'get-event-details.php',
             type: 'GET',
             data: {
-              date: date
+              today: date
             },
             success: function(response) {
               if (Array.isArray(response) && response.length > 0) {
