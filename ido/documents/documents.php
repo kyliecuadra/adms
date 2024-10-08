@@ -292,7 +292,7 @@
 
         <!-- MY PROFILE MODAL START -->
         <div class="modal fade" id="userProfile" tabindex="-1" aria-labelledby="userProfileLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title" id="userProfileLabel">My Profile</h5>
@@ -321,6 +321,11 @@
                           <input type="email" class="form-control" name="email" id="email" required readonly>
                         </div>
                         <div class="col">
+                          <label for="password" class="form-label">Password</label>
+                          <i class='bx bx-edit-alt text-success' data-bs-toggle="modal" data-bs-target="#passwordModal" style="cursor:pointer;"></i>
+                          <input type="text" class="form-control" name="password" id="password" required readonly>
+                        </div>
+                        <div class="col">
                           <label for="phonenumber" class="form-label">Phone Number</label>
                           <input type="text" class="form-control" name="phonenumber" id="phonenumber" required readonly>
                         </div>
@@ -345,6 +350,34 @@
               </div>
             </div>
             <!-- MY PROFILE MODAL END -->
+
+            <!-- UPDATING PASSWORD MODAL -->
+            <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="passwordModalLabel">Update Password</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="updatePasswordForm">
+                                <div class="mb-3">
+                                    <label for="newPassword" class="form-label">New Password</label>
+                                    <input type="password" class="form-control" id="newPassword" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                    <input type="password" class="form-control" id="confirmPassword" required>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="savePasswordBtn">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         <!-- ADD DOCUMENT MODAL START -->
         <div class="modal fade" id="addDocumentModal" tabindex="-1" aria-labelledby="addDocumentLabel"
@@ -716,6 +749,7 @@ function openUpdateModal(userId) {
             document.getElementById('mname').value = user.mname;
             document.getElementById('lname').value = user.lname;
             document.getElementById('email').value = user.email;
+            document.getElementById('password').value = user.password;
             document.getElementById('phonenumber').value = user.phonenumber;
             document.getElementById('role').value = user.role;
             // Set selected options for dropdowns
@@ -733,6 +767,47 @@ function openUpdateModal(userId) {
         });
       }
       // MY PROFILE END
+
+      // UPDATING PASSWORD START
+      $('#savePasswordBtn').on('click', function() {
+            const newPassword = $('#newPassword').val();
+            const confirmPassword = $('#confirmPassword').val();
+            const id = $('#userId').val();
+            
+            if (newPassword === confirmPassword) {
+                // AJAX request to update the password
+                $.ajax({
+                    url: '../update_password.php', // Your server endpoint for updating password
+                    type: 'POST',
+                    data: {
+                        password: newPassword,
+                        userId: id
+                    },
+                    success: function(response) {
+                        // Assuming response contains a success message
+                        if (response.success) {
+                            $('#password').val(newPassword);
+                            toastr.success('Password updated successfully!');
+
+                            // Close the modal
+                            const modal = bootstrap.Modal.getInstance($('#passwordModal')[0]);
+                            modal.hide();
+
+                            // Optionally reset the form
+                            $('#updatePasswordForm')[0].reset();
+                        } else {
+                          toastr.error('Error updating password: ' + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                      toastr.error('An error occurred: ' + error);
+                    }
+                });
+            } else {
+              toastr.warning("Passwords do not match!");
+            }
+        });
+      // UPDATING PASSWORD END
         </script>
     </body>
 </html>
