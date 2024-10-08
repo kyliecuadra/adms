@@ -10,7 +10,7 @@ $result = mysqli_query($conn, "SELECT COUNT(*) as document_count FROM documents"
 $counts['documents'] = mysqli_fetch_assoc($result)['document_count'];
 
 // Query for requests count
-$result = mysqli_query($conn, "SELECT COUNT(*) as request_count FROM request_documents");
+$result = mysqli_query($conn, "SELECT COUNT(*) as request_count FROM request_documents WHERE status = 'Pending'");
 $counts['requests'] = mysqli_fetch_assoc($result)['request_count'];
 
 // Query for users count

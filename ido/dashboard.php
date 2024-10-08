@@ -13,17 +13,22 @@ if (!isset($_SESSION['id'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr" data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template">
+<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
+  data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template">
 
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
   <title>IDO Dashboard</title>
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="../assets/img/icon.png" />
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
   <!-- Icons -->
   <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
   <link rel="stylesheet" href="../assets/vendor/fonts/fontawesome.css" />
@@ -91,7 +96,8 @@ if (!isset($_SESSION['id'])) {
             <span class="app-brand-logo demo">
               <img src="../assets/img/logo.png" alt="" width="50">
             </span>
-            <span class="app-brand-text menu-text fw-bold ms-2" style="font-size: 14px;">Accreditation Document<br>Management System</span>
+            <span class="app-brand-text menu-text fw-bold ms-2" style="font-size: 14px;">Accreditation
+              Document<br>Management System</span>
           </a>
           <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
             <i class="bx bx-chevron-left bx-sm align-middle"></i>
@@ -161,7 +167,9 @@ if (!isset($_SESSION['id'])) {
       <!-- Layout container -->
       <div class="layout-page">
         <!-- Navbar -->
-        <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+        <nav
+          class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+          id="layout-navbar">
           <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0   d-xl-none ">
             <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
               <i class="bx bx-menu bx-sm"></i>
@@ -170,8 +178,10 @@ if (!isset($_SESSION['id'])) {
           <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
             <ul class="navbar-nav flex-row align-items-center ms-auto">
               <!-- Notification -->
-              <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1" onclick="notificationUpdate()">
-                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+              <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1"
+                onclick="notificationUpdate()">
+                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
+                  data-bs-auto-close="outside" aria-expanded="false">
                   <i class="bx bx-bell bx-sm"></i>
                   <span class="badge bg-success rounded-pill badge-notifications" id="notification-count">0</span>
                 </a>
@@ -205,7 +215,7 @@ if (!isset($_SESSION['id'])) {
                           </div>
                         </div>
                         <div class="flex-grow-1">
-                          <span class="fw-medium d-block"><?php echo $_SESSION['fname']; ?></span>
+                          <span class="fw-medium d-block"><?php echo $_SESSION['name']; ?></span>
                           <small class="text-muted">Institutional Development Office</small>
                         </div>
                       </div>
@@ -215,7 +225,8 @@ if (!isset($_SESSION['id'])) {
                     <div class="dropdown-divider"></div>
                   </li>
                   <li>
-                    <a class="dropdown-item text-muted" onclick="openUpdateModal(<?php echo $_SESSION['id']; ?>)" style="cursor: pointer;">
+                    <a class="dropdown-item text-muted" onclick="openUpdateModal(<?php echo $_SESSION['id']; ?>)"
+                      style="cursor: pointer;">
                       <i class="bx bx-user me-2"></i>
                       <span class="align-middle">My Profile</span>
                     </a>
@@ -309,7 +320,8 @@ if (!isset($_SESSION['id'])) {
               <div class="col-lg-6 mb-4 order-0">
                 <div class="card">
                   <div class="card-body d-flex flex-column" style="padding: 15px;">
-                    <button class="btn w-50 btn-danger float-end mx-4 text-white" type="button" data-bs-toggle="modal" data-bs-target="#addNewAccreditationModal">Add Accreditation Schedule</button>
+                    <button class="btn w-50 btn-danger float-end mx-4 text-white" type="button" data-bs-toggle="modal"
+                      data-bs-target="#addNewAccreditationModal">Add Accreditation Schedule</button>
                     <div id="calendar" class="calendar"></div>
                   </div>
                 </div>
@@ -331,7 +343,8 @@ if (!isset($_SESSION['id'])) {
               <!-- ACCREDITATION LIST END -->
             </div>
             <!-- MY PROFILE MODAL START -->
-            <div class="modal fade" id="userProfile" tabindex="-1" aria-labelledby="userProfileLabel" aria-hidden="true">
+            <div class="modal fade" id="userProfile" tabindex="-1" aria-labelledby="userProfileLabel"
+              aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -362,7 +375,8 @@ if (!isset($_SESSION['id'])) {
                         </div>
                         <div class="col">
                           <label for="password" class="form-label">Password</label>
-                          <i class='bx bx-edit-alt text-success' data-bs-toggle="modal" data-bs-target="#passwordModal" style="cursor:pointer;"></i>
+                          <i class='bx bx-edit-alt text-success' data-bs-toggle="modal" data-bs-target="#passwordModal"
+                            style="cursor:pointer;"></i>
                           <input type="text" class="form-control" name="password" id="password" required readonly>
                         </div>
                         <div class="col">
@@ -377,11 +391,13 @@ if (!isset($_SESSION['id'])) {
                         </div>
                         <div class="col">
                           <label for="profileCampus" class="form-label">Campus</label>
-                          <input type="text" class="form-control" name="profileCampus" id="profileCampus" required readonly>
+                          <input type="text" class="form-control" name="profileCampus" id="profileCampus" required
+                            readonly>
                         </div>
                         <div class="col">
                           <label for="profileCollege" class="form-label">College</label>
-                          <input type="text" class="form-control" name="profileCollege" id="profileCollege" required readonly>
+                          <input type="text" class="form-control" name="profileCollege" id="profileCollege" required
+                            readonly>
                         </div>
                       </div>
                     </form>
@@ -391,7 +407,8 @@ if (!isset($_SESSION['id'])) {
             </div>
             <!-- MY PROFILE MODAL END -->
             <!-- ADD NEW ACCREDITATION MODAL START -->
-            <div class="modal fade" id="addNewAccreditationModal" tabindex="-1" aria-labelledby="addNewAccreditationModalLabel" aria-hidden="true">
+            <div class="modal fade" id="addNewAccreditationModal" tabindex="-1"
+              aria-labelledby="addNewAccreditationModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -420,11 +437,13 @@ if (!isset($_SESSION['id'])) {
                       </div>
                       <div class="mb-3">
                         <label for="eventTitle" class="form-label">Event Title</label>
-                        <input type="text" class="form-control" id="eventTitle" placeholder="Enter the event title" required>
+                        <input type="text" class="form-control" id="eventTitle" placeholder="Enter the event title"
+                          required>
                       </div>
                       <div class="mb-3">
                         <label for="eventDescription" class="form-label">Description</label>
-                        <textarea class="form-control" id="eventDescription" rows="3" placeholder="Enter a brief description" required></textarea>
+                        <textarea class="form-control" id="eventDescription" rows="3"
+                          placeholder="Enter a brief description" required></textarea>
                       </div>
                       <div class="mb-3">
                         <label for="eventDateStart" class="form-label">Start Date & Time</label>
@@ -442,7 +461,8 @@ if (!isset($_SESSION['id'])) {
             </div>
             <!-- ADD NEW ACCREDITATION MODAL END -->
             <!-- Event Details Modal -->
-            <div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsLabel" aria-hidden="true">
+            <div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsLabel"
+              aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -462,31 +482,32 @@ if (!isset($_SESSION['id'])) {
             </div>
 
             <!-- UPDATING PASSWORD MODAL -->
-            <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="passwordModalLabel">Update Password</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="updatePasswordForm">
-                                <div class="mb-3">
-                                    <label for="newPassword" class="form-label">New Password</label>
-                                    <input type="password" class="form-control" id="newPassword" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                    <input type="password" class="form-control" id="confirmPassword" required>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="savePasswordBtn">Save changes</button>
-                        </div>
-                    </div>
+            <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="passwordModalLabel">Update Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="updatePasswordForm">
+                      <div class="mb-3">
+                        <label for="newPassword" class="form-label">New Password</label>
+                        <input type="password" class="form-control" id="newPassword" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" required>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="savePasswordBtn">Save changes</button>
+                  </div>
                 </div>
+              </div>
             </div>
             <!-- / Content -->
             <div class="content-backdrop fade"></div>
@@ -518,13 +539,13 @@ if (!isset($_SESSION['id'])) {
     <!-- Page JS -->
     <script>
       // POPULATE COLLEGE COMPONENTS DROPDOWN START
-      $(document).ready(function() {
+      $(document).ready(function () {
         // Function to populate select element with options
         function populateSelect(selectElement, data) {
           selectElement.empty(); // Clear existing options
           // Add default option
           selectElement.append($("<option></option>").text('Select an option').attr("value", ""));
-          $.each(data, function(key, value) {
+          $.each(data, function (key, value) {
             selectElement.append($("<option></option>").text(value).attr("value", value));
           });
         }
@@ -536,15 +557,15 @@ if (!isset($_SESSION['id'])) {
           data: {
             action: 'fetch_campus'
           },
-          success: function(response) {
+          success: function (response) {
             populateSelect($('#eventCampus'), response);
           },
-          error: function(xhr, status, error) {
+          error: function (xhr, status, error) {
             console.error('Error fetching campus:', error);
           }
         });
         // Fetch colleges based on selected campus
-        $('#eventCampus').change(function() {
+        $('#eventCampus').change(function () {
           var selectedCampus = $(this).val();
           if (selectedCampus) {
             $.ajax({
@@ -555,11 +576,11 @@ if (!isset($_SESSION['id'])) {
                 action: 'fetch_colleges',
                 campus: selectedCampus // Send selected campus as a parameter
               },
-              success: function(response) {
+              success: function (response) {
                 populateSelect($('#eventCollege'), response);
                 $('#eventProgram').empty().append($("<option></option>").text('Select Program').attr("value", "")); // Clear programs when campus changes
               },
-              error: function(xhr, status, error) {
+              error: function (xhr, status, error) {
                 console.error('Error fetching colleges:', error);
               }
             });
@@ -570,7 +591,7 @@ if (!isset($_SESSION['id'])) {
           }
         });
         // Fetch programs based on selected college
-        $('#eventCollege').change(function() {
+        $('#eventCollege').change(function () {
           var selectedCampus = $('#eventCampus').val();
           var selectedCollege = $(this).val(); // Use the current college dropdown value
           if (selectedCollege) {
@@ -583,10 +604,10 @@ if (!isset($_SESSION['id'])) {
                 campus: selectedCampus,
                 college: selectedCollege // Send selected college as a parameter
               },
-              success: function(response) {
+              success: function (response) {
                 populateSelect($('#eventProgram'), response);
               },
-              error: function(xhr, status, error) {
+              error: function (xhr, status, error) {
                 console.error('Error fetching programs:', error);
               }
             });
@@ -601,14 +622,14 @@ if (!isset($_SESSION['id'])) {
           url: 'get_counts.php', // Path to your PHP file
           type: 'GET',
           dataType: 'json',
-          success: function(data) {
+          success: function (data) {
             // Update the counts in the HTML
             $('#documents-count').text(data.documents);
             $('#requests-count').text(data.requests);
             $('#users-count').text(data.users);
             $('#messages-count').text(data.messages);
           },
-          error: function(xhr, status, error) {
+          error: function (xhr, status, error) {
             console.error('Error fetching counts:', error);
           }
         });
@@ -646,11 +667,11 @@ if (!isset($_SESSION['id'])) {
       // MY PROFILE END
 
       // NOTIFICATION START
-      $(document).ready(function() {
+      $(document).ready(function () {
         // Initial load of notification count
         updateNotificationCount();
         // Event listener for the notification icon
-        $('.nav-item.dropdown-notifications').on('click', function() {
+        $('.nav-item.dropdown-notifications').on('click', function () {
           notificationUpdate();
         });
       });
@@ -659,10 +680,10 @@ if (!isset($_SESSION['id'])) {
         $.ajax({
           url: '../config/get_notification_count.php', // PHP file to get notification count
           type: 'GET',
-          success: function(count) {
+          success: function (count) {
             $('#notification-count').text(count);
           },
-          error: function() {
+          error: function () {
             console.error("Error fetching notification count");
           }
         });
@@ -673,10 +694,10 @@ if (!isset($_SESSION['id'])) {
           url: '../config/fetch_notifications.php', // PHP file to fetch notifications
           type: 'GET',
           dataType: 'json',
-          success: function(data) {
+          success: function (data) {
             $('#notification').empty(); // Clear existing notifications
             if (data.length > 0) {
-              data.forEach(function(notification) {
+              data.forEach(function (notification) {
                 // Format the created_at date
                 const date = new Date(notification.timestamp);
                 const options = {
@@ -688,7 +709,7 @@ if (!isset($_SESSION['id'])) {
                 };
                 const formattedDate = date.toLocaleString('en-US', options);
                 $('#notification').append(`
-                        <li class="list-group-item text-dark">
+                        <li class="list-group-item text-dark" style="cursor:pointer;">
                             ${notification.description} <br>
                             <small class="text-success">${formattedDate}</small>
                         </li>
@@ -700,14 +721,44 @@ if (!isset($_SESSION['id'])) {
             // Update the notification count after displaying the notifications
             updateNotificationCount();
           },
-          error: function() {
+          error: function () {
             console.error("Error fetching notifications");
           }
         });
       }
       // NOTIFICATION END
+
+      // REQUEST DOCUMENT NOTIFICATION START
+      // Use event delegation to handle click events
+      $(document).on('click', '#notification .list-group-item', function () {
+        var email = $(this).find('strong').text(); // Extract the email from the <strong> tag
+        console.log('Notification clicked, email:', email); // Debugging line
+
+        $.ajax({
+          url: 'redirect_notification.php', // Replace with the actual path to your PHP script
+          type: 'POST',
+          data: { email: email },
+          success: function (response) {
+            var result = JSON.parse(response);
+            if (result.status === 'success') {
+              console.log('Campus:', result.campus);
+              console.log('College:', result.college);
+              window.location.href = `request_documents/documents.php?campus=${encodeURIComponent(result.campus)}&college=${encodeURIComponent(result.college)}`;
+              // You can update the UI to show this information
+            } else {
+              console.error(result.message);
+              // Optionally show an error message to the user
+            }
+          },
+          error: function (xhr, status, error) {
+            console.error('AJAX error:', status, error);
+          }
+        });
+      });
+      // REQUEST DOCUMENT NOTIFICATION END
+      
       // CALENDAR START
-      $(document).ready(function() {
+      $(document).ready(function () {
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         const currentMonthName = monthNames[new Date().getMonth()];
         $('#event-title').html("Accreditations for " + currentMonthName);
@@ -718,14 +769,14 @@ if (!isset($_SESSION['id'])) {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: 'dayGridMonth',
-          dateClick: function(info) {
+          dateClick: function (info) {
             fetchEvents(info.dateStr);
           },
-          events: function(fetchInfo, successCallback, failureCallback) {
+          events: function (fetchInfo, successCallback, failureCallback) {
             $.ajax({
               url: 'get-events.php', // Fetch events from this script
               type: 'GET',
-              success: function(data) {
+              success: function (data) {
                 const events = data.map(event => ({
                   id: event.id,
                   title: event.title, // Use title here for the calendar
@@ -734,7 +785,7 @@ if (!isset($_SESSION['id'])) {
                 }));
                 successCallback(events);
               },
-              error: function() {
+              error: function () {
                 console.error('Failed to fetch events.');
                 failureCallback();
               }
@@ -742,7 +793,7 @@ if (!isset($_SESSION['id'])) {
           },
           editable: true,
           selectable: true,
-          eventClick: function(info) {
+          eventClick: function (info) {
             displayEventDetails(info.event.id); // Fetch details on click
           }
         });
@@ -755,7 +806,7 @@ if (!isset($_SESSION['id'])) {
             data: {
               today: date
             },
-            success: function(response) {
+            success: function (response) {
               if (Array.isArray(response) && response.length > 0) {
                 const eventListHtml = response.map(event => {
                   const start = new Date(event.datestart);
@@ -779,7 +830,7 @@ if (!isset($_SESSION['id'])) {
                 $('#event-list').html('<li>No events found for this date.</li>');
               }
             },
-            error: function(xhr) {
+            error: function (xhr) {
               console.error(xhr.responseText);
               $('#event-list').html('<li>Error loading event details.</li>');
             }
@@ -793,7 +844,7 @@ if (!isset($_SESSION['id'])) {
             data: {
               id: eventId
             },
-            success: function(event) {
+            success: function (event) {
               if (event && event.description) {
                 const start = new Date(event.datestart);
                 const end = new Date(event.dateend);
@@ -817,14 +868,14 @@ if (!isset($_SESSION['id'])) {
                 $('#modal-event-details').html('<p>No details found.</p>');
               }
             },
-            error: function(xhr) {
+            error: function (xhr) {
               console.error(xhr.responseText);
               $('#modal-event-details').html('<p>Error loading event details.</p>');
             }
           });
         }
         // Add new event
-        $('#addEventForm').on('submit', function(event) {
+        $('#addEventForm').on('submit', function (event) {
           event.preventDefault();
           var description = $('#eventDescription').val();
           var title = $('#eventTitle').val(); // Added title field
@@ -845,12 +896,12 @@ if (!isset($_SESSION['id'])) {
               datestart: datestart,
               dateend: dateend
             },
-            success: function() {
+            success: function () {
               toastr.success("Accreditation is scheduled!");
               $('#addNewAccreditationModal').modal('hide');
               calendar.refetchEvents(); // Refetch events to update the calendar
             },
-            error: function(xhr) {
+            error: function (xhr) {
               console.error(xhr.responseText);
             }
           });
@@ -859,44 +910,44 @@ if (!isset($_SESSION['id'])) {
       // CALENDAR END
 
       // UPDATING PASSWORD START
-      $('#savePasswordBtn').on('click', function() {
-            const newPassword = $('#newPassword').val();
-            const confirmPassword = $('#confirmPassword').val();
-            const id = $('#userId').val();
-            
-            if (newPassword === confirmPassword) {
-                // AJAX request to update the password
-                $.ajax({
-                    url: 'update_password.php', // Your server endpoint for updating password
-                    type: 'POST',
-                    data: {
-                        password: newPassword,
-                        userId: id
-                    },
-                    success: function(response) {
-                        // Assuming response contains a success message
-                        if (response.success) {
-                            $('#password').val(newPassword);
-                            toastr.success('Password updated successfully!');
+      $('#savePasswordBtn').on('click', function () {
+        const newPassword = $('#newPassword').val();
+        const confirmPassword = $('#confirmPassword').val();
+        const id = $('#userId').val();
 
-                            // Close the modal
-                            const modal = bootstrap.Modal.getInstance($('#passwordModal')[0]);
-                            modal.hide();
+        if (newPassword === confirmPassword) {
+          // AJAX request to update the password
+          $.ajax({
+            url: 'update_password.php', // Your server endpoint for updating password
+            type: 'POST',
+            data: {
+              password: newPassword,
+              userId: id
+            },
+            success: function (response) {
+              // Assuming response contains a success message
+              if (response.success) {
+                $('#password').val(newPassword);
+                toastr.success('Password updated successfully!');
 
-                            // Optionally reset the form
-                            $('#updatePasswordForm')[0].reset();
-                        } else {
-                          toastr.error('Error updating password: ' + response.message);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                      toastr.error('An error occurred: ' + error);
-                    }
-                });
-            } else {
-              toastr.warning("Passwords do not match!");
+                // Close the modal
+                const modal = bootstrap.Modal.getInstance($('#passwordModal')[0]);
+                modal.hide();
+
+                // Optionally reset the form
+                $('#updatePasswordForm')[0].reset();
+              } else {
+                toastr.error('Error updating password: ' + response.message);
+              }
+            },
+            error: function (xhr, status, error) {
+              toastr.error('An error occurred: ' + error);
             }
-        });
+          });
+        } else {
+          toastr.warning("Passwords do not match!");
+        }
+      });
       // UPDATING PASSWORD END
     </script>
 </body>

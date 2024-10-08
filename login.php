@@ -27,6 +27,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
                 $_SESSION["fname"] = $fname;
                 $_SESSION["mname"] = $mname;
                 $_SESSION["lname"] = $lname;
+                $_SESSION["name"] = $fname." ". $mname." ".$lname;
                 $_SESSION["email"] = $email;
                 $_SESSION["campus"] = $campus;
                 $_SESSION["college"] = $college;

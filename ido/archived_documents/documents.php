@@ -203,8 +203,7 @@
                                                 </div>
                                             </div>
                                             <div class="flex-grow-1">
-                                                <span
-                                                    class="fw-medium d-block"><?php echo $_SESSION['fname']; ?></span>
+                                                <span class="fw-medium d-block"><?php echo $_SESSION['name']; ?></span>
                                                 <small class="text-muted">Institutional Development Office</small>
                                             </div>
                                         </div>
@@ -214,8 +213,7 @@
                                     <div class="dropdown-divider"></div>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item text-muted"
-                                        onclick="openUpdateModal(<?php echo $_SESSION['id']; ?>)" style="cursor: pointer;">
+                                    <a class="dropdown-item text-muted" onclick="openUpdateModal(<?php echo $_SESSION['id']; ?>)" style="cursor: pointer;">
                                     <i class="bx bx-user me-2"></i>
                                     <span class="align-middle">My Profile</span>
                                     </a>
@@ -671,6 +669,97 @@ function openUpdateModal(userId) {
             }
         });
       // UPDATING PASSWORD END
+
+      // NOTIFICATION START
+      $(document).ready(function () {
+        // Initial load of notification count
+        updateNotificationCount();
+        // Event listener for the notification icon
+        $('.nav-item.dropdown-notifications').on('click', function () {
+          notificationUpdate();
+        });
+      });
+
+      function updateNotificationCount() {
+        $.ajax({
+          url: '../../config/get_notification_count.php', // PHP file to get notification count
+          type: 'GET',
+          success: function (count) {
+            $('#notification-count').text(count);
+          },
+          error: function () {
+            console.error("Error fetching notification count");
+          }
+        });
+      }
+
+      function notificationUpdate() {
+        $.ajax({
+          url: '../../config/fetch_notifications.php', // PHP file to fetch notifications
+          type: 'GET',
+          dataType: 'json',
+          success: function (data) {
+            $('#notification').empty(); // Clear existing notifications
+            if (data.length > 0) {
+              data.forEach(function (notification) {
+                // Format the created_at date
+                const date = new Date(notification.timestamp);
+                const options = {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                };
+                const formattedDate = date.toLocaleString('en-US', options);
+                $('#notification').append(`
+                        <li class="list-group-item text-dark" style="cursor:pointer;">
+                            ${notification.description} <br>
+                            <small class="text-success">${formattedDate}</small>
+                        </li>
+                    `);
+              });
+            } else {
+              $('#notification').append('<li class="list-group-item">No new notifications.</li>');
+            }
+            // Update the notification count after displaying the notifications
+            updateNotificationCount();
+          },
+          error: function () {
+            console.error("Error fetching notifications");
+          }
+        });
+      }
+      // NOTIFICATION END
+
+      // REQUEST DOCUMENT NOTIFICATION START
+      // Use event delegation to handle click events
+      $(document).on('click', '#notification .list-group-item', function () {
+        var email = $(this).find('strong').text(); // Extract the email from the <strong> tag
+        console.log('Notification clicked, email:', email); // Debugging line
+
+        $.ajax({
+          url: '../redirect_notification.php', // Replace with the actual path to your PHP script
+          type: 'POST',
+          data: { email: email },
+          success: function (response) {
+            var result = JSON.parse(response);
+            if (result.status === 'success') {
+              console.log('Campus:', result.campus);
+              console.log('College:', result.college);
+              window.location.href = `../request_documents/documents.php?campus=${encodeURIComponent(result.campus)}&college=${encodeURIComponent(result.college)}`;
+              // You can update the UI to show this information
+            } else {
+              console.error(result.message);
+              // Optionally show an error message to the user
+            }
+          },
+          error: function (xhr, status, error) {
+            console.error('AJAX error:', status, error);
+          }
+        });
+      });
+      // REQUEST DOCUMENT NOTIFICATION END
         </script>
     </body>
 </html>
