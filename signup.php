@@ -10,7 +10,7 @@ function userExists($conn, $email) {
 // Main registration logic
 // if (isset($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['program'],
 //         $_POST['department'], $_POST['email'], $_POST['cnumber'], $_POST['password'])) {
-if (isset($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['email'], $_POST['cnumber'], $_POST['password'])) {
+if (isset($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['email'], $_POST['cnumber'], $_POST['password']), $_POST['campus'], $_POST['college'], ) {
 
     $fname = $_POST['fname'];
     $mname = $_POST['mname'];
@@ -20,11 +20,13 @@ if (isset($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['email'], $_
     $email = $_POST['email'];
     $cnumber = $_POST['cnumber'];
     $password = $_POST['password'];
+    $campus = $_POST['campus'];
+    $college = $_POST['college'];
 
     if (!userExists($conn, $email)) {
         // Using plain mysqli to insert data
         //$query = "INSERT INTO users (name, program, department, phoneNumber, email, password, user_level) VALUES ('$name', '$program', '$department', '$cnumber', '$email', '$password', 'quaac')";
-        $query = "INSERT INTO users (fname, mname, lname, phoneNumber, email, password, role, status) VALUES ('$fname', '$mname.', '$lname', '$cnumber', '$email', '$password', 'quaac', 'inactive')";
+        $query = "INSERT INTO users (fname, mname, lname, phoneNumber, email, password, campus, college, role, status) VALUES ('$fname', '$mname.', '$lname', '$cnumber', '$email', '$password', $campus, $college, 'quaac', 'inactive')";
         if (mysqli_query($conn, $query)) {
             echo 'success'; // Success response
         } else {
