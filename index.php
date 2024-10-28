@@ -6,7 +6,7 @@ mysqli_query($conn, "DELETE FROM archived_documents WHERE archived_date < NOW() 
 
 session_start();
 
-if (isset($_SESSION['email'])) { 
+if (isset($_SESSION['email']) && isset($_SESSION['status'])) { 
     if ($_SESSION['role'] == "ido") {
         header("location: ido/dashboard.php");
         exit;
