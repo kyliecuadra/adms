@@ -167,8 +167,8 @@ $.ajax({
                 lname: lname,
                 email: email,
                 cnumber: cnumber,
-                program: campus,
-                department: college
+                campus: campus,
+                college: college
             };
 
             // AJAX request to save the user data to the database
