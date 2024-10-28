@@ -216,7 +216,7 @@ input:checked + .slider:before {
         } else {
             if ($verify !== $_SESSION['password']) {
 
-                $query = mysqli_query($conn, "UPDATE users SET password = '" . $password . "' WHERE id = $id");
+                $query = mysqli_query($conn, "UPDATE users SET password = '" . $password . "', status = 'inactive' WHERE id = $id");
 
                 $_SESSION['password'] = $verify;
                 if ($query) {
