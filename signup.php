@@ -28,7 +28,7 @@ if (isset($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['email'], $_
     if (!userExists($conn, $email)) {
         // Using plain mysqli to insert data
         //$query = "INSERT INTO users (name, program, department, phoneNumber, email, password, user_level) VALUES ('$name', '$program', '$department', '$cnumber', '$email', '$password', 'quaac')";
-        $query = "INSERT INTO users (fname, mname, lname, phoneNumber, email, password, role, status) VALUES ('$fname', '$mname.', '$lname', '$cnumber', '$email', '$password', 'quaac', 'inactive')";
+        $query = "INSERT INTO users (fname, mname, lname, phoneNumber, email, password, role, status) VALUES ('$fname', '$mname.', '$lname', '$cnumber', '$email', '$password', 'quaac', 'unregistered')";
         if (mysqli_query($conn, $query)) {
             echo 'success'; // Success response
         } else {
