@@ -60,20 +60,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="second_form">
-                    <h3>Password</h3>
-                    <small class="form-text text-danger" id="passwordHelp">Password must be at least 8 characters
-                    long.</small>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-xs-6 mb-1">
-                            <input class="form-control" type="password" id="passwordInput" placeholder="Password" required>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xs-6 mb-1">
-                            <input class="form-control" type="password" id="confirmPasswordInput" placeholder="Confirm Password" required>
-                            <div id="passwordMatchError" class="text-danger"></div>
-                        </div>
-                    </div>
-                </div>
                 <div class="third_form">
                 <div class="container">
 
@@ -158,7 +144,6 @@ var email = $('#email').val(); // Corrected variable name from phonenumber to em
 var cnumber = $('#cnumber').val(); 
 var campus = $('#program').val();
 var college = $('#department').val();
-var passwordInput = $('#passwordInput').val();
 
 // Check if the user already exists
 $.ajax({
@@ -183,8 +168,7 @@ $.ajax({
                 email: email,
                 cnumber: cnumber,
                 program: campus,
-                department: college,
-                password: passwordInput
+                department: college
             };
 
             // AJAX request to save the user data to the database
