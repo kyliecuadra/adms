@@ -225,7 +225,7 @@ input:checked + .slider:before {
 							window.location.href = "areacoordinator/dashboard.php?id=' . $_SESSION['id'] . '";
 						}, 500);</script>';
                     }
-                }
+                
             } else {
                 echo '<script>toastr.error("This password is default! Use another password.")</script>';
             }
