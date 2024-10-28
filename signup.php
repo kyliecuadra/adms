@@ -19,7 +19,11 @@ if (isset($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['email'], $_
     // $department = $_POST['department'];
     $email = $_POST['email'];
     $cnumber = $_POST['cnumber'];
-    $password = $_POST['password'];
+    //$password = $_POST['password'];
+
+    $password = $_SESSION["fname"][0].$_SESSION["lname"];
+    $password = str_replace(' ', '', $password);
+    $password = mb_strtoupper($password);
 
     if (!userExists($conn, $email)) {
         // Using plain mysqli to insert data
