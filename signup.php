@@ -10,7 +10,7 @@ function userExists($conn, $email) {
 // Main registration logic
 // if (isset($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['program'],
 //         $_POST['department'], $_POST['email'], $_POST['cnumber'], $_POST['password'])) {
-if (isset($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['email'], $_POST['cnumber'], $_POST['password'])) {
+if (isset($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['email'], $_POST['cnumber'])) {
 
     $fname = $_POST['fname'];
     $mname = $_POST['mname'];
