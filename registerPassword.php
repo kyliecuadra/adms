@@ -220,22 +220,26 @@ input:checked + .slider:before {
 
                 $_SESSION['password'] = $verify;
                 if ($query) {
-                    if ($_SESSION['role'] == "ido") {
-                        echo '<script>toastr.success("Password changed successfully!");
+			echo '<script>toastr.success("Password changed successfully!");
 						setTimeout(function() {
-							window.location.href = "ido/dashboard.php?id=' . $_SESSION['id'] . '";
+							window.location.href = "index.php";
 						}, 500);</script>';
-                    } elseif ($_SESSION['role'] == "quaac") {
-                        echo '<script>toastr.success("Password changed successfully!");
-						setTimeout(function() {
-							window.location.href = "quaac/dashboard.php?id=' . $_SESSION['id'] . '";
-						}, 500);</script>';
-                    } else {
-                        echo '<script>toastr.success("Password changed successfully!");
-						setTimeout(function() {
-							window.location.href = "areacoordinator/dashboard.php?id=' . $_SESSION['id'] . '";
-						}, 500);</script>';
-                    }
+      //               if ($_SESSION['role'] == "ido") {
+      //                   echo '<script>toastr.success("Password changed successfully!");
+						// setTimeout(function() {
+						// 	window.location.href = "ido/dashboard.php?id=' . $_SESSION['id'] . '";
+						// }, 500);</script>';
+      //               } elseif ($_SESSION['role'] == "quaac") {
+      //                   echo '<script>toastr.success("Password changed successfully!");
+						// setTimeout(function() {
+						// 	window.location.href = "quaac/dashboard.php?id=' . $_SESSION['id'] . '";
+						// }, 500);</script>';
+      //               } else {
+      //                   echo '<script>toastr.success("Password changed successfully!");
+						// setTimeout(function() {
+						// 	window.location.href = "areacoordinator/dashboard.php?id=' . $_SESSION['id'] . '";
+						// }, 500);</script>';
+      //               }
                 }
             } else {
                 echo '<script>toastr.error("This password is default! Use another password.")</script>';
