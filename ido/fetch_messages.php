@@ -14,8 +14,8 @@ $receiver_id = $_POST['receiver_id'];
 
 // Mark messages sent from the receiver to the sender as read
 $update_query = "
-    UPDATE messages 
-    SET is_read = 1 
+    UPDATE messages
+    SET is_read = 1
     WHERE sender_id = '$receiver_id' AND receiver_id = '$sender_id' AND is_read = 0
 ";
 $update_result = mysqli_query($conn, $update_query);
@@ -27,10 +27,10 @@ if (!$update_result) {
 
 // Fetch messages
 $query = "
-    SELECT message, sender_id, is_read 
-    FROM messages 
-    WHERE (sender_id = '$sender_id' AND receiver_id = '$receiver_id') 
-    OR (sender_id = '$receiver_id' AND receiver_id = '$sender_id') 
+    SELECT message, sender_id, is_read
+    FROM messages
+    WHERE (sender_id = '$sender_id' AND receiver_id = '$receiver_id')
+    OR (sender_id = '$receiver_id' AND receiver_id = '$sender_id')
     ORDER BY timestamp ASC
 ";
 $result = mysqli_query($conn, $query);

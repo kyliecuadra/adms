@@ -14,7 +14,7 @@ $query = "
     FROM users u
     LEFT JOIN messages m ON m.sender_id = u.id AND m.receiver_id = '$id'
     WHERE u.id != '$id'
-    GROUP BY u.id, u.fname, u.lname, u.email
+    GROUP BY u.id, u.fname, u.lname, u.email order by timestamp DESC
 ";
 
 $result = mysqli_query($conn, $query);
@@ -25,7 +25,7 @@ if (!$result) {
 
 $users = [];
 while ($row = mysqli_fetch_assoc($result)) {
-    $users[] = $row; 
+    $users[] = $row;
 }
 
 echo json_encode($users);

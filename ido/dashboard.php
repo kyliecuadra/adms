@@ -738,11 +738,11 @@ if (!isset($_SESSION['id'])) {
         var notificationText = $(this).text(); // Extract the full text of the notification
         console.log('Notification clicked, text:', notificationText); // Debugging line
 
-        // Check if the notification text contains the word 'registered'
-        if (notificationText.includes('registered')) {
+        // Check if the notification text contains the word 'approval'
+        if (notificationText.includes('approval')) {
           window.location.href = `users.php`;
         } else {
-          console.log('The notification does not contain the word "registered".');
+          console.log('The notification does not contain the word "approval".');
 
 
           $.ajax({

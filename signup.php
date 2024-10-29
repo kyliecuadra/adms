@@ -23,7 +23,7 @@ if (isset($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['email'], $_
     if (!userExists($conn, $email)) {
         // Using plain mysqli to insert data
         //$query = "INSERT INTO users (name, program, department, phoneNumber, email, password, user_level) VALUES ('$name', '$program', '$department', '$cnumber', '$email', '$password', 'quaac')";
-        $query = "INSERT INTO users (fname, mname, lname, phoneNumber, email, campus, college, password, role, status) VALUES ('$fname', '$mname.', '$lname', '$cnumber', '$email', '$campus', '$college', '$password', 'quaac', 'inactive')";
+        $query = "INSERT INTO account_mngmt (fname, mname, lname, phoneNumber, email, campus, college, password, role, status) VALUES ('$fname', '$mname.', '$lname', '$cnumber', '$email', '$campus', '$college', '$password', 'quaac', 'Pending')";
         if (mysqli_query($conn, $query)) {
 
             // Retrieve the ID of the user with the role "ido"
@@ -35,7 +35,7 @@ if (isset($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['email'], $_
                 $ido_user_id = $ido_user['id'];
                 // Insert a notification for the IDO user
                 $notification_query = "INSERT INTO notifications (recipient_user_id, notification_description, timestamp, is_read)
-                                   VALUES ($ido_user_id, '<strong>$email</strong> has registered as QUAAC', NOW(), 0)";
+                                   VALUES ($ido_user_id, '<strong>$email</strong> account is waiting for approval.', NOW(), 0)";
 
                 if (mysqli_query($conn, $notification_query)) {
                     echo 'success'; // Success response for both insertions

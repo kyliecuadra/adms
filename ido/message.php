@@ -235,7 +235,7 @@ if (!isset($_SESSION['id'])) {
           <div class="container-xxl flex-grow-1 container-p-y">
           <div class="card px-4 py-4">
           <div class="chat-container">
-        <div class="user-list">
+        <div class="user-list" style="overflow-y: scroll;">
         <input type="text" id="user-search" placeholder="Search users..." class="form-control mb-3" />
             <ul id="user-list">
                 <!-- Users will be appended here -->
@@ -656,12 +656,12 @@ function openUpdateModal(userId) {
         var notificationText = $(this).text(); // Extract the full text of the notification
         console.log('Notification clicked, text:', notificationText); // Debugging line
 
-        // Check if the notification text contains the word 'registered'
-        if (notificationText.includes('registered')) {
+        // Check if the notification text contains the word 'approval'
+        if (notificationText.includes('approval')) {
           window.location.href = `users.php`;
           // Additional logic can go here, e.g., redirecting or displaying a message
         } else {
-          console.log('The notification does not contain the word "registered".');
+          console.log('The notification does not contain the word "approval".');
 
 
           $.ajax({
