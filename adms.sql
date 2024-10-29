@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 28, 2024 at 05:54 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Oct 29, 2024 at 08:39 AM
+-- Server version: 10.4.6-MariaDB
+-- PHP Version: 7.2.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -24,6 +25,65 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `account_mngmt`
+--
+
+CREATE TABLE `account_mngmt` (
+  `id` int(11) NOT NULL,
+  `fname` varchar(255) NOT NULL,
+  `mname` varchar(255) NOT NULL,
+  `lname` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `campus` varchar(255) NOT NULL,
+  `college` varchar(255) NOT NULL,
+  `phonenumber` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` varchar(255) DEFAULT NULL,
+  `status` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `account_mngmt`
+--
+
+INSERT INTO `account_mngmt` (`id`, `fname`, `mname`, `lname`, `email`, `campus`, `college`, `phonenumber`, `password`, `role`, `status`) VALUES
+(43, 'Testing ', 'A.', 'Quaac', 'tq@cvsu.edu.ph', 'Don Severino', 'CEIT', '123', '123123123', 'quaac', 'Pending');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `accreditation_role`
+--
+
+CREATE TABLE `accreditation_role` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `program` varchar(255) NOT NULL,
+  `details` text DEFAULT NULL,
+  `task` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `accreditation_role`
+--
+
+INSERT INTO `accreditation_role` (`id`, `name`, `email`, `program`, `details`, `task`) VALUES
+(9, '1212 12121 121212', '121212', 'BSIT', 'Area 9', NULL),
+(10, '1212 12121 121212', '121212', 'BSCS', 'Area 8', NULL),
+(11, '1212 12121 121212', '121212', 'DCEE', 'Area 7', NULL),
+(19, 'Ricka Tal Panton', 'ricka@cvsu.edu.ph', 'BSIT', 'Area 1', NULL),
+(20, 'Ricka Tal Panton', 'ricka@cvsu.edu.ph', 'BSCS', 'Area 10', NULL),
+(21, 'Ricka Tal Panton', 'ricka@cvsu.edu.ph', 'DCEE', 'Area 9', NULL),
+(22, 'Ricka Tal Panton', 'ricka@cvsu.edu.ph', 'BSIT', 'Area 8', NULL),
+(23, 'Heart L. Panton', 'pantonheart@cvsu.edu.ph', '', 'Area 1', NULL),
+(24, 'Heart L. Panton', 'pantonheart@cvsu.edu.ph', '', '', NULL),
+(25, 'Heart L. Panton', 'pantonheart@cvsu.edu.ph', '', '', NULL),
+(26, 'Heart L. Panton', 'pantonheart@cvsu.edu.ph', '', '', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `accreditation_schedule`
 --
 
@@ -36,7 +96,7 @@ CREATE TABLE `accreditation_schedule` (
   `description` longtext NOT NULL,
   `datestart` datetime NOT NULL,
   `dateend` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `accreditation_schedule`
@@ -63,7 +123,7 @@ CREATE TABLE `archived_documents` (
   `benchmark` varchar(255) NOT NULL,
   `file_name` varchar(255) NOT NULL,
   `archived_date` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -82,7 +142,86 @@ CREATE TABLE `documents` (
   `benchmark` varchar(255) NOT NULL,
   `file_name` varchar(255) NOT NULL,
   `upload_date` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `documents`
+--
+
+INSERT INTO `documents` (`id`, `area`, `parameter`, `quality`, `campus`, `college`, `program`, `benchmark`, `file_name`, `upload_date`) VALUES
+(61, 'Area I', 'Parameter A', 'System- Input and Processes', 'Don Severino', 'CEIT', '', 'S.1 Vision', 'AppForGrad_Panton.pdf', '2024-10-27 16:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `messages`
+--
+
+CREATE TABLE `messages` (
+  `id` int(11) NOT NULL,
+  `sender_id` int(11) NOT NULL,
+  `receiver_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_read` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`id`, `sender_id`, `receiver_id`, `message`, `timestamp`, `is_read`) VALUES
+(37, 5, 26, 'hey', '2024-10-28 00:18:01', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` int(11) NOT NULL,
+  `recipient_user_id` int(11) NOT NULL,
+  `notification_description` varchar(255) NOT NULL,
+  `timestamp` datetime DEFAULT current_timestamp(),
+  `is_read` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`id`, `recipient_user_id`, `notification_description`, `timestamp`, `is_read`) VALUES
+(45, 8, '<strong>rickajunecharlotte.panton@cvsu.edu.ph</strong> uploaded a new document for CEIT in Don Severino.<small>.Area I; .Parameter A;.System- Input and Processes</small>', '2024-10-28 23:04:57', 0),
+(46, 26, '<strong>rickajunecharlotte.panton@cvsu.edu.ph</strong> uploaded a new document for CEIT in Don Severino.<small>.Area I; .Parameter A;.System- Input and Processes</small>', '2024-10-28 23:04:57', 0),
+(47, 27, '<strong>rickajunecharlotte.panton@cvsu.edu.ph</strong> uploaded a new document for CEIT in Don Severino.<small>.Area I; .Parameter A;.System- Input and Processes</small>', '2024-10-28 23:04:57', 0),
+(48, 28, '<strong>rickajunecharlotte.panton@cvsu.edu.ph</strong> uploaded a new document for CEIT in Don Severino.<small>.Area I; .Parameter A;.System- Input and Processes</small>', '2024-10-28 23:04:57', 0),
+(49, 29, '<strong>rickajunecharlotte.panton@cvsu.edu.ph</strong> uploaded a new document for CEIT in Don Severino.<small>.Area I; .Parameter A;.System- Input and Processes</small>', '2024-10-28 23:04:57', 0),
+(51, 5, '<strong>123123@cvsu.edu.ph</strong> has registered as QUAAC', '2024-10-29 14:20:31', 1),
+(52, 5, '<strong>1231232@cvsu.edu.ph</strong> has registered as QUAAC', '2024-10-29 14:21:06', 1),
+(53, 5, '<strong>12312332@cvsu.edu.ph</strong> has registered as QUAAC', '2024-10-29 14:21:12', 1),
+(54, 5, '<strong>123123332@cvsu.edu.ph</strong> has registered as QUAAC', '2024-10-29 14:21:37', 1),
+(55, 5, '<strong>tq@cvsu.edu.ph</strong> account is waiting for approval.', '2024-10-29 15:29:10', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `request_access`
+--
+
+CREATE TABLE `request_access` (
+  `id` int(11) NOT NULL,
+  `program` varchar(100) DEFAULT NULL,
+  `requestor_name` varchar(255) DEFAULT NULL,
+  `requestor_email` varchar(255) DEFAULT NULL,
+  `file_name` varchar(100) DEFAULT NULL,
+  `area` varchar(255) DEFAULT NULL,
+  `parameter` varchar(100) DEFAULT NULL,
+  `quality` varchar(100) DEFAULT NULL,
+  `benchmark` varchar(100) DEFAULT NULL,
+  `status` varchar(10) DEFAULT NULL,
+  `requested_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -103,7 +242,7 @@ CREATE TABLE `request_documents` (
   `file_name` varchar(255) NOT NULL,
   `requested_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `request_documents`
@@ -124,7 +263,7 @@ CREATE TABLE `university_structure` (
   `campus` varchar(255) NOT NULL,
   `colleges` varchar(255) NOT NULL,
   `programs` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `university_structure`
@@ -136,8 +275,7 @@ INSERT INTO `university_structure` (`id`, `campus`, `colleges`, `programs`) VALU
 (23, 'Dasma', '', ''),
 (24, 'Dasma', 'CON', ''),
 (25, 'Dasma', 'CON', 'Nursing'),
-(26, 'Don Severino', 'CEIT', 'BSCS'),
-(27, 'Don Severino', 'CEIT', 'DCEE');
+(26, 'Don Severino', 'CEIT', 'BSCS');
 
 -- --------------------------------------------------------
 
@@ -157,7 +295,7 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `role` varchar(255) DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
@@ -167,21 +305,28 @@ INSERT INTO `users` (`id`, `fname`, `mname`, `lname`, `email`, `campus`, `colleg
 (5, 'prince', 'allyson', 'macalino', 'prince@cvsu.edu.ph', 'Indang', 'CEIT', '48935345', '123', 'ido', 'active'),
 (6, 'kylie', 'liky', 'cuadra', 'kylie@cvsu.edu.ph', 'Rosario', 'CEIT', '48935345', '123', 'quaac', 'active'),
 (7, 'Ricka', 'Tal', 'Panton', 'ricka@cvsu.edu.ph', 'Naic', 'CEIT', '48932424', '123', 'taskforce', 'inactive'),
-(8, 'Milagros', 'A.', 'Legaspi', 'crystal@cvsu.edu.ph', '', 'CEIT', '789654321', '123123123', 'quaac', 'active');
-
---
--- Triggers `users`
---
-DELIMITER $$
-CREATE TRIGGER `after_user_insert` AFTER INSERT ON `users` FOR EACH ROW BEGIN
-    INSERT INTO accreditation (id, email) VALUES (NEW.id, NEW.email);
-END
-$$
-DELIMITER ;
+(8, 'Milagros', 'A.', 'Legaspi', 'crystal@cvsu.edu.ph', '', 'CEIT', '789654321', '123123123', 'quaac', 'active'),
+(38, '123', '1.', '123', '123123@cvsu.edu.ph', 'Don Severino', 'CEIT', '123', '123123123', 'quaac', 'inactive'),
+(39, '123', '1.', '123', '1231232@cvsu.edu.ph', 'Don Severino', 'CEIT', '123', '123123123', 'quaac', 'inactive'),
+(40, '123', '1.', '123', '12312332@cvsu.edu.ph', 'Don Severino', 'CEIT', '123', '123123123', 'quaac', 'inactive'),
+(41, '123', '1.', '123', '123123332@cvsu.edu.ph', 'Don Severino', 'CEIT', '123', '123123123', 'quaac', 'inactive');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `account_mngmt`
+--
+ALTER TABLE `account_mngmt`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `accreditation_role`
+--
+ALTER TABLE `accreditation_role`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_email` (`email`);
 
 --
 -- Indexes for table `accreditation_schedule`
@@ -199,6 +344,27 @@ ALTER TABLE `archived_documents`
 -- Indexes for table `documents`
 --
 ALTER TABLE `documents`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `messages`
+--
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `sender_id` (`sender_id`),
+  ADD KEY `receiver_id` (`receiver_id`);
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `recipient_user_id` (`recipient_user_id`);
+
+--
+-- Indexes for table `request_access`
+--
+ALTER TABLE `request_access`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -224,40 +390,70 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `account_mngmt`
+--
+ALTER TABLE `account_mngmt`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+
+--
+-- AUTO_INCREMENT for table `accreditation_role`
+--
+ALTER TABLE `accreditation_role`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
 -- AUTO_INCREMENT for table `accreditation_schedule`
 --
 ALTER TABLE `accreditation_schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `archived_documents`
 --
 ALTER TABLE `archived_documents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `documents`
 --
 ALTER TABLE `documents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+
+--
+-- AUTO_INCREMENT for table `messages`
+--
+ALTER TABLE `messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+
+--
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+
+--
+-- AUTO_INCREMENT for table `request_access`
+--
+ALTER TABLE `request_access`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `request_documents`
 --
 ALTER TABLE `request_documents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `university_structure`
 --
 ALTER TABLE `university_structure`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
