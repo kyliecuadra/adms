@@ -200,7 +200,7 @@ if (!isset($_SESSION['id'])) {
                   </li>
                   <li>
                     <a class="dropdown-item text-muted" onclick="openUpdateModal(<?php echo $_SESSION['id']; ?>)""
-                      style="cursor: pointer;">
+                      style=" cursor: pointer;">
                       <i class="bx bx-user me-2"></i>
                       <span class="align-middle">My Profile</span>
                     </a>
@@ -222,7 +222,10 @@ if (!isset($_SESSION['id'])) {
               <div class="d-flex justify-content-between">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="users" aria-selected="true">Users</button>
+                    <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#accounts" type="button" role="tab" aria-controls="accounts" aria-selected="true">Account Requests</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="users" aria-selected="true">Users</button>
                   </li>
                   <li class="nav-item" role="presentation">
                     <button class="nav-link" id="quaac-tab" data-bs-toggle="tab" data-bs-target="#quaac" type="button" role="tab" aria-controls="quaac" aria-selected="false">Quality Area Coordinator</button>
@@ -233,9 +236,28 @@ if (!isset($_SESSION['id'])) {
               </div>
 
               <div class="tab-content" id="myTabContent">
-                <!-- IDO TAB START -->
-                <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
-                  <table id="usersTable" class="mr-2 table table-hover table-bordered table-responsive">
+                <!-- ACCOUNT REQUEST TAB START -->
+                <div class="tab-pane fade show active" id="accounts" role="tabpanel" aria-labelledby="accounts-tab">
+                  <table id="accountsTable" class="mr-2 table table-hover table-bordered table-responsive">
+                    <thead>
+                      <tr>
+                        <th><strong>Name</strong></th>
+                        <th><strong>Campus</strong></th>
+                        <th><strong>College</strong></th>
+                        <th><strong>Phone Number</strong></th>
+                        <th><strong>Email</strong></th>
+                        <th><strong>Action</strong></th>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+
+                  </table>
+                </div>
+                <!-- ACCOUNT REQUEST END -->
+                <!-- USERS TAB START -->
+                <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
+                  <table id="usersTable" class="mr-2 table table-hover table-bordered table-responsive  w-100">
                     <thead>
                       <tr>
                         <th><strong>Name</strong></th>
@@ -253,14 +275,14 @@ if (!isset($_SESSION['id'])) {
 
                   </table>
                 </div>
-                <!-- IDO TAB END -->
-                 <!-- QUALITY AREA COORDINATOR TAB START -->
+                <!-- USERS TAB END -->
+                <!-- QUALITY AREA COORDINATOR TAB START -->
 
                 <div class="tab-pane fade" id="quaac" role="tabpanel" aria-labelledby="quaac-tab">
                   <table id="quaacTable" class="mr-2 table table-hover table-bordered table-responsive w-100">
                     <thead>
                       <tr>
-                      <th><strong>Name</strong></th>
+                        <th><strong>Name</strong></th>
                         <th><strong>Campus</strong></th>
                         <th><strong>College</strong></th>
                         <th><strong>Phone Number</strong></th>
@@ -278,9 +300,9 @@ if (!isset($_SESSION['id'])) {
                 <!-- AREA COORDINATOR TAB START -->
                 <div class="tab-pane fade" id="area" role="tabpanel" aria-labelledby="area-tab">
                   <table id="areaTable" class="mr-2 table table-hover table-bordered table-responsive w-100">
-                  <thead>
+                    <thead>
                       <tr>
-                      <th><strong>Name</strong></th>
+                        <th><strong>Name</strong></th>
                         <th><strong>Campus</strong></th>
                         <th><strong>College</strong></th>
                         <th><strong>Phone Number</strong></th>
@@ -295,104 +317,114 @@ if (!isset($_SESSION['id'])) {
                 </div>
                 <!-- AREA COORDINATOR TAB END -->
 
-              <!-- UPDATE QUAAC STATUS MODAL START -->
-              <div class="modal fade" id="setStatusModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content" id="setStatus">
+                <!-- RESPOND REQUEST MODAL START -->
+                <div class="modal fade" id="respondAccRequest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" id="respondRequest">
 
-                  </div>
-                </div>
-              </div>
-              <!-- UPDATE QUAAC STATUS MODAL END -->
-
-              <!-- MY PROFILE MODAL START -->
-            <div class="modal fade" id="userProfile" tabindex="-1" aria-labelledby="userProfileLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="userProfileLabel">My Profile</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <form id="updateUserForm">
-                      <input type="hidden" name="id" id="userId">
-                      <div class="row mb-3">
-                        <div class="col">
-                          <label for="fname" class="form-label">First Name</label>
-                          <input type="text" class="form-control" name="fname" id="fname" required readonly>
-                        </div>
-                        <div class="col">
-                          <label for="mname" class="form-label">Middle Name</label>
-                          <input type="text" class="form-control" name="mname" id="mname" readonly>
-                        </div>
-                        <div class="col">
-                          <label for="lname" class="form-label">Last Name</label>
-                          <input type="text" class="form-control" name="lname" id="lname" required readonly>
-                        </div>
-                      </div>
-                      <div class="row mb-3">
-                        <div class="col">
-                          <label for="email" class="form-label">Email</label>
-                          <input type="email" class="form-control" name="email" id="email" required readonly>
-                        </div>
-                        <div class="col">
-                          <label for="password" class="form-label">Password</label>
-                          <i class='bx bx-edit-alt text-success' data-bs-toggle="modal" data-bs-target="#passwordModal" style="cursor:pointer;"></i>
-                          <input type="text" class="form-control" name="password" id="password" required readonly>
-                        </div>
-                        <div class="col">
-                          <label for="phonenumber" class="form-label">Phone Number</label>
-                          <input type="text" class="form-control" name="phonenumber" id="phonenumber" required readonly>
-                        </div>
-                      </div>
-                      <div class="row mb-3">
-                        <div class="col">
-                          <label for="role" class="form-label">Role</label>
-                          <input type="text" class="form-control" name="role" id="role" required readonly>
-                        </div>
-                        <div class="col">
-                          <label for="profileCampus" class="form-label">Campus</label>
-                          <input type="text" class="form-control" name="profileCampus" id="profileCampus" required readonly>
-                        </div>
-                        <div class="col">
-                          <label for="profileCollege" class="form-label">College</label>
-                          <input type="text" class="form-control" name="profileCollege" id="profileCollege" required readonly>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- MY PROFILE MODAL END -->
-
-            <!-- UPDATING PASSWORD MODAL -->
-            <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="passwordModalLabel">Update Password</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="updatePasswordForm">
-                                <div class="mb-3">
-                                    <label for="newPassword" class="form-label">New Password</label>
-                                    <input type="password" class="form-control" id="newPassword" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                    <input type="password" class="form-control" id="confirmPassword" required>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="savePasswordBtn">Save changes</button>
-                        </div>
                     </div>
+                  </div>
                 </div>
-            </div>
+                <!-- RESPOND REQUEST MODAL END -->
+
+                <!-- UPDATE QUAAC STATUS MODAL START -->
+                <div class="modal fade" id="setStatusModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" id="setStatus">
+
+                    </div>
+                  </div>
+                </div>
+                <!-- UPDATE QUAAC STATUS MODAL END -->
+
+                <!-- MY PROFILE MODAL START -->
+                <div class="modal fade" id="userProfile" tabindex="-1" aria-labelledby="userProfileLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="userProfileLabel">My Profile</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form id="updateUserForm">
+                          <input type="hidden" name="id" id="userId">
+                          <div class="row mb-3">
+                            <div class="col">
+                              <label for="fname" class="form-label">First Name</label>
+                              <input type="text" class="form-control" name="fname" id="fname" required readonly>
+                            </div>
+                            <div class="col">
+                              <label for="mname" class="form-label">Middle Name</label>
+                              <input type="text" class="form-control" name="mname" id="mname" readonly>
+                            </div>
+                            <div class="col">
+                              <label for="lname" class="form-label">Last Name</label>
+                              <input type="text" class="form-control" name="lname" id="lname" required readonly>
+                            </div>
+                          </div>
+                          <div class="row mb-3">
+                            <div class="col">
+                              <label for="email" class="form-label">Email</label>
+                              <input type="email" class="form-control" name="email" id="email" required readonly>
+                            </div>
+                            <div class="col">
+                              <label for="password" class="form-label">Password</label>
+                              <i class='bx bx-edit-alt text-success' data-bs-toggle="modal" data-bs-target="#passwordModal" style="cursor:pointer;"></i>
+                              <input type="text" class="form-control" name="password" id="password" required readonly>
+                            </div>
+                            <div class="col">
+                              <label for="phonenumber" class="form-label">Phone Number</label>
+                              <input type="text" class="form-control" name="phonenumber" id="phonenumber" required readonly>
+                            </div>
+                          </div>
+                          <div class="row mb-3">
+                            <div class="col">
+                              <label for="role" class="form-label">Role</label>
+                              <input type="text" class="form-control" name="role" id="role" required readonly>
+                            </div>
+                            <div class="col">
+                              <label for="profileCampus" class="form-label">Campus</label>
+                              <input type="text" class="form-control" name="profileCampus" id="profileCampus" required readonly>
+                            </div>
+                            <div class="col">
+                              <label for="profileCollege" class="form-label">College</label>
+                              <input type="text" class="form-control" name="profileCollege" id="profileCollege" required readonly>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- MY PROFILE MODAL END -->
+
+                <!-- UPDATING PASSWORD MODAL -->
+                <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="passwordModalLabel">Update Password</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form id="updatePasswordForm">
+                          <div class="mb-3">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="newPassword" required>
+                          </div>
+                          <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" required>
+                          </div>
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="savePasswordBtn">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
               </div>
             </div>
@@ -401,161 +433,305 @@ if (!isset($_SESSION['id'])) {
           <!-- Content wrapper -->
         </div>
 
-    <!-- / Layout page -->
-  </div>
-  <!-- Overlay -->
-  <div class="layout-overlay layout-menu-toggle"></div>
-  <!-- Drag Target Area To SlideIn Menu On Small Screens -->
-  <div class="drag-target"></div>
-  </div>
-  <!-- / Layout wrapper -->
-  <!-- Core JS -->
-  <!-- build:js assets/vendor/js/core.js -->
-  <script src="../assets/bootstrap/js/popper.min.js"></script>
-  <script src="../assets/vendor/js/bootstrap.js"></script>
-  <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-  <script src="../assets/vendor/libs/hammer/hammer.js"></script>
-  <script src="../assets/vendor/libs/i18n/i18n.js"></script>
-  <script src="../assets/vendor/libs/typeahead-js/typeahead.js"></script>
-  <script src="../assets/vendor/js/menu.js"></script>
-  <!-- endbuild -->
-  <!-- Main JS -->
-  <script src="../assets/js/main.js"></script>
-  <!-- Page JS -->
-  <script>
-$(document).ready(function() {
-    var users = "users";
-    var quaac = "quaac";
-    var taskforce = "taskforce";
-// FOR USERS TABLE
-    $('#usersTable').DataTable({
-        ajax: {
+        <!-- / Layout page -->
+      </div>
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+      <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+      <div class="drag-target"></div>
+    </div>
+    <!-- / Layout wrapper -->
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="../assets/bootstrap/js/popper.min.js"></script>
+    <script src="../assets/vendor/js/bootstrap.js"></script>
+    <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="../assets/vendor/libs/hammer/hammer.js"></script>
+    <script src="../assets/vendor/libs/i18n/i18n.js"></script>
+    <script src="../assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="../assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+    <!-- Main JS -->
+    <script src="../assets/js/main.js"></script>
+    <!-- Page JS -->
+    <script>
+      $(document).ready(function() {
+        var users = "users";
+        var quaac = "quaac";
+        var taskforce = "taskforce";
+
+        // FOR ACCOUNTS TABLE
+        $('#accountsTable').DataTable({
+          ajax: {
             url: 'get_users.php',
             type: 'GET', // Use GET or POST based on your preference
-            data: { identifier: users }, // Send userId to PHP script
+            data: {
+              identifier: 'accounts'
+            }, // Send identifier to PHP script
             dataSrc: 'data'
-        },
-        columns: [
-            { data: 'name' },
-            { data: 'campus' },
-            { data: 'college' },
-            { data: 'phoneNumber' },
-            { data: 'email' },
-            { data: 'password' },
-            { data: 'role' },
-            { data: 'status' },
-        ],
-        order: [[0, 'desc']],
-        paging: true,
-        searching: true,
-        ordering: true,
-        responsive: true
-    });
+          },
+          columns: [{
+              data: 'name'
+            },
+            {
+              data: 'campus'
+            },
+            {
+              data: 'college'
+            },
+            {
+              data: 'phoneNumber'
+            },
+            {
+              data: 'email'
+            },
+            {
+              // Add a new column for the button
+              data: 'status',
+              render: function(data, type, row) {
+                // Check status and return appropriate button HTML
+                if (data === 'Pending') {
+                  return `
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#respondAccRequest" onclick="setAccountInfo('approve', ${row.id})">Approve</button>
+                        <button class="btn" style="background-color: red !important;" data-bs-toggle="modal" data-bs-target="#respondAccRequest" onclick="setAccountInfo('reject', ${row.id})">Reject</button>
+                    `;
+                }
 
-    // FOR QUAAC TABLE
-    $('#quaacTable').DataTable({
-    ajax: {
-        url: 'get_users.php',
-        type: 'GET', // Use GET or POST based on your preference
-        data: { identifier: 'quaac' }, // Send identifier to PHP script
-        dataSrc: 'data'
-    },
-    columns: [
-        { data: 'name' },
-        { data: 'campus' },
-        { data: 'college' },
-        { data: 'phoneNumber' },
-        { data: 'email' },
-        { data: 'password' },
-        { data: 'status' },
-        {
-            // Add a new column for the button
-            data: 'status',
-            render: function(data, type, row) {
+              }
+            }
+          ],
+          order: [
+            [0, 'desc']
+          ],
+          paging: true,
+          searching: true,
+          ordering: true,
+          responsive: true
+        });
+
+        // FOR USERS TABLE
+        $('#usersTable').DataTable({
+          ajax: {
+            url: 'get_users.php',
+            type: 'GET', // Use GET or POST based on your preference
+            data: {
+              identifier: users
+            }, // Send userId to PHP script
+            dataSrc: 'data'
+          },
+          columns: [{
+              data: 'name'
+            },
+            {
+              data: 'campus'
+            },
+            {
+              data: 'college'
+            },
+            {
+              data: 'phoneNumber'
+            },
+            {
+              data: 'email'
+            },
+            {
+              data: 'password'
+            },
+            {
+              data: 'role'
+            },
+            {
+              data: 'status'
+            },
+          ],
+          order: [
+            [0, 'desc']
+          ],
+          paging: true,
+          searching: true,
+          ordering: true,
+          responsive: true
+        });
+
+        // FOR QUAAC TABLE
+        $('#quaacTable').DataTable({
+          ajax: {
+            url: 'get_users.php',
+            type: 'GET', // Use GET or POST based on your preference
+            data: {
+              identifier: 'quaac'
+            }, // Send identifier to PHP script
+            dataSrc: 'data'
+          },
+          columns: [{
+              data: 'name'
+            },
+            {
+              data: 'campus'
+            },
+            {
+              data: 'college'
+            },
+            {
+              data: 'phoneNumber'
+            },
+            {
+              data: 'email'
+            },
+            {
+              data: 'password'
+            },
+            {
+              data: 'status'
+            },
+            {
+              // Add a new column for the button
+              data: 'status',
+              render: function(data, type, row) {
                 // Check status and return appropriate button HTML
                 if (data === 'INACTIVE') {
-                    return '<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#setStatusModal" onclick="getQuaacInfo(\'setRole\', '+row.id+')">Set Role</button>';
+                  return '<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#setStatusModal" onclick="getQuaacInfo(\'setRole\', ' + row.id + ')">Set Role</button>';
                 } else if (data === 'ACTIVE') {
-                    return '<button class="btn btn-danger remove-role" style="background-color: #ff3e1d !important; border-color: #ff3e1d !important;" data-bs-toggle="modal" data-bs-target="#setStatusModal" onclick="getQuaacInfo(\'removeRole\', '+row.id+')">Remove Role</button>';
+                  return '<button class="btn btn-danger remove-role" style="background-color: #ff3e1d !important; border-color: #ff3e1d !important;" data-bs-toggle="modal" data-bs-target="#setStatusModal" onclick="getQuaacInfo(\'removeRole\', ' + row.id + ')">Remove Role</button>';
                 } else {
-                    return ''; // Return an empty string if status is neither 'active' nor 'inactive'
+                  return ''; // Return an empty string if status is neither 'active' nor 'inactive'
                 }
+              }
             }
-        }
-    ],
-    order: [[0, 'desc']],
-    paging: true,
-    searching: true,
-    ordering: true,
-    responsive: true
-});
+          ],
+          order: [
+            [0, 'desc']
+          ],
+          paging: true,
+          searching: true,
+          ordering: true,
+          responsive: true
+        });
 
 
-    // FOR TASKFORCE TABLE
-    $('#areaTable').DataTable({
-        ajax: {
+        // FOR TASKFORCE TABLE
+        $('#areaTable').DataTable({
+          ajax: {
             url: 'get_users.php',
             type: 'GET', // Use GET or POST based on your preference
-            data: { identifier: taskforce }, // Send userId to PHP script
+            data: {
+              identifier: taskforce
+            }, // Send userId to PHP script
             dataSrc: 'data'
-        },
-        columns: [
-            { data: 'name' },
-            { data: 'campus' },
-            { data: 'college' },
-            { data: 'phoneNumber' },
-            { data: 'email' },
-            { data: 'password' },
-            { data: 'status' },
-        ],
-        order: [[0, 'desc']],
-        paging: true,
-        searching: true,
-        ordering: true,
-        responsive: true
-    });
-});
+          },
+          columns: [{
+              data: 'name'
+            },
+            {
+              data: 'campus'
+            },
+            {
+              data: 'college'
+            },
+            {
+              data: 'phoneNumber'
+            },
+            {
+              data: 'email'
+            },
+            {
+              data: 'password'
+            },
+            {
+              data: 'status'
+            },
+          ],
+          order: [
+            [0, 'desc']
+          ],
+          paging: true,
+          searching: true,
+          ordering: true,
+          responsive: true
+        });
+      });
 
-
-// SETTING QUAAC ROLE SCRIPT START
-function getQuaacInfo(status, id){
-    $.ajax({
-      url: "setQuaacStatus.php",
-      type: "POST",
-      data: {
-        txt: 'getInfo',
-        status: status,
-        id:id
-      },
-      success: function (data, status) {
-        $('#setStatus').html(data);
+      // RESPONDING ACCOUNT REQUEST START
+      function setAccountInfo(status, id) {
+        $.ajax({
+          url: "respondRequest.php",
+          type: "POST",
+          data: {
+            txt: 'getInfo',
+            status: status,
+            id: id
+          },
+          success: function(data, status) {
+            $('#respondRequest').html(data);
+          }
+        });
       }
-    });
-  }
 
-  function setQuaacStatus(status, id){
-    $.ajax({
-      url: "setQuaacStatus.php",
-      type: "POST",
-      data: {
-        txt: 'setStatus',
-        status: status,
-        id:id,
-      },
-      success: function (response) {
-        if(response == 'success'){
-          toastr.success("Status Updated!");
-          $('#quaacTable').DataTable().ajax.reload();
-        } else {
-          toastr.error("Error updating status!");
-        }
+      function respondRequest(status, id) {
+        $.ajax({
+          url: "respondRequest.php",
+          type: "POST",
+          data: {
+            txt: 'respond',
+            status: status,
+            id: id,
+          },
+          success: function(response) {
+            if (response == 'success') {
+              if (status == 'approve') {
+                toastr.success("Account Approved!");
+              } else {
+                toastr.error("Account Rejected!");
+              }
+              $('#accountsTable').DataTable().ajax.reload();
+            } else {
+              toastr.error("Error updating status!");
+            }
+          }
+        });
       }
-    });
-  }
-// SETTING QUAAC ROLE SCRIPT END
+      // RESPONDING ACCOUNT REQUEST END
 
-// MY PROFILE START
-function openUpdateModal(userId) {
+
+      // SETTING QUAAC ROLE SCRIPT START
+      function getQuaacInfo(status, id) {
+        $.ajax({
+          url: "setQuaacStatus.php",
+          type: "POST",
+          data: {
+            txt: 'getInfo',
+            status: status,
+            id: id
+          },
+          success: function(data, status) {
+            $('#setStatus').html(data);
+          }
+        });
+      }
+
+      function setQuaacStatus(status, id) {
+        $.ajax({
+          url: "setQuaacStatus.php",
+          type: "POST",
+          data: {
+            txt: 'setStatus',
+            status: status,
+            id: id,
+          },
+          success: function(response) {
+            if (response == 'success') {
+              toastr.success("Status Updated!");
+              $('#quaacTable').DataTable().ajax.reload();
+            } else {
+              toastr.error("Error updating status!");
+            }
+          }
+        });
+      }
+      // SETTING QUAAC ROLE SCRIPT END
+
+      // MY PROFILE START
+      function openUpdateModal(userId) {
         fetch(`../config/get_user.php?id=${userId}`).then(response => response.json()).then(data => {
           if (data.success) {
             const user = data.user;
@@ -586,51 +762,51 @@ function openUpdateModal(userId) {
 
       // UPDATING PASSWORD START
       $('#savePasswordBtn').on('click', function() {
-            const newPassword = $('#newPassword').val();
-            const confirmPassword = $('#confirmPassword').val();
-            const id = $('#userId').val();
+        const newPassword = $('#newPassword').val();
+        const confirmPassword = $('#confirmPassword').val();
+        const id = $('#userId').val();
 
-            if (newPassword === confirmPassword) {
-                // AJAX request to update the password
-                $.ajax({
-                    url: 'update_password.php', // Your server endpoint for updating password
-                    type: 'POST',
-                    data: {
-                        password: newPassword,
-                        userId: id
-                    },
-                    success: function(response) {
-                        // Assuming response contains a success message
-                        if (response.success) {
-                            $('#password').val(newPassword);
-                            toastr.success('Password updated successfully!');
+        if (newPassword === confirmPassword) {
+          // AJAX request to update the password
+          $.ajax({
+            url: 'update_password.php', // Your server endpoint for updating password
+            type: 'POST',
+            data: {
+              password: newPassword,
+              userId: id
+            },
+            success: function(response) {
+              // Assuming response contains a success message
+              if (response.success) {
+                $('#password').val(newPassword);
+                toastr.success('Password updated successfully!');
 
-                            // Close the modal
-                            const modal = bootstrap.Modal.getInstance($('#passwordModal')[0]);
-                            modal.hide();
+                // Close the modal
+                const modal = bootstrap.Modal.getInstance($('#passwordModal')[0]);
+                modal.hide();
 
-                            // Optionally reset the form
-                            $('#updatePasswordForm')[0].reset();
-                        } else {
-                          toastr.error('Error updating password: ' + response.message);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                      toastr.error('An error occurred: ' + error);
-                    }
-                });
-            } else {
-              toastr.warning("Passwords do not match!");
+                // Optionally reset the form
+                $('#updatePasswordForm')[0].reset();
+              } else {
+                toastr.error('Error updating password: ' + response.message);
+              }
+            },
+            error: function(xhr, status, error) {
+              toastr.error('An error occurred: ' + error);
             }
-        });
+          });
+        } else {
+          toastr.warning("Passwords do not match!");
+        }
+      });
       // UPDATING PASSWORD END
 
       // NOTIFICATION START
-      $(document).ready(function () {
+      $(document).ready(function() {
         // Initial load of notification count
         updateNotificationCount();
         // Event listener for the notification icon
-        $('.nav-item.dropdown-notifications').on('click', function () {
+        $('.nav-item.dropdown-notifications').on('click', function() {
           notificationUpdate();
         });
       });
@@ -639,10 +815,10 @@ function openUpdateModal(userId) {
         $.ajax({
           url: '../config/get_notification_count.php', // PHP file to get notification count
           type: 'GET',
-          success: function (count) {
+          success: function(count) {
             $('#notification-count').text(count);
           },
-          error: function () {
+          error: function() {
             console.error("Error fetching notification count");
           }
         });
@@ -653,10 +829,10 @@ function openUpdateModal(userId) {
           url: '../config/fetch_notifications.php', // PHP file to fetch notifications
           type: 'GET',
           dataType: 'json',
-          success: function (data) {
+          success: function(data) {
             $('#notification').empty(); // Clear existing notifications
             if (data.length > 0) {
-              data.forEach(function (notification) {
+              data.forEach(function(notification) {
                 // Format the created_at date
                 const date = new Date(notification.timestamp);
                 const options = {
@@ -680,7 +856,7 @@ function openUpdateModal(userId) {
             // Update the notification count after displaying the notifications
             updateNotificationCount();
           },
-          error: function () {
+          error: function() {
             console.error("Error fetching notifications");
           }
         });
@@ -697,12 +873,12 @@ function openUpdateModal(userId) {
         var notificationText = $(this).text(); // Extract the full text of the notification
         console.log('Notification clicked, text:', notificationText); // Debugging line
 
-        // Check if the notification text contains the word 'registered'
-        if (notificationText.includes('registered')) {
+        // Check if the notification text contains the word 'approval'
+        if (notificationText.includes('approval')) {
           window.location.href = `users.php`;
           // Additional logic can go here, e.g., redirecting or displaying a message
         } else {
-          console.log('The notification does not contain the word "registered".');
+          console.log('The notification does not contain the word "approval".');
 
 
           $.ajax({
@@ -730,7 +906,7 @@ function openUpdateModal(userId) {
         }
       });
       // REQUEST DOCUMENT NOTIFICATION END
-  </script>
+    </script>
 </body>
 
 </html>

@@ -9,8 +9,41 @@ require("../config/db_connection.php");
 $data = array();
 
 // Check if the identifier parameter is set and has the value "users"
+// FOR ACCOUNT
+if (isset($_GET['identifier']) && $_GET['identifier'] === "accounts") {
+    // SQL query
+    $query = "SELECT * FROM account_mngmt";
+
+    // Execute the query
+    $result = mysqli_query($conn, $query);
+
+    // Check if the query was successful
+    if ($result) {
+        // Fetch data
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = array(
+                    'id' => $row['id'],
+                    'name' => $row['fname'] . ' ' . $row['mname'] . ' ' . $row['lname'],
+                    'campus' => $row['campus'],
+                    'college' => $row['college'],
+                    'phoneNumber' => $row['phonenumber'],
+                    'email' => $row['email'],
+                    'status' => $row['status'],
+                );
+            }
+        }
+
+        // Free the result set
+        mysqli_free_result($result);
+    } else {
+        // Handle query error
+        echo json_encode(array('error' => 'Query failed: ' . mysqli_error($conn)));
+        exit();
+    }
+}
 // FOR ALL USERS
-if (isset($_GET['identifier']) && $_GET['identifier'] === "users") {
+elseif (isset($_GET['identifier']) && $_GET['identifier'] === "users") {
     // SQL query
     $query = "SELECT * FROM USERS";
 

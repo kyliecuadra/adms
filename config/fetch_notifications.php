@@ -10,7 +10,7 @@ $updateSql = "UPDATE notifications SET is_read = 1 WHERE recipient_user_id = $us
 mysqli_query($conn, $updateSql);
 
 // Fetch notifications with created_at
-$sql = "SELECT id, notification_description AS description, timestamp FROM notifications WHERE recipient_user_id = $userId AND is_read = 1";
+$sql = "SELECT id, notification_description AS description, timestamp FROM notifications WHERE recipient_user_id = $userId AND is_read = 1 order by timestamp desc";
 $result = mysqli_query($conn, $sql);
 
 $notifications = [];
