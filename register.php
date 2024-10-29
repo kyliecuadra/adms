@@ -60,6 +60,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="second_form">
+                    <h3>Password</h3>
+                    <small class="form-text text-danger" id="passwordHelp">Password must be at least 8 characters
+                    long.</small>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-xs-6 mb-1">
+                            <input class="form-control" type="password" id="passwordInput" placeholder="Password" required>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xs-6 mb-1">
+                            <input class="form-control" type="password" id="confirmPasswordInput" placeholder="Confirm Password" required>
+                            <div id="passwordMatchError" class="text-danger"></div>
+                        </div>
+                    </div>
+                </div>
                 <div class="third_form">
                 <div class="container">
 
@@ -83,7 +97,7 @@ $(document).ready(function() {
 
         // Add default option
         selectElement.append($("<option></option>").text('Select an option').attr("value", ""));
-        
+
         $.each(data, function(key, value) {
             selectElement.append($("<option></option>").text(value).attr("value", value));
         });
@@ -106,7 +120,7 @@ $(document).ready(function() {
     // Fetch colleges based on selected campus
     $('#campus').change(function() {
         var selectedCampus = $(this).val();
-        
+
         if (selectedCampus) {
             $.ajax({
                 url: 'config/fetch-collegeComponents.php',
@@ -141,9 +155,10 @@ var fname = $('#fname').val();
 var mname = $('#mname').val();
 var lname = $('#lname').val();
 var email = $('#email').val(); // Corrected variable name from phonenumber to email
-var cnumber = $('#cnumber').val(); 
-var campus = $('#program').val();
-var college = $('#department').val();
+var cnumber = $('#cnumber').val();
+var campus = $('#campus').val();
+var college = $('#college').val();
+var passwordInput = $('#passwordInput').val();
 
 // Check if the user already exists
 $.ajax({
@@ -168,7 +183,8 @@ $.ajax({
                 email: email,
                 cnumber: cnumber,
                 campus: campus,
-                college: college
+                college: college,
+                password: passwordInput
             };
 
             // AJAX request to save the user data to the database

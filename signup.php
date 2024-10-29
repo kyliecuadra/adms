@@ -2,8 +2,9 @@
 require("config/db_connection.php");
 
 // Function to check if a user already exists
-function userExists($conn, $email) {
-    $check = mysqli_query($conn, "SELECT * FROM users WHERE email = '".$email."'");
+function userExists($conn, $email)
+{
+    $check = mysqli_query($conn, "SELECT * FROM users WHERE email = '" . $email . "'");
     return mysqli_num_rows($check) > 0;
 }
 
@@ -22,9 +23,28 @@ if (isset($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['email'], $_
     if (!userExists($conn, $email)) {
         // Using plain mysqli to insert data
         //$query = "INSERT INTO users (name, program, department, phoneNumber, email, password, user_level) VALUES ('$name', '$program', '$department', '$cnumber', '$email', '$password', 'quaac')";
-        $query = "INSERT INTO users (fname, mname, lname, phoneNumber, email, campus, college, password, role, status) VALUES ('$fname', '$mname.', '$lname', '$cnumber', '$email', $campus, $college, '$password', 'quaac', 'inactive')";
+        $query = "INSERT INTO users (fname, mname, lname, phoneNumber, email, campus, college, password, role, status) VALUES ('$fname', '$mname.', '$lname', '$cnumber', '$email', '$campus', '$college', '$password', 'quaac', 'inactive')";
         if (mysqli_query($conn, $query)) {
-            echo 'success'; // Success response
+
+            // Retrieve the ID of the user with the role "ido"
+            $ido_query = "SELECT id FROM users WHERE role = 'ido' LIMIT 1";
+            $ido_result = mysqli_query($conn, $ido_query);
+
+            if ($ido_result && mysqli_num_rows($ido_result) > 0) {
+                $ido_user = mysqli_fetch_assoc($ido_result);
+                $ido_user_id = $ido_user['id'];
+                // Insert a notification for the IDO user
+                $notification_query = "INSERT INTO notifications (recipient_user_id, notification_description, timestamp, is_read)
+                                   VALUES ($ido_user_id, '<strong>$email</strong> has registered as QUAAC', NOW(), 0)";
+
+                if (mysqli_query($conn, $notification_query)) {
+                    echo 'success'; // Success response for both insertions
+                } else {
+                    echo 'failed to insert notification'; // Error response for notification
+                }
+            } else {
+                echo 'IDO user not found'; // Error if no IDO user is found
+            }
         } else {
             echo 'failed'; // Error response
         }
@@ -34,4 +54,3 @@ if (isset($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['email'], $_
 } else {
     echo '<script>toastr.error("Incomplete form data");</script>';
 }
-?>

@@ -247,7 +247,7 @@ if (!isset($_SESSION['id'])) {
               <div class="col-lg-3 mb-4 order-0">
                 <!-- Card for Documents -->
                 <a href="documents/campus.php" class="card card-hover text-decoration-none">
-                  <div class="row">
+                  <div class="d-flex align-items-end row" style="height: 152px;">
                     <div class="card-body" style="padding: 15px;">
                       <div class="row d-flex px-4">
                         <div class="col">
@@ -265,7 +265,7 @@ if (!isset($_SESSION['id'])) {
               <div class="col-lg-3 mb-4 order-0">
                 <!-- Card for Requests -->
                 <a href="request_documents/campus.php" class="card card-hover text-decoration-none">
-                  <div class="d-flex align-items-end row">
+                  <div class="d-flex align-items-end row" style="height: 152px;">
                     <div class="card-body" style="padding: 15px;">
                       <div class="row d-flex px-4">
                         <div class="col">
@@ -283,7 +283,7 @@ if (!isset($_SESSION['id'])) {
               <div class="col-lg-3 mb-4 order-0">
                 <!-- Card for Users -->
                 <a href="users.php" class="card card-hover text-decoration-none">
-                  <div class="d-flex align-items-end row">
+                  <div class="d-flex align-items-end row" style="height: 152px;">
                     <div class="card-body" style="padding: 15px;">
                       <div class="row d-flex px-4">
                         <div class="col">
@@ -301,15 +301,15 @@ if (!isset($_SESSION['id'])) {
               <div class="col-lg-3 mb-4 order-0">
                 <!-- Card for Messages -->
                 <a href="message.php" class="card card-hover text-decoration-none">
-                  <div class="d-flex align-items-end row">
+                  <div class="d-flex align-items-end row" style="height: 152px;">
                     <div class="card-body" style="padding: 15px;">
                       <div class="row d-flex px-4">
-                        <div class="col">
+                        <div class="col d-flex justify-content-center align-items-end">
                           <i class="bx bx-message-dots" style="font-size: 75px;"></i> <!-- Icon for Messages -->
                         </div>
                         <div class="col h2 d-flex flex-column justify-content-center align-items-center">
                           <span id="messages-count">0</span> <!-- Placeholder for message count -->
-                          <span class="label">Messages</span> <!-- Label for the card -->
+                          <span class="label">Unread Messages</span> <!-- Label for the card -->
                         </div>
                       </div>
                     </div>
@@ -539,13 +539,13 @@ if (!isset($_SESSION['id'])) {
     <!-- Page JS -->
     <script>
       // POPULATE COLLEGE COMPONENTS DROPDOWN START
-      $(document).ready(function () {
+      $(document).ready(function() {
         // Function to populate select element with options
         function populateSelect(selectElement, data) {
           selectElement.empty(); // Clear existing options
           // Add default option
           selectElement.append($("<option></option>").text('Select an option').attr("value", ""));
-          $.each(data, function (key, value) {
+          $.each(data, function(key, value) {
             selectElement.append($("<option></option>").text(value).attr("value", value));
           });
         }
@@ -557,15 +557,15 @@ if (!isset($_SESSION['id'])) {
           data: {
             action: 'fetch_campus'
           },
-          success: function (response) {
+          success: function(response) {
             populateSelect($('#eventCampus'), response);
           },
-          error: function (xhr, status, error) {
+          error: function(xhr, status, error) {
             console.error('Error fetching campus:', error);
           }
         });
         // Fetch colleges based on selected campus
-        $('#eventCampus').change(function () {
+        $('#eventCampus').change(function() {
           var selectedCampus = $(this).val();
           if (selectedCampus) {
             $.ajax({
@@ -576,11 +576,11 @@ if (!isset($_SESSION['id'])) {
                 action: 'fetch_colleges',
                 campus: selectedCampus // Send selected campus as a parameter
               },
-              success: function (response) {
+              success: function(response) {
                 populateSelect($('#eventCollege'), response);
                 $('#eventProgram').empty().append($("<option></option>").text('Select Program').attr("value", "")); // Clear programs when campus changes
               },
-              error: function (xhr, status, error) {
+              error: function(xhr, status, error) {
                 console.error('Error fetching colleges:', error);
               }
             });
@@ -591,7 +591,7 @@ if (!isset($_SESSION['id'])) {
           }
         });
         // Fetch programs based on selected college
-        $('#eventCollege').change(function () {
+        $('#eventCollege').change(function() {
           var selectedCampus = $('#eventCampus').val();
           var selectedCollege = $(this).val(); // Use the current college dropdown value
           if (selectedCollege) {
@@ -604,10 +604,10 @@ if (!isset($_SESSION['id'])) {
                 campus: selectedCampus,
                 college: selectedCollege // Send selected college as a parameter
               },
-              success: function (response) {
+              success: function(response) {
                 populateSelect($('#eventProgram'), response);
               },
-              error: function (xhr, status, error) {
+              error: function(xhr, status, error) {
                 console.error('Error fetching programs:', error);
               }
             });
@@ -622,14 +622,14 @@ if (!isset($_SESSION['id'])) {
           url: 'get_counts.php', // Path to your PHP file
           type: 'GET',
           dataType: 'json',
-          success: function (data) {
+          success: function(data) {
             // Update the counts in the HTML
             $('#documents-count').text(data.documents);
             $('#requests-count').text(data.requests);
             $('#users-count').text(data.users);
             $('#messages-count').text(data.messages);
           },
-          error: function (xhr, status, error) {
+          error: function(xhr, status, error) {
             console.error('Error fetching counts:', error);
           }
         });
@@ -667,11 +667,11 @@ if (!isset($_SESSION['id'])) {
       // MY PROFILE END
 
       // NOTIFICATION START
-      $(document).ready(function () {
+      $(document).ready(function() {
         // Initial load of notification count
         updateNotificationCount();
         // Event listener for the notification icon
-        $('.nav-item.dropdown-notifications').on('click', function () {
+        $('.nav-item.dropdown-notifications').on('click', function() {
           notificationUpdate();
         });
       });
@@ -680,10 +680,10 @@ if (!isset($_SESSION['id'])) {
         $.ajax({
           url: '../config/get_notification_count.php', // PHP file to get notification count
           type: 'GET',
-          success: function (count) {
+          success: function(count) {
             $('#notification-count').text(count);
           },
-          error: function () {
+          error: function() {
             console.error("Error fetching notification count");
           }
         });
@@ -694,10 +694,10 @@ if (!isset($_SESSION['id'])) {
           url: '../config/fetch_notifications.php', // PHP file to fetch notifications
           type: 'GET',
           dataType: 'json',
-          success: function (data) {
+          success: function(data) {
             $('#notification').empty(); // Clear existing notifications
             if (data.length > 0) {
-              data.forEach(function (notification) {
+              data.forEach(function(notification) {
                 // Format the created_at date
                 const date = new Date(notification.timestamp);
                 const options = {
@@ -721,7 +721,7 @@ if (!isset($_SESSION['id'])) {
             // Update the notification count after displaying the notifications
             updateNotificationCount();
           },
-          error: function () {
+          error: function() {
             console.error("Error fetching notifications");
           }
         });
@@ -730,35 +730,49 @@ if (!isset($_SESSION['id'])) {
 
       // REQUEST DOCUMENT NOTIFICATION START
       // Use event delegation to handle click events
-      $(document).on('click', '#notification .list-group-item', function () {
+      $(document).on('click', '#notification .list-group-item', function() {
         var email = $(this).find('strong').text(); // Extract the email from the <strong> tag
         console.log('Notification clicked, email:', email); // Debugging line
 
-        $.ajax({
-          url: 'redirect_notification.php', // Replace with the actual path to your PHP script
-          type: 'POST',
-          data: { email: email },
-          success: function (response) {
-            var result = JSON.parse(response);
-            if (result.status === 'success') {
-              console.log('Campus:', result.campus);
-              console.log('College:', result.college);
-              window.location.href = `request_documents/documents.php?campus=${encodeURIComponent(result.campus)}&college=${encodeURIComponent(result.college)}`;
-              // You can update the UI to show this information
-            } else {
-              console.error(result.message);
-              // Optionally show an error message to the user
+        // Assuming this refers to the notification element that was clicked
+        var notificationText = $(this).text(); // Extract the full text of the notification
+        console.log('Notification clicked, text:', notificationText); // Debugging line
+
+        // Check if the notification text contains the word 'registered'
+        if (notificationText.includes('registered')) {
+          window.location.href = `users.php`;
+        } else {
+          console.log('The notification does not contain the word "registered".');
+
+
+          $.ajax({
+            url: 'redirect_notification.php', // Replace with the actual path to your PHP script
+            type: 'POST',
+            data: {
+              email: email
+            },
+            success: function(response) {
+              var result = JSON.parse(response);
+              if (result.status === 'success') {
+                console.log('Campus:', result.campus);
+                console.log('College:', result.college);
+                window.location.href = `request_documents/documents.php?campus=${encodeURIComponent(result.campus)}&college=${encodeURIComponent(result.college)}`;
+                // You can update the UI to show this information
+              } else {
+                console.error(result.message);
+                // Optionally show an error message to the user
+              }
+            },
+            error: function(xhr, status, error) {
+              console.error('AJAX error:', status, error);
             }
-          },
-          error: function (xhr, status, error) {
-            console.error('AJAX error:', status, error);
-          }
-        });
+          });
+        }
       });
       // REQUEST DOCUMENT NOTIFICATION END
-      
+
       // CALENDAR START
-      $(document).ready(function () {
+      $(document).ready(function() {
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         const currentMonthName = monthNames[new Date().getMonth()];
         $('#event-title').html("Accreditations for " + currentMonthName);
@@ -769,14 +783,14 @@ if (!isset($_SESSION['id'])) {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: 'dayGridMonth',
-          dateClick: function (info) {
+          dateClick: function(info) {
             fetchEvents(info.dateStr);
           },
-          events: function (fetchInfo, successCallback, failureCallback) {
+          events: function(fetchInfo, successCallback, failureCallback) {
             $.ajax({
               url: 'get-events.php', // Fetch events from this script
               type: 'GET',
-              success: function (data) {
+              success: function(data) {
                 const events = data.map(event => ({
                   id: event.id,
                   title: event.title, // Use title here for the calendar
@@ -785,7 +799,7 @@ if (!isset($_SESSION['id'])) {
                 }));
                 successCallback(events);
               },
-              error: function () {
+              error: function() {
                 console.error('Failed to fetch events.');
                 failureCallback();
               }
@@ -793,7 +807,7 @@ if (!isset($_SESSION['id'])) {
           },
           editable: true,
           selectable: true,
-          eventClick: function (info) {
+          eventClick: function(info) {
             displayEventDetails(info.event.id); // Fetch details on click
           }
         });
@@ -806,7 +820,7 @@ if (!isset($_SESSION['id'])) {
             data: {
               today: date
             },
-            success: function (response) {
+            success: function(response) {
               if (Array.isArray(response) && response.length > 0) {
                 const eventListHtml = response.map(event => {
                   const start = new Date(event.datestart);
@@ -830,7 +844,7 @@ if (!isset($_SESSION['id'])) {
                 $('#event-list').html('<li>No events found for this date.</li>');
               }
             },
-            error: function (xhr) {
+            error: function(xhr) {
               console.error(xhr.responseText);
               $('#event-list').html('<li>Error loading event details.</li>');
             }
@@ -844,7 +858,7 @@ if (!isset($_SESSION['id'])) {
             data: {
               id: eventId
             },
-            success: function (event) {
+            success: function(event) {
               if (event && event.description) {
                 const start = new Date(event.datestart);
                 const end = new Date(event.dateend);
@@ -868,14 +882,14 @@ if (!isset($_SESSION['id'])) {
                 $('#modal-event-details').html('<p>No details found.</p>');
               }
             },
-            error: function (xhr) {
+            error: function(xhr) {
               console.error(xhr.responseText);
               $('#modal-event-details').html('<p>Error loading event details.</p>');
             }
           });
         }
         // Add new event
-        $('#addEventForm').on('submit', function (event) {
+        $('#addEventForm').on('submit', function(event) {
           event.preventDefault();
           var description = $('#eventDescription').val();
           var title = $('#eventTitle').val(); // Added title field
@@ -896,12 +910,12 @@ if (!isset($_SESSION['id'])) {
               datestart: datestart,
               dateend: dateend
             },
-            success: function () {
+            success: function() {
               toastr.success("Accreditation is scheduled!");
               $('#addNewAccreditationModal').modal('hide');
               calendar.refetchEvents(); // Refetch events to update the calendar
             },
-            error: function (xhr) {
+            error: function(xhr) {
               console.error(xhr.responseText);
             }
           });
@@ -910,7 +924,7 @@ if (!isset($_SESSION['id'])) {
       // CALENDAR END
 
       // UPDATING PASSWORD START
-      $('#savePasswordBtn').on('click', function () {
+      $('#savePasswordBtn').on('click', function() {
         const newPassword = $('#newPassword').val();
         const confirmPassword = $('#confirmPassword').val();
         const id = $('#userId').val();
@@ -924,7 +938,7 @@ if (!isset($_SESSION['id'])) {
               password: newPassword,
               userId: id
             },
-            success: function (response) {
+            success: function(response) {
               // Assuming response contains a success message
               if (response.success) {
                 $('#password').val(newPassword);
@@ -940,7 +954,7 @@ if (!isset($_SESSION['id'])) {
                 toastr.error('Error updating password: ' + response.message);
               }
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
               toastr.error('An error occurred: ' + error);
             }
           });

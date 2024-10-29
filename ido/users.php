@@ -248,14 +248,14 @@ if (!isset($_SESSION['id'])) {
                         <th><strong>Status</strong></th>
                     </thead>
                     <tbody>
-                      
+
                     </tbody>
 
                   </table>
                 </div>
                 <!-- IDO TAB END -->
                  <!-- QUALITY AREA COORDINATOR TAB START -->
-                
+
                 <div class="tab-pane fade" id="quaac" role="tabpanel" aria-labelledby="quaac-tab">
                   <table id="quaacTable" class="mr-2 table table-hover table-bordered table-responsive w-100">
                     <thead>
@@ -294,7 +294,7 @@ if (!isset($_SESSION['id'])) {
                   </table>
                 </div>
                 <!-- AREA COORDINATOR TAB END -->
-                
+
               <!-- UPDATE QUAAC STATUS MODAL START -->
               <div class="modal fade" id="setStatusModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -523,7 +523,7 @@ function getQuaacInfo(status, id){
       url: "setQuaacStatus.php",
       type: "POST",
       data: {
-        txt: 'getInfo', 
+        txt: 'getInfo',
         status: status,
         id:id
       },
@@ -538,7 +538,7 @@ function getQuaacInfo(status, id){
       url: "setQuaacStatus.php",
       type: "POST",
       data: {
-        txt: 'setStatus', 
+        txt: 'setStatus',
         status: status,
         id:id,
       },
@@ -589,7 +589,7 @@ function openUpdateModal(userId) {
             const newPassword = $('#newPassword').val();
             const confirmPassword = $('#confirmPassword').val();
             const id = $('#userId').val();
-            
+
             if (newPassword === confirmPassword) {
                 // AJAX request to update the password
                 $.ajax({
@@ -689,30 +689,45 @@ function openUpdateModal(userId) {
 
       // REQUEST DOCUMENT NOTIFICATION START
       // Use event delegation to handle click events
-      $(document).on('click', '#notification .list-group-item', function () {
+      $(document).on('click', '#notification .list-group-item', function() {
         var email = $(this).find('strong').text(); // Extract the email from the <strong> tag
         console.log('Notification clicked, email:', email); // Debugging line
 
-        $.ajax({
-          url: 'redirect_notification.php', // Replace with the actual path to your PHP script
-          type: 'POST',
-          data: { email: email },
-          success: function (response) {
-            var result = JSON.parse(response);
-            if (result.status === 'success') {
-              console.log('Campus:', result.campus);
-              console.log('College:', result.college);
-              window.location.href = `request_documents/documents.php?campus=${encodeURIComponent(result.campus)}&college=${encodeURIComponent(result.college)}`;
-              // You can update the UI to show this information
-            } else {
-              console.error(result.message);
-              // Optionally show an error message to the user
+        // Assuming this refers to the notification element that was clicked
+        var notificationText = $(this).text(); // Extract the full text of the notification
+        console.log('Notification clicked, text:', notificationText); // Debugging line
+
+        // Check if the notification text contains the word 'registered'
+        if (notificationText.includes('registered')) {
+          window.location.href = `users.php`;
+          // Additional logic can go here, e.g., redirecting or displaying a message
+        } else {
+          console.log('The notification does not contain the word "registered".');
+
+
+          $.ajax({
+            url: 'redirect_notification.php', // Replace with the actual path to your PHP script
+            type: 'POST',
+            data: {
+              email: email
+            },
+            success: function(response) {
+              var result = JSON.parse(response);
+              if (result.status === 'success') {
+                console.log('Campus:', result.campus);
+                console.log('College:', result.college);
+                window.location.href = `request_documents/documents.php?campus=${encodeURIComponent(result.campus)}&college=${encodeURIComponent(result.college)}`;
+                // You can update the UI to show this information
+              } else {
+                console.error(result.message);
+                // Optionally show an error message to the user
+              }
+            },
+            error: function(xhr, status, error) {
+              console.error('AJAX error:', status, error);
             }
-          },
-          error: function (xhr, status, error) {
-            console.error('AJAX error:', status, error);
-          }
-        });
+          });
+        }
       });
       // REQUEST DOCUMENT NOTIFICATION END
   </script>

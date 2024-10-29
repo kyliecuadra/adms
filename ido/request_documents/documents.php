@@ -441,7 +441,7 @@ if (!isset($_SESSION['id'])) {
                 // DISPLAY RECORDS START
 $(document).ready(function () {
     let selectedDocumentId; // Store the selected document ID
-    
+
     // Initialize DataTable
     var table = $('#documentTable').DataTable({
         ajax: {
@@ -465,14 +465,14 @@ $(document).ready(function () {
                 data: null,
                 render: function (data, type, row) {
                     return `
-                        <button class="btn btn-primary text-white" 
-                                data-bs-toggle="modal" 
-                                data-bs-target="#approveModal" 
+                        <button class="btn btn-primary text-white"
+                                data-bs-toggle="modal"
+                                data-bs-target="#approveModal"
                                 data-id="${row.id}">Approve</button>
-                        <button class="btn btn-danger text-white" 
-                                data-bs-toggle="modal" 
-                                data-bs-target="#rejectModal" 
-                                data-id="${row.id}" 
+                        <button class="btn btn-danger text-white"
+                                data-bs-toggle="modal"
+                                data-bs-target="#rejectModal"
+                                data-id="${row.id}"
                                 style="background-color: #ff3e1d !important; border-color: #ff3e1d !important;">Reject</button>
                     `;
                 },
@@ -492,7 +492,7 @@ $(document).ready(function () {
         var areaValue = $('#filterArea').val().trim();
         var parameterValue = $('#filterParameter').val().trim();
         var qualityValue = $('#filterQuality').val();
-        
+
         // Apply filters
         table
             .column(0).search(areaValue === 'Select Area' ? '' : areaValue)
@@ -594,7 +594,7 @@ function openUpdateModal(userId) {
             const newPassword = $('#newPassword').val();
             const confirmPassword = $('#confirmPassword').val();
             const id = $('#userId').val();
-            
+
             if (newPassword === confirmPassword) {
                 // AJAX request to update the password
                 $.ajax({
@@ -629,7 +629,7 @@ function openUpdateModal(userId) {
             }
         });
       // UPDATING PASSWORD END
-      
+
       // NOTIFICATION START
       $(document).ready(function () {
         // Initial load of notification count
@@ -694,30 +694,45 @@ function openUpdateModal(userId) {
 
       // REQUEST DOCUMENT NOTIFICATION START
       // Use event delegation to handle click events
-      $(document).on('click', '#notification .list-group-item', function () {
+      $(document).on('click', '#notification .list-group-item', function() {
         var email = $(this).find('strong').text(); // Extract the email from the <strong> tag
         console.log('Notification clicked, email:', email); // Debugging line
 
-        $.ajax({
-          url: '../redirect_notification.php', // Replace with the actual path to your PHP script
-          type: 'POST',
-          data: { email: email },
-          success: function (response) {
-            var result = JSON.parse(response);
-            if (result.status === 'success') {
-              console.log('Campus:', result.campus);
-              console.log('College:', result.college);
-              window.location.href = `documents.php?campus=${encodeURIComponent(result.campus)}&college=${encodeURIComponent(result.college)}`;
-              // You can update the UI to show this information
-            } else {
-              console.error(result.message);
-              // Optionally show an error message to the user
+        // Assuming this refers to the notification element that was clicked
+        var notificationText = $(this).text(); // Extract the full text of the notification
+        console.log('Notification clicked, text:', notificationText); // Debugging line
+
+        // Check if the notification text contains the word 'registered'
+        if (notificationText.includes('registered')) {
+          window.location.href = `../users.php`;
+          // Additional logic can go here, e.g., redirecting or displaying a message
+        } else {
+          console.log('The notification does not contain the word "registered".');
+
+
+          $.ajax({
+            url: '../redirect_notification.php', // Replace with the actual path to your PHP script
+            type: 'POST',
+            data: {
+              email: email
+            },
+            success: function(response) {
+              var result = JSON.parse(response);
+              if (result.status === 'success') {
+                console.log('Campus:', result.campus);
+                console.log('College:', result.college);
+                window.location.href = `documents.php?campus=${encodeURIComponent(result.campus)}&college=${encodeURIComponent(result.college)}`;
+                // You can update the UI to show this information
+              } else {
+                console.error(result.message);
+                // Optionally show an error message to the user
+              }
+            },
+            error: function(xhr, status, error) {
+              console.error('AJAX error:', status, error);
             }
-          },
-          error: function (xhr, status, error) {
-            console.error('AJAX error:', status, error);
-          }
-        });
+          });
+        }
       });
       // REQUEST DOCUMENT NOTIFICATION END
             </script>

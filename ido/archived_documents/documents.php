@@ -1,16 +1,16 @@
 <?php
     require("../../config/db_connection.php");
-    
+
     session_start();
     require("../../config/session_timeout.php");
-    
+
     if (!isset($_SESSION['id'])) {
         header("location: ../../config/not_login-error.html");
     } else {
         if ($_SESSION['role'] != "ido") {
             header("location: ../../config/user_level-error.html");
         }
-    
+
         $campusName = isset($_GET['campus']) ? htmlspecialchars($_GET['campus']) : 'Campus';
         $collegeName = isset($_GET['college']) ? htmlspecialchars($_GET['college']) : 'College';
     }
@@ -415,7 +415,7 @@
         <script>
             var campusName = <?php echo json_encode($campusName); ?>;
             var collegeName = <?php echo json_encode($collegeName); ?>;
-            
+
             // DISPLAY RECORDS START
             $(document).ready(function () {
                 // Initialize DataTable
@@ -466,7 +466,7 @@
                     ordering: true,
                     responsive: true
                 });
-            
+
                 // Function to apply filters
                 function applyFilters() {
                     var areaValue = $('#filterArea').val().trim();
@@ -481,20 +481,20 @@
                         .column(1).search(parameterValue === 'Select Parameter' ? '' : parameterValue)
                         .column(2).search(qualityValue === 'Select Quality' ? '' : qualityValue)
                         .draw(); // Redraw the table with the applied filters
-            
+
                     // Reset DataTable if all filters are at their default values
                     if (areaValue === 'Select Area' && parameterValue === 'Select Parameter' &&
                         qualityValue === 'Select Quality') {
                         table.ajax.reload(); // Refresh DataTable
                     }
                 }
-            
+
                 // Real-time filtering: apply filters on input change
                 $('#filterArea, #filterParameter, #filterQuality').on('change keyup', function () {
                     applyFilters(); // Apply filters when inputs change
                 });
             });
-            
+
             // DISPLAY RECORD END
             // FILE UPLAOD START
             $(function () {
@@ -507,11 +507,11 @@
                         $('#fileName').text('No file chosen');
                     }
                 });
-            
+
                 // Handle file upload on button click
                 $('#uploadButton').on('click', function () {
                     var formData = new FormData($('#uploadForm')[0]);
-            
+
                     $.ajax({
                         url: 'upload.php',
                         type: 'POST',
@@ -520,7 +520,7 @@
                         processData: false,
                         success: function (response) {
             console.log('Success:', response);
-            
+
             // Assuming the response contains a status field
             if (response.status === 'success') {
             toastr.success("Document uploaded successfully!");
@@ -542,7 +542,7 @@
                 });
             });
             // FILE UPLOAD END
-            
+
             // VIEW DOCUMENT START
             function viewDocument(filename, program) {
                 // Construct the URL for the PDF file
@@ -551,25 +551,25 @@
                 $('#programLabel').text(program);
                 // Set the URL of the PDF in the iframe
                 $('#pdfViewer').attr('src', pdfUrl + "#toolbar=0");
-            
+
                 // Show the modal
                 $('#viewDocumentModal').modal('show');
             }
             // VIEW DOCUMENT END
-            
+
             // UPDATE DOCUMENT START
             function updateDocument(area, parameter, quality, filename, programs, id) {
                 $('#currentId').val(id);
                 $('#currentArea').val(area);
                 $('#currentParameter').val(parameter);
                 $('#currentQuality').val(quality);
-            
+
                 // Display the current file name (if any) in a readable format
                 $('#currentFileName').text(filename ? filename : 'No file chosen');
-            
+
                 $('#updateDocumentModal').modal('show');
             }
-            
+
             // Handle form submission
             $('#updateButton').on('click', function () {
                 var formData = new FormData($('#updateForm')[0]);
@@ -577,7 +577,7 @@
                 formData.forEach(function (value, key) {
                     console.log(key + ': ' + value);
                 });
-            
+
                 $.ajax({
                     url: 'update_document_process.php', // Server-side script to handle the update
                     type: 'POST',
@@ -634,7 +634,7 @@ function openUpdateModal(userId) {
             const newPassword = $('#newPassword').val();
             const confirmPassword = $('#confirmPassword').val();
             const id = $('#userId').val();
-            
+
             if (newPassword === confirmPassword) {
                 // AJAX request to update the password
                 $.ajax({
@@ -734,30 +734,45 @@ function openUpdateModal(userId) {
 
       // REQUEST DOCUMENT NOTIFICATION START
       // Use event delegation to handle click events
-      $(document).on('click', '#notification .list-group-item', function () {
+      $(document).on('click', '#notification .list-group-item', function() {
         var email = $(this).find('strong').text(); // Extract the email from the <strong> tag
         console.log('Notification clicked, email:', email); // Debugging line
 
-        $.ajax({
-          url: '../redirect_notification.php', // Replace with the actual path to your PHP script
-          type: 'POST',
-          data: { email: email },
-          success: function (response) {
-            var result = JSON.parse(response);
-            if (result.status === 'success') {
-              console.log('Campus:', result.campus);
-              console.log('College:', result.college);
-              window.location.href = `../request_documents/documents.php?campus=${encodeURIComponent(result.campus)}&college=${encodeURIComponent(result.college)}`;
-              // You can update the UI to show this information
-            } else {
-              console.error(result.message);
-              // Optionally show an error message to the user
+        // Assuming this refers to the notification element that was clicked
+        var notificationText = $(this).text(); // Extract the full text of the notification
+        console.log('Notification clicked, text:', notificationText); // Debugging line
+
+        // Check if the notification text contains the word 'registered'
+        if (notificationText.includes('registered')) {
+          window.location.href = `../users.php`;
+          // Additional logic can go here, e.g., redirecting or displaying a message
+        } else {
+          console.log('The notification does not contain the word "registered".');
+
+
+          $.ajax({
+            url: '../redirect_notification.php', // Replace with the actual path to your PHP script
+            type: 'POST',
+            data: {
+              email: email
+            },
+            success: function(response) {
+              var result = JSON.parse(response);
+              if (result.status === 'success') {
+                console.log('Campus:', result.campus);
+                console.log('College:', result.college);
+                window.location.href = `../request_documents/documents.php?campus=${encodeURIComponent(result.campus)}&college=${encodeURIComponent(result.college)}`;
+                // You can update the UI to show this information
+              } else {
+                console.error(result.message);
+                // Optionally show an error message to the user
+              }
+            },
+            error: function(xhr, status, error) {
+              console.error('AJAX error:', status, error);
             }
-          },
-          error: function (xhr, status, error) {
-            console.error('AJAX error:', status, error);
-          }
-        });
+          });
+        }
       });
       // REQUEST DOCUMENT NOTIFICATION END
         </script>
