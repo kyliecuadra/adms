@@ -12,6 +12,7 @@ else{
     header("location: ../../config/user_level-error.html");
   }
   $campusName = isset($_GET['campus']) ? htmlspecialchars($_GET['campus']) : 'Campus';
+  $collegeName = isset($_GET['college']) ? htmlspecialchars($_GET['college']) : 'College';
 }
 ?>
 <!DOCTYPE html>
@@ -22,7 +23,7 @@ else{
     <meta charset="utf-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>Archived Documents - <?php echo htmlspecialchars($campusName, ENT_QUOTES, 'UTF-8'); ?></title>
+    <title>Documents - <?php echo htmlspecialchars($campusName, ENT_QUOTES, 'UTF-8'); ?></title>
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../../assets/img/icon.png" />
     <!-- Fonts -->
@@ -86,8 +87,8 @@ else{
                         </a>
                     </li>
                     <!-- Documents -->
-                    <li class="menu-item">
-                        <a href="../documents/campus.php" class="menu-link">
+                    <li class="menu-item active open">
+                        <a href="campus.php" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-file"></i>
                             <div class="text-truncate" data-i18n="Documents">Documents</div>
                         </a>
@@ -100,8 +101,8 @@ else{
                         </a>
                     </li>
                     <!-- Archived Documents -->
-                    <li class="menu-item active open">
-                        <a href="campus.php" class="menu-link">
+                    <li class="menu-item">
+                        <a href="../archived_documents/campus.php" class="menu-link">
                             <i class='menu-icon tf-icons bx bx-archive'></i>
                             <div class="text-truncate" data-i18n="Archived Documents">Archived Documents</div>
                         </a>
@@ -113,13 +114,13 @@ else{
                             <div class="text-truncate" data-i18n="Users">Users</div>
                         </a>
                     </li>
-                    <!-- Messages -->
-                    <li class="menu-item">
-                        <a href="../message.php" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-chat"></i>
-                        <div class="text-truncate" data-i18n="Messages">Messages</div>
-                        </a>
-                    </li>
+            <!-- Messages -->
+            <li class="menu-item">
+                  <a href="../message.php" class="menu-link">
+                  <i class="menu-icon tf-icons bx bx-chat"></i>
+                  <div class="text-truncate" data-i18n="Messages">Messages</div>
+               </a>
+            </li>
                     <!-- Configuration -->
                     <li class="menu-item">
                         <a href="../configuration/campus.php" class="menu-link">
@@ -223,15 +224,16 @@ else{
                             <div class="d-flex justify-content-between mb-3">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb fs-4">
-                                        <li class="breadcrumb-item text-primary"><a href="campus.php"> <?php echo $campusName; ?></a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Colleges</li>
+                                        <li class="breadcrumb-item"><a href="campus.php"><?php echo $campusName; ?></a></li>
+                                        <li class="breadcrumb-item"><a href="campus.php"><?php echo $collegeName; ?></a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Programs</li>
                                     </ol>
                                 </nav>
                             </div>
-                            <table id="collegeTable" class="mr-2 table table-hover table-bordered table-responsive">
+                            <table id="programTable" class="mr-2 table table-hover table-bordered table-responsive">
                                 <thead>
                                     <tr>
-                                        <th><strong>College Name</strong></th>
+                                        <th><strong>Program Name</strong></th>
                                 </thead>
                                 <tbody>
                                 </tbody>
@@ -240,9 +242,8 @@ else{
                         </div>
                     </div>
                     <!-- / Layout page -->
-                </div>
-                <!-- Overlay -->
-                 <!-- MY PROFILE MODAL START -->
+
+                    <!-- MY PROFILE MODAL START -->
             <div class="modal fade" id="userProfile" tabindex="-1" aria-labelledby="userProfileLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
@@ -330,6 +331,8 @@ else{
                     </div>
                 </div>
             </div>
+                </div>
+                <!-- Overlay -->
                 <div class="layout-overlay layout-menu-toggle"></div>
                 <!-- Drag Target Area To SlideIn Menu On Small Screens -->
                 <div class="drag-target"></div>
@@ -349,15 +352,17 @@ else{
             <script src="../../assets/js/main.js"></script>
             <!-- Page JS -->
             <script>
-                var identifier = "college";
+                var identifier = "program";
             var campusName = <?php echo json_encode($campusName); ?>;
+            var collegeName = <?php echo json_encode($collegeName); ?>;
             // DISPLAY RECORDS START
-            $('#collegeTable').DataTable({
+            $('#programTable').DataTable({
                 ajax: {
                     url: 'get_structure.php',
                     type: 'GET',
                     data: { identifier: identifier,
-                            campus: campusName
+                            campus: campusName,
+                            college: collegeName
                      }, // Send identifier to PHP script
                     dataSrc: 'data' // The property name that contains the data array
                 },
@@ -365,9 +370,11 @@ else{
                     {
             data: null, // 'null' because we are manually rendering content
             render: function(data, type, row) {
-                return `<div class="d-flex justify-content-between" onclick="location.href='documents.php?campus=${encodeURIComponent(row.campus)}&college=${encodeURIComponent(row.college)}'" style="cursor: pointer;">
-                        <span>${row.college}</span>
-                        </div>
+                return `
+                    <div class="d-flex justify-content-between" onclick="location.href='documents.php?campus=${encodeURIComponent(row.campus)}&college=${encodeURIComponent(row.college)}&program=${encodeURIComponent(row.program)}'" style="cursor: pointer;">
+                    <span>${row.program}</span>
+                    </div>
+
                 `;
             }
             }
