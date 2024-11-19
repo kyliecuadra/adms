@@ -19,6 +19,7 @@ if (isset($_FILES['fileInput']) && isset($_POST['area']) && isset($_POST['parame
     $campus = $_POST['campus'];
     $college = $_POST['college'];
     $program = $_POST['program'];
+    $benchmark = $_POST['benchmark'];
 
     // Create a unique file name if the file already exists
     $targetFilePath = $targetDir . $fileName;
@@ -58,9 +59,6 @@ if (isset($_FILES['fileInput']) && isset($_POST['area']) && isset($_POST['parame
 
     if ($area != "Select Area" && $parameter != "Select Parameter") {
         if (move_uploaded_file($file["tmp_name"], $targetFilePath)) {
-            // Set $benchmark to an empty string if not used
-            $benchmark = '';  // Empty benchmark, or modify as needed
-
             // Prepare the SQL query
             $query = "INSERT INTO documents (area, parameter, quality, campus, college, program, benchmark, file_name, upload_date) 
                       VALUES ('$area', '$parameter', '$quality', '$campus', '$college', '$program', '$benchmark', '$fileName', '$uploadDate')";

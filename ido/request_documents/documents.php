@@ -336,8 +336,14 @@ if (!isset($_SESSION['id'])) {
                         <input type="text" class="form-control" id="modalProgram" disabled>
                     </div>
                     <div class="mb-3">
+                        <label for="modalProgram" class="form-label">
+                            <i class='bx bx-menu'></i> Benchmark
+                        </label>
+                        <input type="text" class="form-control" id="modalBenchmark" disabled>
+                    </div>
+                    <div class="mb-3">
                         <label for="uploadFile" class="form-label">
-                            <i class="bx bx-upload"></i> Upload File
+                            <i class='bx bx-upload'></i> Upload File
                         </label>
                         <input type="file" class="form-control" id="uploadFile" name="file" accept=".pdf" required>
                     </div>
@@ -520,6 +526,7 @@ $(document).ready(function () {
                             data-quality="${row.quality}"
                             data-campus="${row.campus}"
                             data-college="${row.college}"
+                            data-benchmark="${row.benchmark}"
                             data-program="${row.program}">Approve</button>
                         <button class="btn btn-danger text-white"
                                 data-bs-toggle="modal"
@@ -575,6 +582,7 @@ $(document).on('click', '.approve-btn', function () {
     var campus = $(this).data('campus');
     var college = $(this).data('college');
     var program = $(this).data('program');
+    var benchmark = $(this).data('benchmark');
     var documentId = $(this).data('id');
     // Populate the modal with the data
     $('#modalArea').val(area);  // Set disabled inputs
@@ -583,7 +591,7 @@ $(document).on('click', '.approve-btn', function () {
     $('#modalCampus').val(campus);
     $('#modalCollege').val(college);
     $('#modalProgram').val(program);
-
+    $('#modalBenchmark').val(benchmark);
     // Store the document ID in the "Approve" button in case you need it on confirmation
     $('#confirmApprove').data('id', documentId);
 });
@@ -601,7 +609,7 @@ $('#confirmApprove').on('click', function () {
     formData.append('campus', $('#modalCampus').val());
     formData.append('college', $('#modalCollege').val());
     formData.append('program', $('#modalProgram').val());
-    
+    formData.append('benchmark', $('#modalBenchmark').val());
     // Get the file from the file input
     var fileInput = $('#uploadFile')[0].files[0];
     if (fileInput) {
