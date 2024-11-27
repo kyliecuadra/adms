@@ -440,7 +440,7 @@
                             data: 'quality'
                         },
                         {
-                            data: 'filename'
+                            data: 'benchmark'
                         },
                         {
                             data: 'archived_date'
