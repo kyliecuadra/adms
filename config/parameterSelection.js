@@ -1,14 +1,14 @@
 const parameters = {
-    'Area I': ['Parameter A', 'Parameter B'],
-    'Area II': ['Parameter A', 'Parameter B', 'Parameter C', 'Parameter D', 'Parameter E', 'Parameter F', 'Parameter G'],
-    'Area III': ['Parameter A', 'Parameter B', 'Parameter C', 'Parameter D', 'Parameter E', 'Parameter F'],
-    'Area IV': ['Parameter A', 'Parameter B', 'Parameter C', 'Parameter D', 'Parameter E'],
-    'Area V': ['Parameter A', 'Parameter B', 'Parameter C', 'Parameter D'],
-    'Area VI': ['Parameter A', 'Parameter B', 'Parameter C', 'Parameter D'],
-    'Area VII': ['Parameter A', 'Parameter B', 'Parameter C', 'Parameter D', 'Parameter E', 'Parameter F', 'Parameter G'],
-    'Area VIII': ['Parameter A', 'Parameter B', 'Parameter C', 'Parameter D', 'Parameter E', 'Parameter F', 'Parameter G', 'Parameter H', 'Parameter I', 'Parameter J'],
-    'Area IX': ['Parameter A', 'Parameter B', 'Parameter C', 'Parameter D'],
-    'Area X': ['Parameter A', 'Parameter B', 'Parameter C', 'Parameter D', 'Parameter E', 'Parameter F', 'Parameter G', 'Parameter H']
+    'Area 1': ['Parameter A', 'Parameter B'],
+    'Area 2': ['Parameter A', 'Parameter B', 'Parameter C', 'Parameter D', 'Parameter E', 'Parameter F', 'Parameter G'],
+    'Area 3': ['Parameter A', 'Parameter B', 'Parameter C', 'Parameter D', 'Parameter E', 'Parameter F'],
+    'Area 4': ['Parameter A', 'Parameter B', 'Parameter C', 'Parameter D', 'Parameter E'],
+    'Area 5': ['Parameter A', 'Parameter B', 'Parameter C', 'Parameter D'],
+    'Area 6': ['Parameter A', 'Parameter B', 'Parameter C', 'Parameter D'],
+    'Area 7': ['Parameter A', 'Parameter B', 'Parameter C', 'Parameter D', 'Parameter E', 'Parameter F', 'Parameter G'],
+    'Area 8': ['Parameter A', 'Parameter B', 'Parameter C', 'Parameter D', 'Parameter E', 'Parameter F', 'Parameter G', 'Parameter H', 'Parameter I', 'Parameter J'],
+    'Area 9': ['Parameter A', 'Parameter B', 'Parameter C', 'Parameter D'],
+    'Area 10': ['Parameter A', 'Parameter B', 'Parameter C', 'Parameter D', 'Parameter E', 'Parameter F', 'Parameter G', 'Parameter H']
 };
 
 class ParameterSelect {

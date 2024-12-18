@@ -13,6 +13,7 @@
 
         $campusName = isset($_GET['campus']) ? htmlspecialchars($_GET['campus']) : 'Campus';
         $collegeName = isset($_GET['college']) ? htmlspecialchars($_GET['college']) : 'College';
+        $programName = isset($_GET['program']) ? htmlspecialchars($_GET['program']) : 'Program';
     }
     ?>
 <!DOCTYPE html>
@@ -234,9 +235,8 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb fs-4">
                                 <li class="breadcrumb-item"><a href="campus.php"><?php echo $campusName; ?></a></li>
-                                <li class="breadcrumb-item"><a href="#"
-                                    onclick="window.history.back(); return false;"><?php echo $collegeName; ?></a>
-                                </li>
+                                <li class="breadcrumb-item"><a href="#"><?php echo $collegeName; ?></a></li>
+                                <li class="breadcrumb-item"><a href="#" onclick="window.history.back(); return false;"><?php echo $programName; ?></a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Documents</li>
                             </ol>
                         </nav>
@@ -391,6 +391,7 @@
                         <form id="uploadForm">
                             <input type="hidden" name="campus" value="<?php echo $campusName; ?>">
                             <input type="hidden" name="college" value="<?php echo $collegeName; ?>">
+                            <input type="hidden" name="program" value="<?php echo $programName; ?>">
                             <div class="mb-3">
                                 <label for="area" class="form-label">Area</label>
                                 <select id="area" name="area" class="form-control"></select>
@@ -414,7 +415,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Upload Document</label>
-                                <input class="form-control" id="fileInput" name="fileInput[]" type="file" accept=".pdf" multiple>
+                                <input class="form-control" id="fileInput" name="fileInput[]" type="file" accept=".pdf, image/*" multiple>
                                 <small id="fileName" class="form-text text-muted">No file chosen</small>
                             </div>
                     </div>
@@ -443,6 +444,7 @@
                             <input type="hidden" name="currentId" id="currentId">
                             <input type="hidden" name="campus" value="<?php echo $campusName; ?>">
                             <input type="hidden" name="college" value="<?php echo $collegeName; ?>">
+                            <input type="hidden" name="program" value="<?php echo $programName; ?>">
                             <div class="mb-3">
                                 <label for="area" class="form-label">Area</label>
                                 <select id="currentArea" name="currentArea" class="form-control"></select>
@@ -524,6 +526,7 @@
         <script>
             var campusName = <?php echo json_encode($campusName); ?>;
             var collegeName = <?php echo json_encode($collegeName); ?>;
+            var programName = <?php echo json_encode($programName); ?>;
 
             // DISPLAY RECORDS START
             $(document).ready(function () {
@@ -535,7 +538,8 @@
                         data: {
                             identifier: "documents",
                             campus: campusName,
-                            college: collegeName
+                            college: collegeName,
+                            program: programName
                         },
                         dataSrc: 'data'
                     },
@@ -571,7 +575,7 @@
                         }
                     ],
                     order: [
-                        [0, 'desc']
+                        [0, 'asc']
                     ],
                     paging: true,
                     searching: true,
@@ -808,37 +812,88 @@ function openUpdateModal(userId) {
       // UPDATING PASSWORD END
 
       // NOTIFICATION START
-      $(document).ready(function () {
+      $(document).ready(function() {
         // Initial load of notification count
         updateNotificationCount();
+
         // Event listener for the notification icon
-        $('.nav-item.dropdown-notifications').on('click', function () {
+        $('.nav-item.dropdown-notifications').on('click', function() {
           notificationUpdate();
         });
+
+        // Delegate the click event to dynamically added notifications
+        $('#notification').on('click', '.notification-item', function() {
+          const notificationId = $(this).data('id');
+
+          // Extract the email from the notification (assuming it's stored in a <strong> tag)
+          var email = $(this).find('strong').text();
+          console.log('Notification clicked, email:', email); // Debugging line
+
+          // Extract the full text of the notification
+          var notificationText = $(this).text();
+          console.log('Notification clicked, text:', notificationText); // Debugging line
+
+          // Check if the notification text contains the word 'approval' or 'registered'
+          if (notificationText.includes('approval') || notificationText.includes('registered')) {
+            window.location.href = `users.php`;
+          } else {
+            console.log('The notification does not contain the word "approval".');
+
+            // If not, perform the AJAX request
+            $.ajax({
+              url: 'redirect_notification.php', // Replace with the actual path to your PHP script
+              type: 'POST',
+              data: {
+                email: email
+              },
+              success: function(response) {
+                var result = JSON.parse(response);
+                if (result.status === 'success') {
+                  console.log('Campus:', result.campus);
+                  console.log('College:', result.college);
+                  window.location.href = `../request_documents/documents.php?campus=${encodeURIComponent(result.campus)}&college=${encodeURIComponent(result.college)}`;
+                  // Optionally, update the UI with this information
+                } else {
+                  console.error(result.message);
+                  // Optionally show an error message to the user
+                }
+              },
+              error: function(xhr, status, error) {
+                console.error('AJAX error:', status, error);
+              }
+            });
+          }
+
+          // Optionally, call your notificationDetailUpdate function, if needed
+          notificationDetailUpdate(notificationId);
+        });
+
       });
 
+      // Update the notification count
       function updateNotificationCount() {
         $.ajax({
-          url: '../../config/get_notification_count.php', // PHP file to get notification count
+          url: '../config/get_notification_count.php', // PHP file to get notification count
           type: 'GET',
-          success: function (count) {
+          success: function(count) {
             $('#notification-count').text(count);
           },
-          error: function () {
+          error: function() {
             console.error("Error fetching notification count");
           }
         });
       }
 
+      // Fetch and display notifications
       function notificationUpdate() {
         $.ajax({
-          url: '../../config/fetch_notifications.php', // PHP file to fetch notifications
+          url: '../config/fetch_notifications.php', // PHP file to fetch notifications
           type: 'GET',
           dataType: 'json',
-          success: function (data) {
+          success: function(data) {
             $('#notification').empty(); // Clear existing notifications
             if (data.length > 0) {
-              data.forEach(function (notification) {
+              data.forEach(function(notification) {
                 // Format the created_at date
                 const date = new Date(notification.timestamp);
                 const options = {
@@ -850,7 +905,7 @@ function openUpdateModal(userId) {
                 };
                 const formattedDate = date.toLocaleString('en-US', options);
                 $('#notification').append(`
-                        <li class="list-group-item text-dark" style="cursor:pointer;">
+                        <li class="list-group-item text-dark notification-item" data-id="${notification.id}" style="cursor:pointer;">
                             ${notification.description} <br>
                             <small class="text-success">${formattedDate}</small>
                         </li>
@@ -859,59 +914,40 @@ function openUpdateModal(userId) {
             } else {
               $('#notification').append('<li class="list-group-item">No new notifications.</li>');
             }
+
             // Update the notification count after displaying the notifications
             updateNotificationCount();
           },
-          error: function () {
+          error: function() {
             console.error("Error fetching notifications");
           }
         });
       }
-      // NOTIFICATION END
 
-      // REQUEST DOCUMENT NOTIFICATION START
-      // Use event delegation to handle click events
-      $(document).on('click', '#notification .list-group-item', function() {
-        var email = $(this).find('strong').text(); // Extract the email from the <strong> tag
-        console.log('Notification clicked, email:', email); // Debugging line
-
-        // Assuming this refers to the notification element that was clicked
-        var notificationText = $(this).text(); // Extract the full text of the notification
-        console.log('Notification clicked, text:', notificationText); // Debugging line
-
-        // Check if the notification text contains the word 'approval'
-        if (notificationText.includes('approval')) {
-          window.location.href = `../users.php`;
-          // Additional logic can go here, e.g., redirecting or displaying a message
-        } else {
-          console.log('The notification does not contain the word "approval".');
-
-
-          $.ajax({
-            url: '../redirect_notification.php', // Replace with the actual path to your PHP script
-            type: 'POST',
-            data: {
-              email: email
-            },
-            success: function(response) {
-              var result = JSON.parse(response);
-              if (result.status === 'success') {
-                console.log('Campus:', result.campus);
-                console.log('College:', result.college);
-                window.location.href = `../request_documents/documents.php?campus=${encodeURIComponent(result.campus)}&college=${encodeURIComponent(result.college)}`;
-                // You can update the UI to show this information
-              } else {
-                console.error(result.message);
-                // Optionally show an error message to the user
-              }
-            },
-            error: function(xhr, status, error) {
-              console.error('AJAX error:', status, error);
+      //Update the status of a specific notification when clicked (mark as read, for example)
+      function notificationDetailUpdate(notificationId) {
+        $.ajax({
+          url: '../config/mark_notification_read.php', // PHP file to mark notification as read
+          type: 'POST',
+          data: {
+            id: notificationId
+          },
+          success: function(response) {
+            if (response.success) {
+              // Optionally, you can update the UI here, e.g., mark the notification as read
+              // For example, add a "read" class or modify the notification appearance
+              $(`[data-id="${notificationId}"]`).addClass('read'); // Assuming "read" class has specific styling
+              console.log("Notification marked as read");
+            } else {
+              console.error("Error marking notification as read");
             }
-          });
-        }
-      });
-      // REQUEST DOCUMENT NOTIFICATION END
+          },
+          error: function() {
+            console.error("Error marking notification as read");
+          }
+        });
+      }
+      // NOTIFICATION END
         </script>
     </body>
 </html>

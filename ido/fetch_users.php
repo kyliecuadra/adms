@@ -12,9 +12,11 @@ $query = "
     SELECT u.id, u.fname, u.lname, u.email,
            COUNT(CASE WHEN m.is_read = 0 AND m.receiver_id = '$id' THEN 1 END) AS unread_count
     FROM users u
-    LEFT JOIN messages m ON m.sender_id = u.id AND m.receiver_id = '$id'
+    LEFT JOIN messages m ON (m.sender_id = u.id OR m.receiver_id = u.id) AND (m.receiver_id = '$id' OR m.sender_id = '$id')
     WHERE u.id != '$id'
-    GROUP BY u.id, u.fname, u.lname, u.email order by timestamp DESC
+    GROUP BY u.id, u.fname, u.lname, u.email
+    HAVING COUNT(m.id) > 0
+    ORDER BY MAX(m.timestamp) DESC
 ";
 
 $result = mysqli_query($conn, $query);

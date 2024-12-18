@@ -1,18 +1,18 @@
 <?php
-require("../../config/db_connection.php");
+require ("../../config/db_connection.php");
 
 session_start();
-require("../../config/session_timeout.php");
+require ("../../config/session_timeout.php");
 
-if (!isset($_SESSION['id'])) {
-    header("location: ../../config/not_login-error.html");
-} else {
-    if ($_SESSION['role'] != "ido") {
-        header("location: ../../config/user_level-error.html");
-    }
-
-    $campusName = isset($_GET['campus']) ? htmlspecialchars($_GET['campus']) : 'Campus';
-    $collegeName = isset($_GET['college']) ? htmlspecialchars($_GET['college']) : 'College';
+if(!isset($_SESSION['id'])){
+  header("location: ../../config/not_login-error.html");
+}
+else{
+  if($_SESSION['role'] != "ido"){
+    header("location: ../../config/user_level-error.html");
+  }
+  $campusName = isset($_GET['campus']) ? htmlspecialchars($_GET['campus']) : 'Campus';
+  $collegeName = isset($_GET['college']) ? htmlspecialchars($_GET['college']) : 'College';
 }
 ?>
 <!DOCTYPE html>
@@ -23,7 +23,7 @@ if (!isset($_SESSION['id'])) {
     <meta charset="utf-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>Requested Documents - <?php echo htmlspecialchars($collegeName, ENT_QUOTES, 'UTF-8'); ?></title>
+    <title>Documents - <?php echo htmlspecialchars($campusName, ENT_QUOTES, 'UTF-8'); ?></title>
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../../assets/img/icon.png" />
     <!-- Fonts -->
@@ -40,12 +40,12 @@ if (!isset($_SESSION['id'])) {
     <link rel="stylesheet" href="../../assets/vendor/css/rtl/core.css" class="template-customizer-core-css" />
     <link rel="stylesheet" href="../../assets/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="../../assets/css/demo.css" />
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
     <link rel="stylesheet" href="../../assets/vendor/libs/typeahead-js/typeahead.css" />
     <!-- Include jQuery -->
     <script type="text/javascript" src="../../assets/js/jquery.min.js"></script>
+
     <!-- Include DataTables CSS and JS -->
     <link rel="stylesheet" type="text/css" href="../../assets/css/datatable.min.css">
     <script src="../../assets/js/datatable.min.js"></script>
@@ -58,19 +58,6 @@ if (!isset($_SESSION['id'])) {
     <link rel="stylesheet" href="../../assets/css/toastr.css" />
     <script type="text/javascript" src="../../config/toastr_config.js"></script>
 </head>
-<style>
-    /* Ensure autocomplete suggestions appear above other elements */
-    .ui-autocomplete {
-        z-index: 10000;
-        /* Adjust as needed */
-        max-height: 200px;
-        /* Set a maximum height for the autocomplete dropdown */
-        overflow-y: auto;
-        /* Enable vertical scrolling */
-        overflow-x: hidden;
-        /* Hide horizontal overflow, if any */
-    }
-</style>
 
 <body>
     <!-- Layout wrapper -->
@@ -100,15 +87,15 @@ if (!isset($_SESSION['id'])) {
                         </a>
                     </li>
                     <!-- Documents -->
-                    <li class="menu-item">
-                        <a href="../documents/campus.php" class="menu-link">
+                    <li class="menu-item active open">
+                        <a href="campus.php" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-file"></i>
                             <div class="text-truncate" data-i18n="Documents">Documents</div>
                         </a>
                     </li>
                     <!-- Request Docouments -->
-                    <li class="menu-item active open">
-                        <a href="campus.php" class="menu-link">
+                    <li class="menu-item">
+                        <a href="../request_documents/campus.php" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-file-find"></i>
                             <div class="text-truncate" data-i18n="Requested Documents">Requested Documents</div>
                         </a>
@@ -180,6 +167,7 @@ if (!isset($_SESSION['id'])) {
                                     </li>
                                     <li class="dropdown-notifications-list scrollable-container">
                                         <ul class="list-group list-group-flush" id="notification">
+
                                         </ul>
                                     </li>
                                 </ul>
@@ -200,8 +188,8 @@ if (!isset($_SESSION['id'])) {
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="../../assets/img/profiles/default.png" alt
-                                                            class="w-px-40 h-auto rounded-circle">
+                                                        <img src="../../assets/img/profiles/default.png"
+                                                            alt class="w-px-40 h-auto rounded-circle">
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
@@ -233,155 +221,29 @@ if (!isset($_SESSION['id'])) {
                     <!-- Content -->
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="card px-4 py-4">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb fs-4">
-                                    <li class="breadcrumb-item"><a href="campus.php"><?php echo $campusName; ?></a></li>
-                                    <li class="breadcrumb-item"><a href="#"
-                                            onclick="window.history.back(); return false;"><?php echo $collegeName; ?></a>
-                                    </li>
-                                    <li class="breadcrumb-item active" aria-current="page">Documents</li>
-                                </ol>
-                            </nav>
-                            <div class="d-flex flex-column">
-                                <div class="d-flex flex-row align-items-end mb-3">
-                                    <div class="row mb-0 flex-grow-1">
-                                        <div class="col-3">
-                                            <select id="filterArea" name="filterArea" class="form-control"></select>
-                                        </div>
-                                        <div class="col-3">
-                                            <select id="filterParameter" name="filterParameter"
-                                                class="form-control"></select>
-                                        </div>
-                                        <div class="col-3">
-                                            <select class="form-control" name="filterQuality" id="filterQuality">
-                                                <option>Select Quality</option>
-                                                <option value="System- Input and Processes">System- Input and Processes
-                                                </option>
-                                                <option value="Implementation">Implementation</option>
-                                                <option value="Output">Output</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb fs-4">
+                                        <li class="breadcrumb-item"><a href="campus.php"><?php echo $campusName; ?></a></li>
+                                        <li class="breadcrumb-item"><a href="campus.php"><?php echo $collegeName; ?></a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Programs</li>
+                                    </ol>
+                                </nav>
                             </div>
-                            <table id="documentTable" class="mr-2 table table-hover table-bordered table-responsive">
+                            <table id="programTable" class="mr-2 table table-hover table-bordered table-responsive">
                                 <thead>
                                     <tr>
-                                        <th><strong>Requestor</strong></th>
-                                        <th><strong>Area</strong></th>
-                                        <th><strong>Parameter</strong></th>
-                                        <th><strong>Quality of Measurement</strong></th>
-                                        <th><strong>Benchmark</strong></th>
-                                        <th><strong>Date Requested</strong></th>
-                                        <th><strong>Action</strong></th>
-                                    </tr>
+                                        <th><strong>Program Name</strong></th>
                                 </thead>
                                 <tbody>
                                 </tbody>
+
                             </table>
                         </div>
                     </div>
                     <!-- / Layout page -->
-                </div>
-                <!-- Overlay -->
-                <div class="layout-overlay layout-menu-toggle"></div>
-                <!-- Drag Target Area To SlideIn Menu On Small Screens -->
-                <div class="drag-target"></div>
-            </div>
-            <!-- Approve Modal -->
-            <!-- Approve Modal Structure -->
-            <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="approveModalLabel">Approve Document</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="approveForm" enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label for="modalArea" class="form-label">
-                            <i class="bx bx-layer"></i> Area
-                        </label>
-                        <input type="text" class="form-control" id="modalArea" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label for="modalParameter" class="form-label">
-                            <i class="bx bx-cog"></i> Parameter
-                        </label>
-                        <input type="text" class="form-control" id="modalParameter" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label for="modalQuality" class="form-label">
-                            <i class="bx bx-check-circle"></i> Quality
-                        </label>
-                        <input type="text" class="form-control" id="modalQuality" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label for="modalCampus" class="form-label">
-                            <i class="bx bx-buildings"></i> Campus
-                        </label>
-                        <input type="text" class="form-control" id="modalCampus" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label for="modalCollege" class="form-label">
-                            <i class="bx bx-book"></i> College
-                        </label>
-                        <input type="text" class="form-control" id="modalCollege" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label for="modalProgram" class="form-label">
-                            <i class="bx bx-briefcase"></i> Program
-                        </label>
-                        <input type="text" class="form-control" id="modalProgram" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label for="modalProgram" class="form-label">
-                            <i class='bx bx-menu'></i> Benchmark
-                        </label>
-                        <input type="text" class="form-control" id="modalBenchmark" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label for="uploadFile" class="form-label">
-                            <i class='bx bx-upload'></i> Upload File
-                        </label>
-                        <input type="file" class="form-control" id="uploadFile" name="file" accept=".pdf" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-success" id="confirmApprove">Approve</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-
-
-
-            <!-- Reject Modal -->
-            <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="rejectModalLabel">Reject Document</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Are you sure you want to reject this document?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-danger" id="confirmReject">Reject</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- / Layout wrapper -->
-
-            <!-- MY PROFILE MODAL START -->
+                    <!-- MY PROFILE MODAL START -->
             <div class="modal fade" id="userProfile" tabindex="-1" aria-labelledby="userProfileLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
@@ -469,6 +331,13 @@ if (!isset($_SESSION['id'])) {
                     </div>
                 </div>
             </div>
+                </div>
+                <!-- Overlay -->
+                <div class="layout-overlay layout-menu-toggle"></div>
+                <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+                <div class="drag-target"></div>
+            </div>
+            <!-- / Layout wrapper -->
             <!-- Core JS -->
             <!-- build:js assets/vendor/js/core.js -->
             <script src="../../assets/bootstrap/js/popper.min.js"></script>
@@ -481,188 +350,44 @@ if (!isset($_SESSION['id'])) {
             <!-- endbuild -->
             <!-- Main JS -->
             <script src="../../assets/js/main.js"></script>
-            <script src="../../config/areaSelection.js"></script>
-            <script src="../../config/parameterSelection.js"></script>
-            <script src="../../config/generateFilter.js"></script>
             <!-- Page JS -->
-            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
             <script>
-                var campusName = <?php echo json_encode($campusName); ?>;
-                var collegeName = <?php echo json_encode($collegeName); ?>;
-
-                // DISPLAY RECORDS START
-$(document).ready(function () {
-    let selectedDocumentId; // Store the selected document ID
-
-    // Initialize DataTable
-    var table = $('#documentTable').DataTable({
-        ajax: {
-            url: 'get_structure.php',
-            type: 'GET',
-            data: {
-                identifier: "documents",
-                campus: campusName,
-                college: collegeName
-            },
-            dataSrc: 'data'
-        },
-        columns: [
-            { data: 'requestor' },
-            { data: 'area' },
-            { data: 'parameter' },
-            { data: 'quality' },
-            { data: 'benchmark' },
-            { data: 'requested_date' },
-            {
-                data: null,
-                render: function (data, type, row) {
-                    return `
-                        <button class="btn btn-primary text-white approve-btn"
-                            data-bs-toggle="modal"
-                            data-bs-target="#approveModal"
-                            data-id="${row.id}"
-                            data-area="${row.area}"
-                            data-parameter="${row.parameter}"
-                            data-quality="${row.quality}"
-                            data-campus="${row.campus}"
-                            data-college="${row.college}"
-                            data-benchmark="${row.benchmark}"
-                            data-program="${row.program}">Approve</button>
-                        <button class="btn btn-danger text-white"
-                                data-bs-toggle="modal"
-                                data-bs-target="#rejectModal"
-                                data-id="${row.id}"
-                                style="background-color: #ff3e1d !important; border-color: #ff3e1d !important;">Reject</button>
-                    `;
+                var identifier = "program";
+            var campusName = <?php echo json_encode($campusName); ?>;
+            var collegeName = <?php echo json_encode($collegeName); ?>;
+            // DISPLAY RECORDS START
+            $('#programTable').DataTable({
+                ajax: {
+                    url: 'get_structure.php',
+                    type: 'GET',
+                    data: { identifier: identifier,
+                            campus: campusName,
+                            college: collegeName
+                     }, // Send identifier to PHP script
+                    dataSrc: 'data' // The property name that contains the data array
                 },
-                orderable: false,
-                searchable: false
+                columns: [
+                    {
+            data: null, // 'null' because we are manually rendering content
+            render: function(data, type, row) {
+                return `
+                    <div class="d-flex justify-content-between" onclick="location.href='documents.php?campus=${encodeURIComponent(row.campus)}&college=${encodeURIComponent(row.college)}&program=${encodeURIComponent(row.program)}'" style="cursor: pointer;">
+                    <span>${row.program}</span>
+                    </div>
+
+                `;
             }
-        ],
-        order: [[0, 'asc']],
-        paging: true,
-        searching: true,
-        ordering: true,
-        responsive: true
-    });
-
-    // Function to apply filters
-    function applyFilters() {
-        var areaValue = $('#filterArea').val().trim();
-        var parameterValue = $('#filterParameter').val().trim();
-        var qualityValue = $('#filterQuality').val();
-
-        // Apply filters
-        table
-            .column(1).search(areaValue === 'Select Area' ? '' : areaValue)
-            .column(2).search(parameterValue === 'Select Parameter' ? '' : parameterValue)
-            .column(3).search(qualityValue === 'Select Quality' ? '' : qualityValue)
-            .draw(); // Redraw the table with the applied filters
-
-        // Reset DataTable if all filters are at their default values
-        if (areaValue === 'Select Area' && parameterValue === 'Select Parameter' && qualityValue === 'Select Quality') {
-            table.ajax.reload(); // Refresh DataTable
-        }
-    }
-
-    // Real-time filtering: apply filters on input change
-    $('#filterArea, #filterParameter, #filterQuality').on('change keyup', applyFilters);
-
-    // Handle button clicks for approve and reject
-    $('#documentTable tbody').on('click', '.btn-primary, .btn-danger', function () {
-        selectedDocumentId = $(this).data('id');
-    });
-
-    // Handle the Approve button click to populate the modal
-$(document).on('click', '.approve-btn', function () {
-    // Get data from the clicked button
-    var area = $(this).data('area');
-    var parameter = $(this).data('parameter');
-    var quality = $(this).data('quality');
-    var campus = $(this).data('campus');
-    var college = $(this).data('college');
-    var program = $(this).data('program');
-    var benchmark = $(this).data('benchmark');
-    var documentId = $(this).data('id');
-    // Populate the modal with the data
-    $('#modalArea').val(area);  // Set disabled inputs
-    $('#modalParameter').val(parameter);
-    $('#modalQuality').val(quality);
-    $('#modalCampus').val(campus);
-    $('#modalCollege').val(college);
-    $('#modalProgram').val(program);
-    $('#modalBenchmark').val(benchmark);
-    // Store the document ID in the "Approve" button in case you need it on confirmation
-    $('#confirmApprove').data('id', documentId);
-});
-
-$('#confirmApprove').on('click', function () {
-    // Get the document ID stored in the "Approve" button
-    var documentId = $(this).data('id');
-    
-    // Prepare the form data, including the file
-    var formData = new FormData();
-    formData.append('id', documentId);  // Add document ID
-    formData.append('area', $('#modalArea').val());  // Add the modal data values
-    formData.append('parameter', $('#modalParameter').val());
-    formData.append('quality', $('#modalQuality').val());
-    formData.append('campus', $('#modalCampus').val());
-    formData.append('college', $('#modalCollege').val());
-    formData.append('program', $('#modalProgram').val());
-    formData.append('benchmark', $('#modalBenchmark').val());
-    // Get the file from the file input
-    var fileInput = $('#uploadFile')[0].files[0];
-    if (fileInput) {
-        formData.append('fileInput', fileInput);  // Add the file to the form data
-    }
-    
-    // Perform the AJAX request
-    $.ajax({
-        url: 'upload.php',
-        type: 'POST',
-        data: formData,
-        processData: false,  // Important: Prevent jQuery from converting the data
-        contentType: false,  // Important: Let the browser set the content type
-        success: function (response) {
-            if (response.status === "success") {
-                toastr.success('Document approved successfully!');
-            } else {
-                toastr.error('An error occurred: ' + response);
             }
-            $('#approveModal').modal('hide');
-            table.ajax.reload();  // Reload the table to reflect the changes
-        },
-        error: function (xhr, status, error) {
-            toastr.error('An error occurred: ' + error);
-            $('#approveModal').modal('hide');
-        }
-    });
-});
-
-        // Confirm reject action
-        $('#confirmReject').on('click', function () {
-            $.ajax({
-                url: 'reject_request.php',
-                type: 'POST',
-                data: { id: selectedDocumentId },
-                success: function (response) {
-                    if (response === "success") {
-                        toastr.success('Document rejected successfully!');
-                    } else {
-                        toastr.error('An error occurred: ' + response);
-                    }
-                    $('#rejectModal').modal('hide');
-                    table.ajax.reload();
-                },
-                error: function (xhr, status, error) {
-                    toastr.error('An error occurred: ' + error);
-                    $('#rejectModal').modal('hide');
-                }
+                ],
+                order: [[0, 'asc']],
+                paging: true,
+                searching: true,
+                ordering: true,
+                responsive: true
             });
-        });
-    });
+            // DISPLAY RECORD END
 
-    // MY PROFILE START
+            // MY PROFILE START
 function openUpdateModal(userId) {
         fetch(`../../config/get_user.php?id=${userId}`).then(response => response.json()).then(data => {
           if (data.success) {
@@ -701,7 +426,7 @@ function openUpdateModal(userId) {
             if (newPassword === confirmPassword) {
                 // AJAX request to update the password
                 $.ajax({
-                    url: 'update_password.php', // Your server endpoint for updating password
+                    url: '../update_password.php', // Your server endpoint for updating password
                     type: 'POST',
                     data: {
                         password: newPassword,

@@ -64,8 +64,9 @@ elseif (isset($_GET['identifier']) && $_GET['identifier'] === "college") {
 elseif (isset($_GET['identifier']) && $_GET['identifier'] === "documents") {
     $campusName = $_GET['campus'];
     $collegeName = $_GET['college'];
+    $programName = $_GET['program'];
     // SQL query to get campus data
-    $query = "SELECT * FROM documents WHERE campus = '$campusName' AND college = '$collegeName'";
+    $query = "SELECT * FROM documents WHERE campus = '$campusName' AND college = '$collegeName' AND program = '$programName'";
     
     // Execute the query
     $result = mysqli_query($conn, $query);

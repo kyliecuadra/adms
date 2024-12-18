@@ -13,10 +13,10 @@ if (isset($_FILES['fileInput']) && isset($_POST['area']) && isset($_POST['parame
     $files = $_FILES['fileInput'];
     $campus = mysqli_real_escape_string($conn, $_POST['campus']);
     $college = mysqli_real_escape_string($conn, $_POST['college']);
+    $program = mysqli_real_escape_string($conn, $_POST['program']);
     $area = mysqli_real_escape_string($conn, $_POST['area']);
     $parameter = mysqli_real_escape_string($conn, $_POST['parameter']);
     $quality = mysqli_real_escape_string($conn, $_POST['quality']);
-    $programs = isset($_POST['programs']) ? mysqli_real_escape_string($conn, $_POST['programs']) : '';
     $benchmark = isset($_POST['benchmark']) ? mysqli_real_escape_string($conn, $_POST['benchmark']) : '';
     $uploadDate = date('Y-m-d');
 
@@ -32,7 +32,7 @@ if (isset($_FILES['fileInput']) && isset($_POST['area']) && isset($_POST['parame
             $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
             $fileBaseName = pathinfo($fileName, PATHINFO_FILENAME);
 
-            $allowedExtensions = ['pdf'];
+            $allowedExtensions = ['pdf', 'jpg', 'jpeg', 'png', 'gif'];
             if (!in_array($fileExtension, $allowedExtensions)) {
                 $response[] = array('status' => 'error', 'message' => 'Invalid file type: ' . $fileName);
                 continue;
@@ -55,11 +55,11 @@ if (isset($_FILES['fileInput']) && isset($_POST['area']) && isset($_POST['parame
                 // Assign the unique filename after a successful move
                 $newFileName = $counter > 1 ? $fileBaseName . '_' . ($counter - 1) . '.' . $fileExtension : $fileName;
 
-                $query = "INSERT INTO documents (area, parameter, quality, campus, college, program, benchmark, file_name, upload_date) VALUES ('$area', '$parameter', '$quality', '$campus', '$college', '$programs', '$benchmark', '$newFileName', '$uploadDate')";
+                $query = "INSERT INTO documents (area, parameter, quality, campus, college, program, benchmark, file_name, upload_date) VALUES ('$area', '$parameter', '$quality', '$campus', '$college', '$program', '$benchmark', '$newFileName', '$uploadDate')";
 
                 if (mysqli_query($conn, $query)) {
                     // Insert notification for users with 'quaac' role
-                    $notificationDescription = "<strong>".$_SESSION['email']."</strong> uploaded a new document for ".$college." in ".$campus.".<small>.$area; .$parameter;.$quality</small>";
+                    $notificationDescription = "<strong>".$_SESSION['email']."</strong> uploaded a new document for ".$college." in ".$campus." under ".$program.".<small>.$area; .$parameter;.$quality</small>";
                     $quaacQuery = "SELECT id FROM users WHERE role = 'quaac'";
                     $quaacResult = mysqli_query($conn, $quaacQuery);
 
