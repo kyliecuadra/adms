@@ -85,7 +85,8 @@ elseif (isset($_GET['identifier']) && $_GET['identifier'] === "documents") {
                     'campus' => $row['campus'], // Ensure this matches the DataTable 'campus' column
                     'college' => $row['college'], // Ensure this matches the DataTable 'colleges' column
                     'program' => $row['program'], // Ensure this matches the DataTable 'program' column
-                    'filename' => $row['file_name'], // Ensure this matches the DataTable 'filename' column
+                    'benchmark' => $row['benchmark'], // Ensure this matches the DataTable 'benchmark' column
+                    'filename' => $row['file_name'], // Ensure this matches the DataTable 'file_name' column
                     'archived_date' => $formattedDate, // Ensure this matches the DataTable 'upload_date' column
                 );
             }

@@ -5,6 +5,7 @@ require("../../config/db_connection.php");
 $id = isset($_POST['currentId']) ? mysqli_real_escape_string($conn, $_POST['currentId']) : '';
 $campus = isset($_POST['campus']) ? mysqli_real_escape_string($conn, $_POST['campus']) : '';
 $college = isset($_POST['college']) ? mysqli_real_escape_string($conn, $_POST['college']) : '';
+$program = isset($_POST['program']) ? mysqli_real_escape_string($conn, $_POST['program']) : '';
 $currentArea = isset($_POST['currentArea']) ? mysqli_real_escape_string($conn, $_POST['currentArea']) : '';
 $currentParameter = isset($_POST['currentParameter']) ? mysqli_real_escape_string($conn, $_POST['currentParameter']) : '';
 $currentQuality = isset($_POST['currentQuality']) ? mysqli_real_escape_string($conn, $_POST['currentQuality']) : '';
@@ -12,7 +13,7 @@ $currentBenchmark = isset($_POST['currentBenchmark']) ? mysqli_real_escape_strin
 $currentFilename = isset($_POST['currentFilename']) ? mysqli_real_escape_string($conn, $_POST['currentFilename']) : '';
 
 // Fetch existing document data from the database
-$query = "SELECT area, parameter, quality, benchmark, file_name FROM documents WHERE id = '$id'";
+$query = "SELECT * FROM documents WHERE id = '$id'";
 $result = mysqli_query($conn, $query);
 $existingData = mysqli_fetch_assoc($result);
 
@@ -56,8 +57,8 @@ if ($newArea !== $existingData['area'] ||
 if ($hasFieldChanges || $fileChanged) {
     if($fileChanged){
         // Archive the existing record if there are changes
-        $archiveSql = "INSERT INTO archived_documents (area, parameter, quality, file_name, benchmark, campus, college)
-                        SELECT area, parameter, quality, file_name, benchmark, campus, college
+        $archiveSql = "INSERT INTO archived_documents (area, parameter, quality, file_name, benchmark, campus, college, program)
+                        SELECT area, parameter, quality, file_name, benchmark, campus, college, program
                         FROM documents
                         WHERE id = '$id'";
 
@@ -73,15 +74,16 @@ if ($hasFieldChanges || $fileChanged) {
         }
     }
     // Insert the new record into the documents table
-    $insertSql = "INSERT INTO documents (id, area, parameter, quality, file_name, benchmark, campus, college)
-                  VALUES ('$id', '$newArea', '$newParameter', '$newQuality', '$newFilename', '$newBenchmark', '$campus', '$college')
+    $insertSql = "INSERT INTO documents (id, area, parameter, quality, file_name, benchmark, campus, college, program)
+                  VALUES ('$id', '$newArea', '$newParameter', '$newQuality', '$newFilename', '$newBenchmark', '$campus', '$college', '$program')
                   ON DUPLICATE KEY UPDATE 
                       area = '$newArea', 
                       parameter = '$newParameter', 
                       quality = '$newQuality', 
                       benchmark = '$newBenchmark', 
                       campus = '$campus', 
-                      college = '$college'";
+                      college = '$college',
+                      program = '$program'";
 
     if (mysqli_query($conn, $insertSql)) {
         echo '1'; // Successfully updated

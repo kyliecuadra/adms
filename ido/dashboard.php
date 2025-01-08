@@ -178,8 +178,7 @@ if (!isset($_SESSION['id'])) {
           <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
             <ul class="navbar-nav flex-row align-items-center ms-auto">
               <!-- Notification -->
-              <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1"
-                onclick="notificationUpdate()">
+              <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
                   data-bs-auto-close="outside" aria-expanded="false">
                   <i class="bx bx-bell bx-sm"></i>
@@ -437,9 +436,15 @@ if (!isset($_SESSION['id'])) {
                       </div>
                       <div class="mb-3">
                         <label for="eventTitle" class="form-label">Event Title</label>
-                        <input type="text" class="form-control" id="eventTitle" placeholder="Enter the event title"
-                          required>
+                        <select class="form-control" id="eventTitle" required>
+                          <option value="" disabled selected>Select event level</option>
+                          <option value="Level 1">Level 1</option>
+                          <option value="Level 2">Level 2</option>
+                          <option value="Level 3">Level 3</option>
+                          <option value="Level 4">Level 4</option>
+                        </select>
                       </div>
+
                       <div class="mb-3">
                         <label for="eventDescription" class="form-label">Description</label>
                         <textarea class="form-control" id="eventDescription" rows="3"
@@ -670,12 +675,62 @@ if (!isset($_SESSION['id'])) {
       $(document).ready(function() {
         // Initial load of notification count
         updateNotificationCount();
+
         // Event listener for the notification icon
         $('.nav-item.dropdown-notifications').on('click', function() {
           notificationUpdate();
         });
+
+        // Delegate the click event to dynamically added notifications
+        $('#notification').on('click', '.notification-item', function() {
+          const notificationId = $(this).data('id');
+
+          // Extract the email from the notification (assuming it's stored in a <strong> tag)
+          var email = $(this).find('strong').text();
+          console.log('Notification clicked, email:', email); // Debugging line
+
+          // Extract the full text of the notification
+          var notificationText = $(this).text();
+          console.log('Notification clicked, text:', notificationText); // Debugging line
+
+          // Check if the notification text contains the word 'approval' or 'registered'
+          if (notificationText.includes('approval') || notificationText.includes('registered')) {
+            window.location.href = `users.php`;
+          } else {
+            console.log('The notification does not contain the word "approval".');
+
+            // If not, perform the AJAX request
+            $.ajax({
+              url: 'redirect_notification.php', // Replace with the actual path to your PHP script
+              type: 'POST',
+              data: {
+                email: email
+              },
+              success: function(response) {
+                var result = JSON.parse(response);
+                if (result.status === 'success') {
+                  console.log('Campus:', result.campus);
+                  console.log('College:', result.college);
+                  window.location.href = `request_documents/programs.php?campus=${encodeURIComponent(result.campus)}&college=${encodeURIComponent(result.college)}`;
+                  // Optionally, update the UI with this information
+                } else {
+                  console.error(result.message);
+                  // Optionally show an error message to the user
+                }
+              },
+              error: function(xhr, status, error) {
+                console.error('AJAX error:', status, error);
+              }
+            });
+          }
+
+          // Optionally, call your notificationDetailUpdate function, if needed
+          notificationDetailUpdate(notificationId);
+        });
+
       });
 
+      // Update the notification count
       function updateNotificationCount() {
         $.ajax({
           url: '../config/get_notification_count.php', // PHP file to get notification count
@@ -689,6 +744,7 @@ if (!isset($_SESSION['id'])) {
         });
       }
 
+      // Fetch and display notifications
       function notificationUpdate() {
         $.ajax({
           url: '../config/fetch_notifications.php', // PHP file to fetch notifications
@@ -709,7 +765,7 @@ if (!isset($_SESSION['id'])) {
                 };
                 const formattedDate = date.toLocaleString('en-US', options);
                 $('#notification').append(`
-                        <li class="list-group-item text-dark" style="cursor:pointer;">
+                        <li class="list-group-item text-dark notification-item" data-id="${notification.id}" style="cursor:pointer;">
                             ${notification.description} <br>
                             <small class="text-success">${formattedDate}</small>
                         </li>
@@ -718,6 +774,7 @@ if (!isset($_SESSION['id'])) {
             } else {
               $('#notification').append('<li class="list-group-item">No new notifications.</li>');
             }
+
             // Update the notification count after displaying the notifications
             updateNotificationCount();
           },
@@ -726,50 +783,31 @@ if (!isset($_SESSION['id'])) {
           }
         });
       }
-      // NOTIFICATION END
 
-      // REQUEST DOCUMENT NOTIFICATION START
-      // Use event delegation to handle click events
-      $(document).on('click', '#notification .list-group-item', function() {
-        var email = $(this).find('strong').text(); // Extract the email from the <strong> tag
-        console.log('Notification clicked, email:', email); // Debugging line
-
-        // Assuming this refers to the notification element that was clicked
-        var notificationText = $(this).text(); // Extract the full text of the notification
-        console.log('Notification clicked, text:', notificationText); // Debugging line
-
-        // Check if the notification text contains the word 'approval'
-        if (notificationText.includes('approval')) {
-          window.location.href = `users.php`;
-        } else {
-          console.log('The notification does not contain the word "approval".');
-
-
-          $.ajax({
-            url: 'redirect_notification.php', // Replace with the actual path to your PHP script
-            type: 'POST',
-            data: {
-              email: email
-            },
-            success: function(response) {
-              var result = JSON.parse(response);
-              if (result.status === 'success') {
-                console.log('Campus:', result.campus);
-                console.log('College:', result.college);
-                window.location.href = `request_documents/documents.php?campus=${encodeURIComponent(result.campus)}&college=${encodeURIComponent(result.college)}`;
-                // You can update the UI to show this information
-              } else {
-                console.error(result.message);
-                // Optionally show an error message to the user
-              }
-            },
-            error: function(xhr, status, error) {
-              console.error('AJAX error:', status, error);
+      //Update the status of a specific notification when clicked (mark as read, for example)
+      function notificationDetailUpdate(notificationId) {
+        $.ajax({
+          url: '../config/mark_notification_read.php', // PHP file to mark notification as read
+          type: 'POST',
+          data: {
+            id: notificationId
+          },
+          success: function(response) {
+            if (response.success) {
+              // Optionally, you can update the UI here, e.g., mark the notification as read
+              // For example, add a "read" class or modify the notification appearance
+              $(`[data-id="${notificationId}"]`).addClass('read'); // Assuming "read" class has specific styling
+              console.log("Notification marked as read");
+            } else {
+              console.error("Error marking notification as read");
             }
-          });
-        }
-      });
-      // REQUEST DOCUMENT NOTIFICATION END
+          },
+          error: function() {
+            console.error("Error marking notification as read");
+          }
+        });
+      }
+      // NOTIFICATION END
 
       // CALENDAR START
       $(document).ready(function() {
