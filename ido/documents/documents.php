@@ -519,7 +519,7 @@ if (!isset($_SESSION['id'])) {
                                 <div class="mb-3">
                                     <label class="form-label">Upload Document</label>
                                     <input class="form-control" id="subFile" name="subFile[]" type="file"
-                                        accept=".pdf, image/*">
+                                        accept=".pdf, image/*" multiple>
                                     <small id="subFilename" class="form-text text-muted">No file chosen</small>
                                 </div>
                         </div>
