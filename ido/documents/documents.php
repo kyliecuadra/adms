@@ -791,7 +791,7 @@ if (!isset($_SESSION['id'])) {
                     $('#viewDocumentModalLabel').text(filename);
                     $('#programLabel').text(program);
                     // Set the URL of the PDF in the iframe
-                    $('#pdfViewer').attr('src', pdfUrl + "#toolbar=0");
+                    $('#pdfViewer').attr('src', pdfUrl);
 
                     // Show the modal
                     $('#viewDocumentModal').modal('show');
