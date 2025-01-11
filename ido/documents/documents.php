@@ -582,40 +582,40 @@ if (!isset($_SESSION['id'])) {
 
                 // DISPLAY RECORDS START
                 $(document).ready(function() {
-    var table = $('#documentTable').DataTable({
-        ajax: {
-            url: 'get_structure.php',
-            type: 'GET',
-            data: {
-                identifier: "documents",
-                campus: campusName,
-                college: collegeName,
-                program: programName,
-                area: areaName,
-                parameter: parameterName,
-                quality: qualityName
-            }
-        },
-        columns: [{
-                data: 'benchmark',
-                render: function(data, type, row) {
-                    if (row.parent_benchmark === "0") {
-                        return `<span>${data}</span>`;
-                    } else {
-                        return '';
-                    }
-                }
-            },
-            {
-                data: 'upload_date',
-                render: function(data) {
-                    return data ? `<span>${data}</span>` : '-';
-                }
-            },
-            {
-                data: null,
-                render: function(data, type, row) {
-                    return `
+                    var table = $('#documentTable').DataTable({
+                        ajax: {
+                            url: 'get_structure.php',
+                            type: 'GET',
+                            data: {
+                                identifier: "documents",
+                                campus: campusName,
+                                college: collegeName,
+                                program: programName,
+                                area: areaName,
+                                parameter: parameterName,
+                                quality: qualityName
+                            }
+                        },
+                        columns: [{
+                                data: 'benchmark',
+                                render: function(data, type, row) {
+                                    if (row.parent_benchmark === "0") {
+                                        return `<span>${data}</span>`;
+                                    } else {
+                                        return '';
+                                    }
+                                }
+                            },
+                            {
+                                data: 'upload_date',
+                                render: function(data) {
+                                    return data ? `<span>${data}</span>` : '-';
+                                }
+                            },
+                            {
+                                data: null,
+                                render: function(data, type, row) {
+                                    return `
                         <button class="btn btn-info btn-sm" title="View" onclick="viewDocument('${row.filename}', '${row.benchmark}')">
                             <i class="fas fa-eye"></i>
                         </button>
@@ -625,33 +625,33 @@ if (!isset($_SESSION['id'])) {
                         <button class="btn btn-primary btn-sm" title="Add Sub-Document" onclick="addSubDocument('${row.id}')">
                             <i class="fa-solid fa-plus"></i>
                         </button>`;
-                },
-                orderable: false,
-                searchable: false
-            }
-        ],
-        paging: true,
-        searching: true,
-        ordering: false,
-        responsive: true
-    });
+                                },
+                                orderable: false,
+                                searchable: false
+                            }
+                        ],
+                        paging: true,
+                        searching: true,
+                        ordering: false,
+                        responsive: true
+                    });
 
-    function hasChild(parentId) {
-        var rows = table.rows().data().toArray();
-        return rows.some(function(row) {
-            return row.parent_benchmark === parentId;
-        });
-    }
+                    function hasChild(parentId) {
+                        var rows = table.rows().data().toArray();
+                        return rows.some(function(row) {
+                            return row.parent_benchmark === parentId;
+                        });
+                    }
 
-    function createSubRowHtml(parentRow, level = 1, processedRows = new Set()) {
-        var rows = table.rows().data().toArray();
-        var subRowsHtml = '';
+                    function createSubRowHtml(parentRow, level = 1, processedRows = new Set()) {
+                        var rows = table.rows().data().toArray();
+                        var subRowsHtml = '';
 
-        rows.forEach(function(subRow) {
-            if (subRow.parent_benchmark === parentRow.id && !processedRows.has(subRow.id)) {
-                processedRows.add(subRow.id);
-                var padding = 20 * level;
-                subRowsHtml += `
+                        rows.forEach(function(subRow) {
+                            if (subRow.parent_benchmark === parentRow.id && !processedRows.has(subRow.id)) {
+                                processedRows.add(subRow.id);
+                                var padding = 20 * level;
+                                subRowsHtml += `
                     <tr class="accordion-collapse collapse sub-row" id="collapse-${parentRow.id}">
                         <td style="padding-left: ${padding}px;">
                             ${hasChild(subRow.id) ? `
@@ -677,24 +677,24 @@ if (!isset($_SESSION['id'])) {
                             </button>
                         </td>
                     </tr>`;
-                subRowsHtml += createSubRowHtml(subRow, level + 1, processedRows); // Recursively create sub-rows
-            }
-        });
+                                subRowsHtml += createSubRowHtml(subRow, level + 1, processedRows); // Recursively create sub-rows
+                            }
+                        });
 
-        return subRowsHtml;
-    }
+                        return subRowsHtml;
+                    }
 
-    table.on('draw', function() {
-        var rows = table.rows().data().toArray();
-        var processedRows = new Set(); // Track processed rows to avoid duplicates
+                    table.on('draw', function() {
+                        var rows = table.rows().data().toArray();
+                        var processedRows = new Set(); // Track processed rows to avoid duplicates
 
-        $('#documentTable tbody tr').each(function() {
-            var row = table.row(this).data();
-            var benchmarkCell = $(this).find('td').eq(0);
+                        $('#documentTable tbody tr').each(function() {
+                            var row = table.row(this).data();
+                            var benchmarkCell = $(this).find('td').eq(0);
 
-            if (row.parent_benchmark === "0" && hasChild(row.id)) {
-                // This row is a parent with children
-                benchmarkCell.html(`
+                            if (row.parent_benchmark === "0" && hasChild(row.id)) {
+                                // This row is a parent with children
+                                benchmarkCell.html(`
                     <div class="accordion-button collapsed" 
                          data-bs-toggle="collapse" 
                          data-bs-target="#collapse-${row.id}" 
@@ -704,23 +704,25 @@ if (!isset($_SESSION['id'])) {
                     </div>
                 `);
 
-                if (!processedRows.has(row.id)) {
-                    processedRows.add(row.id);
-                    var subRowsHtml = createSubRowHtml(row, 1, processedRows);
-                    if (subRowsHtml) {
-                        $(this).after(subRowsHtml);
-                        new bootstrap.Collapse(document.querySelector(`#collapse-${row.id}`), { toggle: false });
-                    }
-                }
-            } else if (row.parent_benchmark === "0" && !hasChild(row.id)) {
-                // This row is a simple row without children
-                benchmarkCell.html(`${row.benchmark}`);
-            } else {
-                $(this).hide();
-            }
-        });
-    });
-});
+                                if (!processedRows.has(row.id)) {
+                                    processedRows.add(row.id);
+                                    var subRowsHtml = createSubRowHtml(row, 1, processedRows);
+                                    if (subRowsHtml) {
+                                        $(this).after(subRowsHtml);
+                                        new bootstrap.Collapse(document.querySelector(`#collapse-${row.id}`), {
+                                            toggle: false
+                                        });
+                                    }
+                                }
+                            } else if (row.parent_benchmark === "0" && !hasChild(row.id)) {
+                                // This row is a simple row without children
+                                benchmarkCell.html(`${row.benchmark}`);
+                            } else {
+                                $(this).hide();
+                            }
+                        });
+                    });
+                });
 
                 // DISPLAY RECORD END
                 // FILE UPLAOD START
@@ -856,18 +858,23 @@ if (!isset($_SESSION['id'])) {
                 // ADD SUB DOCUMENT START
                 function addSubDocument(id) {
                     // Handle file input change event
-                    $('#subFile').on('change', function() {
+                    $('#subFile').off('change').on('change', function() {
                         var files = $(this).prop('files');
                         var fileNames = Array.from(files).map(file => file.name).join(', ');
                         $('#subFilename').text(fileNames || 'No file chosen');
                     });
+
+                    // Set the parent ID in the hidden input
                     $('#parentId').val(id);
+
+                    // Show the modal
                     $('#addSubDocumentModal').modal('show');
-                    // Handle file upload on button click
-                    $('#addSubDocument').on('click', function() {
+
+                    // Unbind any previous click events and bind a new one
+                    $('#addSubDocument').off('click').on('click', function() {
                         var formData = new FormData($('#addSubDocumentForm')[0]);
                         var files = $('#subFile')[0].files;
-                        console.log(files);
+
                         $.ajax({
                             url: 'add_sub_document.php',
                             type: 'POST',
@@ -905,6 +912,7 @@ if (!isset($_SESSION['id'])) {
                         });
                     });
                 }
+
                 // ADD SUB DOCUMENT END
 
                 // MY PROFILE START
