@@ -9,19 +9,18 @@ if (!file_exists($targetDir)) {
 
 $response = array();
 
-if (isset($_FILES['fileInput']) && isset($_POST['area']) && isset($_POST['parameter']) && isset($_POST['quality']) && isset($_POST['benchmark'])) {
-    $files = $_FILES['fileInput'];
-    $campus = mysqli_real_escape_string($conn, $_POST['campus']);
-    $college = mysqli_real_escape_string($conn, $_POST['college']);
-    $program = mysqli_real_escape_string($conn, $_POST['program']);
-    $area = mysqli_real_escape_string($conn, $_POST['area']);
-    $parameter = mysqli_real_escape_string($conn, $_POST['parameter']);
-    $quality = mysqli_real_escape_string($conn, $_POST['quality']);
-    $benchmark = isset($_POST['benchmark']) ? mysqli_real_escape_string($conn, $_POST['benchmark']) : '';
+if (isset($_FILES['subFile']) && isset($_POST['subArea']) && isset($_POST['subParameter']) && isset($_POST['subQuality']) && isset($_POST['subBenchmark'])) {
+    $files = $_FILES['subFile'];
+    $campus = mysqli_real_escape_string($conn, $_POST['subCampus']);
+    $college = mysqli_real_escape_string($conn, $_POST['subCollege']);
+    $program = mysqli_real_escape_string($conn, $_POST['subProgram']);
+    $area = mysqli_real_escape_string($conn, $_POST['subArea']);
+    $parameter = mysqli_real_escape_string($conn, $_POST['subParameter']);
+    $quality = mysqli_real_escape_string($conn, $_POST['subQuality']);
+    $benchmark = isset($_POST['subBenchmark']) ? mysqli_real_escape_string($conn, $_POST['subBenchmark']) : '';
+    $parentId =  isset($_POST['parentId']) ? mysqli_real_escape_string($conn, $_POST['parentId']) : '';
     $uploadDate = date('Y-m-d');
-
     mysqli_begin_transaction($conn);
-
     $success = true;
 
     for ($i = 0; $i < count($files['name']); $i++) {
@@ -55,7 +54,7 @@ if (isset($_FILES['fileInput']) && isset($_POST['area']) && isset($_POST['parame
                 // Assign the unique filename after a successful move
                 $newFileName = $counter > 1 ? $fileBaseName . '_' . ($counter - 1) . '.' . $fileExtension : $fileName;
 
-                $query = "INSERT INTO documents (area, parameter, quality, campus, college, program, benchmark, file_name, upload_date) VALUES ('$area', '$parameter', '$quality', '$campus', '$college', '$program', '$benchmark', '$newFileName', '$uploadDate')";
+                $query = "INSERT INTO documents (area, parameter, quality, campus, college, program, benchmark, file_name, upload_date, parent_benchmark) VALUES ('$area', '$parameter', '$quality', '$campus', '$college', '$program', '$benchmark', '$newFileName', '$uploadDate', '$parentId')";
 
                 if (mysqli_query($conn, $query)) {
                     // Insert notification for users with 'quaac' role

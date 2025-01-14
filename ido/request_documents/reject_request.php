@@ -6,7 +6,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $id = $_POST['id'];
 
     // Update the status of the request document
-    $query = "UPDATE request_documents SET status = 'Rejected' WHERE id = $id";
+    $query = "UPDATE request_documents SET status = 'Rejected', processed_date = CURDATE() WHERE id = $id";
     $result = mysqli_query($conn, $query);
 
     if ($result) {

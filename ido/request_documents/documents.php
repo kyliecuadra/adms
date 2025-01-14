@@ -13,6 +13,7 @@ if (!isset($_SESSION['id'])) {
 
     $campusName = isset($_GET['campus']) ? htmlspecialchars($_GET['campus']) : 'Campus';
     $collegeName = isset($_GET['college']) ? htmlspecialchars($_GET['college']) : 'College';
+    $programName = isset($_GET['program']) ? htmlspecialchars($_GET['program']) : 'Programs';
 }
 ?>
 <!DOCTYPE html>
@@ -127,13 +128,13 @@ if (!isset($_SESSION['id'])) {
                             <div class="text-truncate" data-i18n="Users">Users</div>
                         </a>
                     </li>
-            <!-- Messages -->
-            <li class="menu-item">
-                  <a href="../message.php" class="menu-link">
-                  <i class="menu-icon tf-icons bx bx-chat"></i>
-                  <div class="text-truncate" data-i18n="Messages">Messages</div>
-               </a>
-            </li>
+                    <!-- Messages -->
+                    <li class="menu-item">
+                        <a href="../message.php" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-chat"></i>
+                            <div class="text-truncate" data-i18n="Messages">Messages</div>
+                        </a>
+                    </li>
                     <!-- Configuration -->
                     <li class="menu-item">
                         <a href="../configuration/campus.php" class="menu-link">
@@ -235,9 +236,14 @@ if (!isset($_SESSION['id'])) {
                         <div class="card px-4 py-4">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb fs-4">
-                                    <li class="breadcrumb-item"><a href="campus.php"><?php echo $campusName; ?></a></li>
-                                    <li class="breadcrumb-item"><a href="#"
-                                            onclick="window.history.back(); return false;"><?php echo $collegeName; ?></a>
+                                    <li class="breadcrumb-item"><a href="programs.php"><?php echo $campusName; ?></a></li>
+                                    <li class="breadcrumb-item">
+                                        <a href="colleges.php?campus=<?php echo urlencode($campusName); ?>">
+                                            <?php echo $collegeName; ?>
+                                        </a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="#" onclick="window.history.back(); return false;"><?php echo $programName; ?></a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">Documents</li>
                                 </ol>
@@ -255,10 +261,19 @@ if (!isset($_SESSION['id'])) {
                                         <div class="col-3">
                                             <select class="form-control" name="filterQuality" id="filterQuality">
                                                 <option>Select Quality</option>
-                                                <option value="System- Input and Processes">System- Input and Processes
+                                                <option value="System - Inputs and Processes">System - Inputs and Processes
                                                 </option>
                                                 <option value="Implementation">Implementation</option>
                                                 <option value="Output">Output</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-3">
+                                            <select class="form-control" name="filterStatus" id="filterStatus">
+                                                <option>Select Status</option>
+                                                <option value="Pending">Pending
+                                                </option>
+                                                <option value="Approved">Approved</option>
+                                                <option value="Rejected">Rejected</option>
                                             </select>
                                         </div>
                                     </div>
@@ -273,6 +288,8 @@ if (!isset($_SESSION['id'])) {
                                         <th><strong>Quality of Measurement</strong></th>
                                         <th><strong>Benchmark</strong></th>
                                         <th><strong>Date Requested</strong></th>
+                                        <th><strong>Priority</strong></th>
+                                        <th><strong>Date Processed</strong></th>
                                         <th><strong>Action</strong></th>
                                     </tr>
                                 </thead>
@@ -289,8 +306,8 @@ if (!isset($_SESSION['id'])) {
                 <div class="drag-target"></div>
             </div>
             <!-- Approve Modal -->
-            <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel"
-                aria-hidden="true">
+            <!-- Approve Modal Structure -->
+            <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -298,15 +315,67 @@ if (!isset($_SESSION['id'])) {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            Are you sure you want to approve this document?
+                            <form id="approveForm" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="modalArea" class="form-label">
+                                        <i class="bx bx-layer"></i> Area
+                                    </label>
+                                    <input type="text" class="form-control" id="modalArea" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="modalParameter" class="form-label">
+                                        <i class="bx bx-cog"></i> Parameter
+                                    </label>
+                                    <input type="text" class="form-control" id="modalParameter" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="modalQuality" class="form-label">
+                                        <i class="bx bx-check-circle"></i> Quality
+                                    </label>
+                                    <input type="text" class="form-control" id="modalQuality" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="modalCampus" class="form-label">
+                                        <i class="bx bx-buildings"></i> Campus
+                                    </label>
+                                    <input type="text" class="form-control" id="modalCampus" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="modalCollege" class="form-label">
+                                        <i class="bx bx-book"></i> College
+                                    </label>
+                                    <input type="text" class="form-control" id="modalCollege" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="modalProgram" class="form-label">
+                                        <i class="bx bx-briefcase"></i> Program
+                                    </label>
+                                    <input type="text" class="form-control" id="modalProgram" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="modalProgram" class="form-label">
+                                        <i class='bx bx-menu'></i> Benchmark
+                                    </label>
+                                    <input type="text" class="form-control" id="modalBenchmark" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="uploadFile" class="form-label">
+                                        <i class='bx bx-upload'></i> Upload File
+                                    </label>
+                                    <input type="file" class="form-control" id="uploadFile" name="file" accept=".pdf, image/*" required>
+                                </div>
+                            </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" id="confirmApprove">Approve</button>
+                            <button type="button" class="btn btn-success" id="confirmApprove">Approve</button>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+
 
             <!-- Reject Modal -->
             <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel"
@@ -331,62 +400,62 @@ if (!isset($_SESSION['id'])) {
 
             <!-- MY PROFILE MODAL START -->
             <div class="modal fade" id="userProfile" tabindex="-1" aria-labelledby="userProfileLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="userProfileLabel">My Profile</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <form id="updateUserForm">
-                      <input type="hidden" name="id" id="userId">
-                      <div class="row mb-3">
-                        <div class="col">
-                          <label for="fname" class="form-label">First Name</label>
-                          <input type="text" class="form-control" name="fname" id="fname" required readonly>
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="userProfileLabel">My Profile</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="col">
-                          <label for="mname" class="form-label">Middle Name</label>
-                          <input type="text" class="form-control" name="mname" id="mname" readonly>
+                        <div class="modal-body">
+                            <form id="updateUserForm">
+                                <input type="hidden" name="id" id="userId">
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <label for="fname" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" name="fname" id="fname" required readonly>
+                                    </div>
+                                    <div class="col">
+                                        <label for="mname" class="form-label">Middle Name</label>
+                                        <input type="text" class="form-control" name="mname" id="mname" readonly>
+                                    </div>
+                                    <div class="col">
+                                        <label for="lname" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" name="lname" id="lname" required readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" name="email" id="email" required readonly>
+                                    </div>
+                                    <div class="col">
+                                        <label for="password" class="form-label">Password</label>
+                                        <i class='bx bx-edit-alt text-success' data-bs-toggle="modal" data-bs-target="#passwordModal" style="cursor:pointer;"></i>
+                                        <input type="text" class="form-control" name="password" id="password" required readonly>
+                                    </div>
+                                    <div class="col">
+                                        <label for="phonenumber" class="form-label">Phone Number</label>
+                                        <input type="text" class="form-control" name="phonenumber" id="phonenumber" required readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <label for="role" class="form-label">Role</label>
+                                        <input type="text" class="form-control" name="role" id="role" required readonly>
+                                    </div>
+                                    <div class="col">
+                                        <label for="profileCampus" class="form-label">Campus</label>
+                                        <input type="text" class="form-control" name="profileCampus" id="profileCampus" required readonly>
+                                    </div>
+                                    <div class="col">
+                                        <label for="profileCollege" class="form-label">College</label>
+                                        <input type="text" class="form-control" name="profileCollege" id="profileCollege" required readonly>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="col">
-                          <label for="lname" class="form-label">Last Name</label>
-                          <input type="text" class="form-control" name="lname" id="lname" required readonly>
-                        </div>
-                      </div>
-                      <div class="row mb-3">
-                        <div class="col">
-                          <label for="email" class="form-label">Email</label>
-                          <input type="email" class="form-control" name="email" id="email" required readonly>
-                        </div>
-                        <div class="col">
-                          <label for="password" class="form-label">Password</label>
-                          <i class='bx bx-edit-alt text-success' data-bs-toggle="modal" data-bs-target="#passwordModal" style="cursor:pointer;"></i>
-                          <input type="text" class="form-control" name="password" id="password" required readonly>
-                        </div>
-                        <div class="col">
-                          <label for="phonenumber" class="form-label">Phone Number</label>
-                          <input type="text" class="form-control" name="phonenumber" id="phonenumber" required readonly>
-                        </div>
-                      </div>
-                      <div class="row mb-3">
-                        <div class="col">
-                          <label for="role" class="form-label">Role</label>
-                          <input type="text" class="form-control" name="role" id="role" required readonly>
-                        </div>
-                        <div class="col">
-                          <label for="profileCampus" class="form-label">Campus</label>
-                          <input type="text" class="form-control" name="profileCampus" id="profileCampus" required readonly>
-                        </div>
-                        <div class="col">
-                          <label for="profileCollege" class="form-label">College</label>
-                          <input type="text" class="form-control" name="profileCollege" id="profileCollege" required readonly>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
+                    </div>
                 </div>
-              </div>
             </div>
             <!-- MY PROFILE MODAL END -->
 
@@ -437,304 +506,474 @@ if (!isset($_SESSION['id'])) {
             <script>
                 var campusName = <?php echo json_encode($campusName); ?>;
                 var collegeName = <?php echo json_encode($collegeName); ?>;
-
+                var programName = <?php echo json_encode($programName); ?>;
+programName
                 // DISPLAY RECORDS START
-$(document).ready(function () {
-    let selectedDocumentId; // Store the selected document ID
+                $(document).ready(function() {
+                    let selectedDocumentId; // Store the selected document ID
 
-    // Initialize DataTable
-    var table = $('#documentTable').DataTable({
-        ajax: {
-            url: 'get_structure.php',
-            type: 'GET',
-            data: {
-                identifier: "documents",
-                campus: campusName,
-                college: collegeName
-            },
-            dataSrc: 'data'
-        },
-        columns: [
-            { data: 'requestor' },
-            { data: 'area' },
-            { data: 'parameter' },
-            { data: 'quality' },
-            { data: 'benchmark' },
-            { data: 'requested_date' },
-            {
-                data: null,
-                render: function (data, type, row) {
-                    return `
-                        <button class="btn btn-primary text-white"
-                                data-bs-toggle="modal"
-                                data-bs-target="#approveModal"
-                                data-id="${row.id}">Approve</button>
-                        <button class="btn btn-danger text-white"
-                                data-bs-toggle="modal"
-                                data-bs-target="#rejectModal"
-                                data-id="${row.id}"
-                                style="background-color: #ff3e1d !important; border-color: #ff3e1d !important;">Reject</button>
-                    `;
-                },
-                orderable: false,
-                searchable: false
-            }
-        ],
-        order: [[0, 'desc']],
-        paging: true,
-        searching: true,
-        ordering: true,
-        responsive: true
-    });
+                    // Initialize DataTable
+                    var table = $('#documentTable').DataTable({
+                        ajax: {
+                            url: 'get_structure.php',
+                            type: 'GET',
+                            data: {
+                                identifier: "documents",
+                                campus: campusName,
+                                college: collegeName,
+                                program: programName
+                            },
+                            dataSrc: 'data'
+                        },
+                        columns: [{
+                                data: 'requestor'
+                            },
+                            {
+                                data: 'area'
+                            },
+                            {
+                                data: 'parameter'
+                            },
+                            {
+                                data: 'quality'
+                            },
+                            {
+                                data: 'benchmark'
+                            },
+                            {
+                                data: 'requested_date'
+                            },
+                            {
+                                data: 'priority',
+                                render: function(data, type, row) {
+                                    // Get today's date
+                                    var today = new Date();
 
-    // Function to apply filters
-    function applyFilters() {
-        var areaValue = $('#filterArea').val().trim();
-        var parameterValue = $('#filterParameter').val().trim();
-        var qualityValue = $('#filterQuality').val();
+                                    // Parse the priority date
+                                    var priorityDate = new Date(data);
 
-        // Apply filters
-        table
-            .column(0).search(areaValue === 'Select Area' ? '' : areaValue)
-            .column(1).search(parameterValue === 'Select Parameter' ? '' : parameterValue)
-            .column(2).search(qualityValue === 'Select Quality' ? '' : qualityValue)
-            .draw(); // Redraw the table with the applied filters
+                                    // Calculate the difference in days
+                                    var diffDays = Math.ceil((priorityDate - today) / (1000 * 3600 * 24));
 
-        // Reset DataTable if all filters are at their default values
-        if (areaValue === 'Select Area' && parameterValue === 'Select Parameter' && qualityValue === 'Select Quality') {
-            table.ajax.reload(); // Refresh DataTable
-        }
-    }
+                                    // Check if the priority date is less than 5 days
+                                    if (diffDays <= 5) {
+                                        return 'High'; // Show "High" if less than 5 days
+                                    } else if (diffDays <= 10) {
+                                        return 'Medium'; // Show "Medium" if less than 10 days
+                                    }
+                                    return 'Low'; // Otherwise, show "Low"
+                                }
+                            },
+                            {
+                                data: 'processed_date',
+                                render: function(data, type, row) {
+                                    return data && data.trim() !== '' ? data : '<span class="badge bg-warning text-white fs-5">Pending</span>';
+                                }
+                            },
+                            {
+                                data: null,
+                                render: function(data, type, row) {
+                                    if (row.status === "Pending") {
+                                        return `
+                                        <div style="display: flex; gap: 5px;">
+                                            <button class="btn btn-primary text-white approve-btn"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#approveModal"
+                                                data-id="${row.id}"
+                                                data-area="${row.area}"
+                                                data-parameter="${row.parameter}"
+                                                data-quality="${row.quality}"
+                                                data-campus="${row.campus}"
+                                                data-college="${row.college}"
+                                                data-benchmark="${row.benchmark}"
+                                                data-program="${row.program}">Approve</button>
+                                            <button class="btn btn-danger text-white"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#rejectModal"
+                                                    data-id="${row.id}"
+                                                    style="background-color: #DC3545 !important; border-color: #ff3e1d !important;">Reject</button>
+                                        </div>
+                                        `;
+                                    } else if (row.status === "Approved" ) {
+                                        return `<span class="badge bg-success text-white fs-5">Approved</span>`;
+                                    } else if (row.status === "Rejected") {
+                                        return `<span class="badge bg-danger text-white fs-5">Rejected</span>`;
+                                    }
 
-    // Real-time filtering: apply filters on input change
-    $('#filterArea, #filterParameter, #filterQuality').on('change keyup', applyFilters);
+                                },
+                                orderable: false,
+                                searchable: true
+                            }
+                        ],
+                        paging: true,
+                        searching: true,
+                        responsive: true,
+                        createdRow: function(row, data, dataIndex) {
+                            // Get today's date
+                            var today = new Date();
 
-    // Handle button clicks for approve and reject
-    $('#documentTable tbody').on('click', '.btn-primary, .btn-danger', function () {
-        selectedDocumentId = $(this).data('id');
-    });
+                            // Parse the priority date from the row
+                            var priorityDate = new Date(data.priority);
+                            console.log(data.status);
 
-    // Confirm approve action
-    $('#confirmApprove').on('click', function () {
-        $.ajax({
-            url: 'approve_request.php',
-            type: 'POST',
-            data: { id: selectedDocumentId },
-            success: function (response) {
-                if (response === "success") {
-                    toastr.success('Document approved successfully!');
-                } else {
-                    toastr.error('An error occurred: ' + response);
-                }
-                $('#approveModal').modal('hide');
-                table.ajax.reload();
-            },
-            error: function (xhr, status, error) {
-                toastr.error('An error occurred: ' + error);
-                $('#approveModal').modal('hide');
-            }
-        });
-    });
+                            // Calculate the difference in days
+                            var diffDays = Math.ceil((priorityDate - today) / (1000 * 3600 * 24));
 
-        // Confirm reject action
-        $('#confirmReject').on('click', function () {
-            $.ajax({
-                url: 'reject_request.php',
-                type: 'POST',
-                data: { id: selectedDocumentId },
-                success: function (response) {
-                    if (response === "success") {
-                        toastr.success('Document rejected successfully!');
-                    } else {
-                        toastr.error('An error occurred: ' + response);
-                    }
-                    $('#rejectModal').modal('hide');
-                    table.ajax.reload();
-                },
-                error: function (xhr, status, error) {
-                    toastr.error('An error occurred: ' + error);
-                    $('#rejectModal').modal('hide');
-                }
-            });
-        });
-    });
-
-    // MY PROFILE START
-function openUpdateModal(userId) {
-        fetch(`../../config/get_user.php?id=${userId}`).then(response => response.json()).then(data => {
-          if (data.success) {
-            const user = data.user;
-            // Populate modal fields
-            document.getElementById('userId').value = user.id;
-            document.getElementById('fname').value = user.fname;
-            document.getElementById('mname').value = user.mname;
-            document.getElementById('lname').value = user.lname;
-            document.getElementById('email').value = user.email;
-            document.getElementById('password').value = user.password;
-            document.getElementById('phonenumber').value = user.phonenumber;
-            document.getElementById('role').value = user.role;
-            // Set selected options for dropdowns
-            document.getElementById('profileCampus').value = user.campus || '';
-            document.getElementById('profileCollege').value = user.college || '';
-            // Show the modal
-            var modal = new bootstrap.Modal(document.getElementById('userProfile'));
-            modal.show();
-          } else {
-            alert('Failed to load user data: ' + data.message);
-          }
-        }).catch(error => {
-          console.error('Error:', error);
-          alert('An error occurred while fetching user data.');
-        });
-      }
-      // MY PROFILE END
-
-      // UPDATING PASSWORD START
-      $('#savePasswordBtn').on('click', function() {
-            const newPassword = $('#newPassword').val();
-            const confirmPassword = $('#confirmPassword').val();
-            const id = $('#userId').val();
-
-            if (newPassword === confirmPassword) {
-                // AJAX request to update the password
-                $.ajax({
-                    url: 'update_password.php', // Your server endpoint for updating password
-                    type: 'POST',
-                    data: {
-                        password: newPassword,
-                        userId: id
-                    },
-                    success: function(response) {
-                        // Assuming response contains a success message
-                        if (response.success) {
-                            $('#password').val(newPassword);
-                            toastr.success('Password updated successfully!');
-
-                            // Close the modal
-                            const modal = bootstrap.Modal.getInstance($('#passwordModal')[0]);
-                            modal.hide();
-
-                            // Optionally reset the form
-                            $('#updatePasswordForm')[0].reset();
-                        } else {
-                          toastr.error('Error updating password: ' + response.message);
+                            // Check the number of days and apply the appropriate background color
+                            if (diffDays <= 5 && data.status === "Pending") {
+                                $(row).css('background-color', '#FF6F61'); // High priority
+                            } else if (diffDays <= 10 && data.status === "Pending") {
+                                $(row).css('background-color', '#FDFD96'); // Medium priority
+                            } else {
+                                if(data.status === "Pending")
+                                $(row).css('background-color', '#77DD77'); // Low priority
+                            }
                         }
-                    },
-                    error: function(xhr, status, error) {
-                      toastr.error('An error occurred: ' + error);
+                    });
+
+                    // Function to apply filters
+                    function applyFilters() {
+                        var areaValue = $('#filterArea').val().trim();
+                        var parameterValue = $('#filterParameter').val().trim();
+                        var qualityValue = $('#filterQuality').val().trim();
+                        var statusValue = $('#filterStatus').val().trim();
+                        let columnIndex; // Default column to search for quality (Pending)
+
+                        // Decide column index based on the selected status
+                        if (statusValue === 'Approved' || statusValue === 'Rejected') {
+                            columnIndex = 7; // Search in column 7 if Approved or Rejected is selected
+                        } else {
+                            columnIndex = 6; // Default to column 6 for Pending
+                        }
+                        // Reset all columns search before applying new filters
+                        table.columns().search('');
+                        // Apply new filters
+                        table
+                            .column(1).search(areaValue === 'Select Area' ? '' : areaValue)
+                            .column(2).search(parameterValue === 'Select Parameter' ? '' : parameterValue)
+                            .column(3).search(qualityValue === 'Select Quality' ? '' : qualityValue)
+                            .column(columnIndex).search(statusValue === 'Select Status' ? '' : statusValue)
+                            .draw(); // Redraw the table with the applied filters
+                        // Reset DataTable if all filters are at their default values
+                        if ((areaValue === 'Select Area' || areaValue === '') &&
+                            (parameterValue === 'Select Parameter' || parameterValue === '') &&
+                            (qualityValue === 'Select Quality' || qualityValue === '') &&
+                            (statusValue === 'Select Status' || statusValue === '')) {
+                            console.log("Resetting table because all filters are default.");
+                            table.ajax.reload(); // Refresh DataTable if all filters are default
+                        }
+                    }
+
+                    // Real-time filtering: apply filters on input change
+                    $('#filterArea, #filterParameter, #filterQuality, #filterStatus').on('change keyup', function() {
+                        applyFilters(); // Apply filters whenever any of the inputs are changed
+                    });
+
+
+                    // Handle button clicks for approve and reject
+                    $('#documentTable tbody').on('click', '.btn-primary, .btn-danger', function() {
+                        selectedDocumentId = $(this).data('id');
+                    });
+
+                    // Handle the Approve button click to populate the modal
+                    $(document).on('click', '.approve-btn', function() {
+                        // Get data from the clicked button
+                        var area = $(this).data('area');
+                        var parameter = $(this).data('parameter');
+                        var quality = $(this).data('quality');
+                        var campus = $(this).data('campus');
+                        var college = $(this).data('college');
+                        var program = $(this).data('program');
+                        var benchmark = $(this).data('benchmark');
+                        var documentId = $(this).data('id');
+                        // Populate the modal with the data
+                        $('#modalArea').val(area); // Set disabled inputs
+                        $('#modalParameter').val(parameter);
+                        $('#modalQuality').val(quality);
+                        $('#modalCampus').val(campus);
+                        $('#modalCollege').val(college);
+                        $('#modalProgram').val(program);
+                        $('#modalBenchmark').val(benchmark);
+                        // Store the document ID in the "Approve" button in case you need it on confirmation
+                        $('#confirmApprove').data('id', documentId);
+                    });
+
+                    $('#confirmApprove').on('click', function() {
+                        // Get the document ID stored in the "Approve" button
+                        var documentId = $(this).data('id');
+
+                        // Prepare the form data, including the file
+                        var formData = new FormData();
+                        formData.append('id', documentId); // Add document ID
+                        formData.append('area', $('#modalArea').val()); // Add the modal data values
+                        formData.append('parameter', $('#modalParameter').val());
+                        formData.append('quality', $('#modalQuality').val());
+                        formData.append('campus', $('#modalCampus').val());
+                        formData.append('college', $('#modalCollege').val());
+                        formData.append('program', $('#modalProgram').val());
+                        formData.append('benchmark', $('#modalBenchmark').val());
+                        // Get the file from the file input
+                        var fileInput = $('#uploadFile')[0].files[0];
+                        if (fileInput) {
+                            formData.append('fileInput', fileInput); // Add the file to the form data
+                        }
+
+                        // Perform the AJAX request
+                        $.ajax({
+                            url: 'upload.php',
+                            type: 'POST',
+                            data: formData,
+                            processData: false, // Important: Prevent jQuery from converting the data
+                            contentType: false, // Important: Let the browser set the content type
+                            success: function(response) {
+                                if (response.status === "success") {
+                                    toastr.success('Document approved successfully!');
+                                } else {
+                                    toastr.error('An error occurred: ' + response);
+                                }
+                                $('#approveModal').modal('hide');
+                                table.ajax.reload(); // Reload the table to reflect the changes
+                            },
+                            error: function(xhr, status, error) {
+                                toastr.error('An error occurred: ' + error);
+                                $('#approveModal').modal('hide');
+                            }
+                        });
+                    });
+
+                    // Confirm reject action
+                    $('#confirmReject').on('click', function() {
+                        $.ajax({
+                            url: 'reject_request.php',
+                            type: 'POST',
+                            data: {
+                                id: selectedDocumentId
+                            },
+                            success: function(response) {
+                                if (response === "success") {
+                                    toastr.success('Document rejected successfully!');
+                                } else {
+                                    toastr.error('An error occurred: ' + response);
+                                }
+                                $('#rejectModal').modal('hide');
+                                table.ajax.reload();
+                            },
+                            error: function(xhr, status, error) {
+                                toastr.error('An error occurred: ' + error);
+                                $('#rejectModal').modal('hide');
+                            }
+                        });
+                    });
+                });
+
+                // MY PROFILE START
+                function openUpdateModal(userId) {
+                    fetch(`../../config/get_user.php?id=${userId}`).then(response => response.json()).then(data => {
+                        if (data.success) {
+                            const user = data.user;
+                            // Populate modal fields
+                            document.getElementById('userId').value = user.id;
+                            document.getElementById('fname').value = user.fname;
+                            document.getElementById('mname').value = user.mname;
+                            document.getElementById('lname').value = user.lname;
+                            document.getElementById('email').value = user.email;
+                            document.getElementById('password').value = user.password;
+                            document.getElementById('phonenumber').value = user.phonenumber;
+                            document.getElementById('role').value = user.role;
+                            // Set selected options for dropdowns
+                            document.getElementById('profileCampus').value = user.campus || '';
+                            document.getElementById('profileCollege').value = user.college || '';
+                            // Show the modal
+                            var modal = new bootstrap.Modal(document.getElementById('userProfile'));
+                            modal.show();
+                        } else {
+                            alert('Failed to load user data: ' + data.message);
+                        }
+                    }).catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while fetching user data.');
+                    });
+                }
+                // MY PROFILE END
+
+                // UPDATING PASSWORD START
+                $('#savePasswordBtn').on('click', function() {
+                    const newPassword = $('#newPassword').val();
+                    const confirmPassword = $('#confirmPassword').val();
+                    const id = $('#userId').val();
+
+                    if (newPassword === confirmPassword) {
+                        // AJAX request to update the password
+                        $.ajax({
+                            url: 'update_password.php', // Your server endpoint for updating password
+                            type: 'POST',
+                            data: {
+                                password: newPassword,
+                                userId: id
+                            },
+                            success: function(response) {
+                                // Assuming response contains a success message
+                                if (response.success) {
+                                    $('#password').val(newPassword);
+                                    toastr.success('Password updated successfully!');
+
+                                    // Close the modal
+                                    const modal = bootstrap.Modal.getInstance($('#passwordModal')[0]);
+                                    modal.hide();
+
+                                    // Optionally reset the form
+                                    $('#updatePasswordForm')[0].reset();
+                                } else {
+                                    toastr.error('Error updating password: ' + response.message);
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                toastr.error('An error occurred: ' + error);
+                            }
+                        });
+                    } else {
+                        toastr.warning("Passwords do not match!");
                     }
                 });
-            } else {
-              toastr.warning("Passwords do not match!");
-            }
-        });
-      // UPDATING PASSWORD END
+                // UPDATING PASSWORD END
 
-      // NOTIFICATION START
-      $(document).ready(function () {
-        // Initial load of notification count
-        updateNotificationCount();
-        // Event listener for the notification icon
-        $('.nav-item.dropdown-notifications').on('click', function () {
-          notificationUpdate();
-        });
-      });
+                // NOTIFICATION START
+                $(document).ready(function() {
+                    // Initial load of notification count
+                    updateNotificationCount();
 
-      function updateNotificationCount() {
-        $.ajax({
-          url: '../../config/get_notification_count.php', // PHP file to get notification count
-          type: 'GET',
-          success: function (count) {
-            $('#notification-count').text(count);
-          },
-          error: function () {
-            console.error("Error fetching notification count");
-          }
-        });
-      }
+                    // Event listener for the notification icon
+                    $('.nav-item.dropdown-notifications').on('click', function() {
+                        notificationUpdate();
+                    });
 
-      function notificationUpdate() {
-        $.ajax({
-          url: '../../config/fetch_notifications.php', // PHP file to fetch notifications
-          type: 'GET',
-          dataType: 'json',
-          success: function (data) {
-            $('#notification').empty(); // Clear existing notifications
-            if (data.length > 0) {
-              data.forEach(function (notification) {
-                // Format the created_at date
-                const date = new Date(notification.timestamp);
-                const options = {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit'
-                };
-                const formattedDate = date.toLocaleString('en-US', options);
-                $('#notification').append(`
-                        <li class="list-group-item text-dark" style="cursor:pointer;">
+                    // Delegate the click event to dynamically added notifications
+                    $('#notification').on('click', '.notification-item', function() {
+                        const notificationId = $(this).data('id');
+
+                        // Extract the email from the notification (assuming it's stored in a <strong> tag)
+                        var email = $(this).find('strong').text();
+                        console.log('Notification clicked, email:', email); // Debugging line
+
+                        // Extract the full text of the notification
+                        var notificationText = $(this).text();
+                        console.log('Notification clicked, text:', notificationText); // Debugging line
+
+                        // Check if the notification text contains the word 'approval' or 'registered'
+                        if (notificationText.includes('approval') || notificationText.includes('registered')) {
+                            window.location.href = `../users.php`;
+                        } else {
+                            console.log('The notification does not contain the word "approval".');
+
+                            // If not, perform the AJAX request
+                            $.ajax({
+                                url: '../redirect_notification.php', // Replace with the actual path to your PHP script
+                                type: 'POST',
+                                data: {
+                                    email: email
+                                },
+                                success: function(response) {
+                                    var result = JSON.parse(response);
+                                    if (result.status === 'success') {
+                                        console.log('Campus:', result.campus);
+                                        console.log('College:', result.college);
+                                        window.location.href = `../request_documents/programs.php?campus=${encodeURIComponent(result.campus)}&college=${encodeURIComponent(result.college)}`;
+                                        // Optionally, update the UI with this information
+                                    } else {
+                                        console.error(result.message);
+                                        // Optionally show an error message to the user
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('AJAX error:', status, error);
+                                }
+                            });
+                        }
+
+                        // Optionally, call your notificationDetailUpdate function, if needed
+                        notificationDetailUpdate(notificationId);
+                    });
+
+                });
+
+                // Update the notification count
+                function updateNotificationCount() {
+                    $.ajax({
+                        url: '../../config/get_notification_count.php', // PHP file to get notification count
+                        type: 'GET',
+                        success: function(count) {
+                            $('#notification-count').text(count);
+                        },
+                        error: function() {
+                            console.error("Error fetching notification count");
+                        }
+                    });
+                }
+
+                // Fetch and display notifications
+                function notificationUpdate() {
+                    $.ajax({
+                        url: '../../config/fetch_notifications.php', // PHP file to fetch notifications
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#notification').empty(); // Clear existing notifications
+                            if (data.length > 0) {
+                                data.forEach(function(notification) {
+                                    // Format the created_at date
+                                    const date = new Date(notification.timestamp);
+                                    const options = {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    };
+                                    const formattedDate = date.toLocaleString('en-US', options);
+                                    $('#notification').append(`
+                        <li class="list-group-item text-dark notification-item" data-id="${notification.id}" style="cursor:pointer;">
                             ${notification.description} <br>
                             <small class="text-success">${formattedDate}</small>
                         </li>
                     `);
-              });
-            } else {
-              $('#notification').append('<li class="list-group-item">No new notifications.</li>');
-            }
-            // Update the notification count after displaying the notifications
-            updateNotificationCount();
-          },
-          error: function () {
-            console.error("Error fetching notifications");
-          }
-        });
-      }
-      // NOTIFICATION END
+                                });
+                            } else {
+                                $('#notification').append('<li class="list-group-item">No new notifications.</li>');
+                            }
 
-      // REQUEST DOCUMENT NOTIFICATION START
-      // Use event delegation to handle click events
-      $(document).on('click', '#notification .list-group-item', function() {
-        var email = $(this).find('strong').text(); // Extract the email from the <strong> tag
-        console.log('Notification clicked, email:', email); // Debugging line
+                            // Update the notification count after displaying the notifications
+                            updateNotificationCount();
+                        },
+                        error: function() {
+                            console.error("Error fetching notifications");
+                        }
+                    });
+                }
 
-        // Assuming this refers to the notification element that was clicked
-        var notificationText = $(this).text(); // Extract the full text of the notification
-        console.log('Notification clicked, text:', notificationText); // Debugging line
-
-        // Check if the notification text contains the word 'approval'
-        if (notificationText.includes('approval')) {
-          window.location.href = `../users.php`;
-          // Additional logic can go here, e.g., redirecting or displaying a message
-        } else {
-          console.log('The notification does not contain the word "approval".');
-
-
-          $.ajax({
-            url: '../redirect_notification.php', // Replace with the actual path to your PHP script
-            type: 'POST',
-            data: {
-              email: email
-            },
-            success: function(response) {
-              var result = JSON.parse(response);
-              if (result.status === 'success') {
-                console.log('Campus:', result.campus);
-                console.log('College:', result.college);
-                window.location.href = `documents.php?campus=${encodeURIComponent(result.campus)}&college=${encodeURIComponent(result.college)}`;
-                // You can update the UI to show this information
-              } else {
-                console.error(result.message);
-                // Optionally show an error message to the user
-              }
-            },
-            error: function(xhr, status, error) {
-              console.error('AJAX error:', status, error);
-            }
-          });
-        }
-      });
-      // REQUEST DOCUMENT NOTIFICATION END
+                //Update the status of a specific notification when clicked (mark as read, for example)
+                function notificationDetailUpdate(notificationId) {
+                    $.ajax({
+                        url: '../../config/mark_notification_read.php', // PHP file to mark notification as read
+                        type: 'POST',
+                        data: {
+                            id: notificationId
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                // Optionally, you can update the UI here, e.g., mark the notification as read
+                                // For example, add a "read" class or modify the notification appearance
+                                $(`[data-id="${notificationId}"]`).addClass('read'); // Assuming "read" class has specific styling
+                                console.log("Notification marked as read");
+                            } else {
+                                console.error("Error marking notification as read");
+                            }
+                        },
+                        error: function() {
+                            console.error("Error marking notification as read");
+                        }
+                    });
+                }
+                // NOTIFICATION END
             </script>
 </body>
 

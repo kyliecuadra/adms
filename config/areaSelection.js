@@ -1,4 +1,4 @@
-const areaOptions = ['Select Area', 'Area I', 'Area II', 'Area III', 'Area IV', 'Area V', 'Area VI', 'Area VII', 'Area VIII', 'Area IX', 'Area X'];
+const areaOptions = ['Select Area', 'Area 1', 'Area 2', 'Area 3', 'Area 4', 'Area 5', 'Area 6', 'Area 7', 'Area 8', 'Area 9', 'Area 10'];
 
 class AreaSelect {
     constructor(selectId, parameterSelect) {

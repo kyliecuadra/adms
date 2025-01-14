@@ -64,8 +64,9 @@ elseif (isset($_GET['identifier']) && $_GET['identifier'] === "college") {
 elseif (isset($_GET['identifier']) && $_GET['identifier'] === "documents") {
     $campusName = $_GET['campus'];
     $collegeName = $_GET['college'];
+    $programName = $_GET['program'];
     // SQL query to get campus data
-    $query = "SELECT * FROM request_documents WHERE campus = '$campusName' AND college = '$collegeName' AND status = 'Pending'";
+    $query = "SELECT * FROM request_documents WHERE campus = '$campusName' AND college = '$collegeName' AND program = '$programName' ORDER BY CASE WHEN processed_date IS NULL THEN 0 ELSE 1 END, priority, processed_date DESC;";
     
     // Execute the query
     $result = mysqli_query($conn, $query);
@@ -75,8 +76,19 @@ elseif (isset($_GET['identifier']) && $_GET['identifier'] === "documents") {
         // Fetch data
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                $date = new DateTime($row['requested_date']);
-                $formattedDate = $date->format('F d, Y');
+                $requested_date = new DateTime($row['requested_date']);
+                $formattedRequestedDate = $requested_date->format('F d, Y');
+                
+                $priorityDate = new DateTime($row['priority']);
+                $formattedPriorityDate = $priorityDate->format('F d, Y');
+
+                if (!empty($row['processed_date'])) {
+                    $processed_date = new DateTime($row['processed_date']);
+                    $formattedProcessedDate = $processed_date->format('F d, Y');
+                } else {
+                    $formattedProcessedDate = '';
+                }
+                
                 $data[] = array(
                     'id' => $row['id'],
                     'requestor' => $row['requestor'], // Ensure this matches the DataTable 'requestor' column
@@ -88,7 +100,10 @@ elseif (isset($_GET['identifier']) && $_GET['identifier'] === "documents") {
                     'program' => $row['program'], // Ensure this matches the DataTable 'program' column
                     'benchmark' => $row['benchmark'], // Ensure this matches the DataTable 'benchmark' column
                     'filename' => $row['file_name'], // Ensure this matches the DataTable 'filename' column
-                    'requested_date' => $formattedDate, // Ensure this matches the DataTable 'requested_date' column
+                    'status' => $row['status'], // Ensure this matches the DataTable 'filename' column
+                    'requested_date' => $formattedRequestedDate, // Ensure this matches the DataTable 'requested_date' column
+                    'processed_date' => $formattedProcessedDate, // Ensure this matches the DataTable 'processed_date' column
+                    'priority' => $formattedPriorityDate, // Ensure this matches the DataTable 'priority' column
                 );
             }
         }

@@ -1,17 +1,20 @@
 <?php
-    require("../../config/db_connection.php");
+require ("../../config/db_connection.php");
 
-    session_start();
-    require("../../config/session_timeout.php");
+session_start();
+require ("../../config/session_timeout.php");
 
-    if (!isset($_SESSION['id'])) {
-        header("location: ../../config/not_login-error.html");
-    } else {
-        if ($_SESSION['role'] != "ido") {
-            header("location: ../../config/user_level-error.html");
-        }
-    }
-    ?>
+if(!isset($_SESSION['id'])){
+  header("location: ../../config/not_login-error.html");
+}
+else{
+  if($_SESSION['role'] != "ido"){
+    header("location: ../../config/user_level-error.html");
+  }
+  $campusName = isset($_GET['campus']) ? htmlspecialchars($_GET['campus']) : 'Campus';
+  $collegeName = isset($_GET['college']) ? htmlspecialchars($_GET['college']) : 'College';
+}
+?>
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
     data-theme="theme-default" data-assets-path="../../assets/" data-template="vertical-menu-template">
@@ -20,7 +23,7 @@
     <meta charset="utf-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>System Configuration</title>
+    <title>Documents - <?php echo htmlspecialchars($campusName, ENT_QUOTES, 'UTF-8'); ?></title>
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../../assets/img/icon.png" />
     <!-- Fonts -->
@@ -42,6 +45,7 @@
     <link rel="stylesheet" href="../../assets/vendor/libs/typeahead-js/typeahead.css" />
     <!-- Include jQuery -->
     <script type="text/javascript" src="../../assets/js/jquery.min.js"></script>
+
     <!-- Include DataTables CSS and JS -->
     <link rel="stylesheet" type="text/css" href="../../assets/css/datatable.min.css">
     <script src="../../assets/js/datatable.min.js"></script>
@@ -84,7 +88,7 @@
                     </li>
                     <!-- Documents -->
                     <li class="menu-item">
-                        <a href="../documents/campus.php" class="menu-link">
+                        <a href="campus.php" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-file"></i>
                             <div class="text-truncate" data-i18n="Documents">Documents</div>
                         </a>
@@ -97,7 +101,7 @@
                         </a>
                     </li>
                     <!-- Archived Documents -->
-                    <li class="menu-item">
+                    <li class="menu-item active open">
                         <a href="../archived_documents/campus.php" class="menu-link">
                             <i class='menu-icon tf-icons bx bx-archive'></i>
                             <div class="text-truncate" data-i18n="Archived Documents">Archived Documents</div>
@@ -118,8 +122,8 @@
                </a>
             </li>
                     <!-- Configuration -->
-                    <li class="menu-item active open">
-                        <a href="" class="menu-link">
+                    <li class="menu-item">
+                        <a href="../configuration/campus.php" class="menu-link">
                             <i class='menu-icon tf-icons bx bx-wrench'></i>
                             <div class="text-truncate" data-i18n="System Configuration">System Configuration</div>
                         </a>
@@ -163,6 +167,7 @@
                                     </li>
                                     <li class="dropdown-notifications-list scrollable-container">
                                         <ul class="list-group list-group-flush" id="notification">
+
                                         </ul>
                                     </li>
                                 </ul>
@@ -219,78 +224,28 @@
                             <div class="d-flex justify-content-between mb-3">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb fs-4">
-                                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Campus</a>
+                                        <li class="breadcrumb-item"><a href="campus.php"><?php echo $campusName; ?></a></li>
+                                        <li class="breadcrumb-item"><a href="#"
+                                            onclick="window.history.back(); return false;"><?php echo $collegeName; ?></a>
                                         </li>
+                                        <li class="breadcrumb-item active" aria-current="page">Programs</li>
                                     </ol>
                                 </nav>
-                                <button class="btn" data-bs-toggle="modal" data-bs-target="#addCampusModal">Add
-                                    Campus</button>
                             </div>
-                            <table id="campusTable" class="mr-2 table table-hover table-bordered table-responsive">
+                            <table id="programTable" class="mr-2 table table-hover table-bordered table-responsive">
                                 <thead>
                                     <tr>
-                                        <th><strong>Campus Name</strong></th>
-                                    </tr>
+                                        <th><strong>Program Name</strong></th>
                                 </thead>
                                 <tbody>
                                 </tbody>
+
                             </table>
                         </div>
                     </div>
                     <!-- / Layout page -->
-                </div>
-                <!-- Overlay -->
-                <div class="layout-overlay layout-menu-toggle"></div>
-                <!-- Drag Target Area To SlideIn Menu On Small Screens -->
-                <div class="drag-target"></div>
-            </div>
-            <!-- ADD CAMPUS MODAL START -->
-            <div class="modal fade" id="addCampusModal" tabindex="-1" aria-labelledby="addCampusLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addCampusLabel">Add Campus</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="" class="form-label">Campus Name</label>
-                                <input type="text" class="form-control" name="campus" id="campus"
-                                    aria-describedby="helpId" placeholder="Campus Name" autofocus />
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" id="submitCampus" class="btn btn-primary" data-bs-dismiss="modal">Add
-                                Campus</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ADD CAMPUS MODAL END -->
-            <!-- DELETE CAMPUS MODAL START -->
-            <div class="modal fade" id="deleteCampusModal" tabindex="-1" aria-labelledby="deleteCampusModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="deleteCampusModalLabel">Confirm Delete</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Are you sure you want to delete this campus?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" id="deleteCampus" class="btn btn-danger">Delete</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- DELETE CAMPUS MODAL END -->
 
-            <!-- MY PROFILE MODAL START -->
+                    <!-- MY PROFILE MODAL START -->
             <div class="modal fade" id="userProfile" tabindex="-1" aria-labelledby="userProfileLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
@@ -378,6 +333,12 @@
                     </div>
                 </div>
             </div>
+                </div>
+                <!-- Overlay -->
+                <div class="layout-overlay layout-menu-toggle"></div>
+                <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+                <div class="drag-target"></div>
+            </div>
             <!-- / Layout wrapper -->
             <!-- Core JS -->
             <!-- build:js assets/vendor/js/core.js -->
@@ -393,122 +354,42 @@
             <script src="../../assets/js/main.js"></script>
             <!-- Page JS -->
             <script>
-                // DISPLAY CAMPUS START
-                var identifier = "campus";
-                $('#campusTable').DataTable({
-                    ajax: {
-                        url: 'get_structure.php',
-                        type: 'GET',
-                        data: {
-                            identifier: identifier,
-                        }, // Send identifier to PHP script
-                        dataSrc: 'data' // The property name that contains the data array
-                    },
-                    columns: [{
-                        data: null, // 'null' because we are manually rendering content
-                        render: function (data, type, row) {
-                            return `
-                            <div class="d-flex justify-content-between" onclick="location.href='colleges.php?campus=${encodeURIComponent(row.campus)}'" style="cursor: pointer;">
-                            <span>${row.campus}</span>
-                            <a href="#" class="text-danger fs-3 bx bx-trash" data-id="${row.campus}" onclick="event.stopPropagation(); deleteCampus('${row.campus}');"></a>
-                            </div>
-                            `;
-                        }
-                    }],
-                    order: [
-                        [0, 'asc']
-                    ],
-                    paging: true,
-                    searching: true,
-                    ordering: true,
-                    responsive: true
-                });
-                // DISPLAY CAMPUS END
+                var identifier = "program";
+            var campusName = <?php echo json_encode($campusName); ?>;
+            var collegeName = <?php echo json_encode($collegeName); ?>;
+            // DISPLAY RECORDS START
+            $('#programTable').DataTable({
+                ajax: {
+                    url: 'get_structure.php',
+                    type: 'GET',
+                    data: { identifier: identifier,
+                            campus: campusName,
+                            college: collegeName
+                     }, // Send identifier to PHP script
+                    dataSrc: 'data' // The property name that contains the data array
+                },
+                columns: [
+                    {
+            data: null, // 'null' because we are manually rendering content
+            render: function(data, type, row) {
+                return `
+                    <div class="d-flex justify-content-between" onclick="location.href='documents.php?campus=${encodeURIComponent(row.campus)}&college=${encodeURIComponent(row.college)}&program=${encodeURIComponent(row.program)}'" style="cursor: pointer;">
+                    <span>${row.program}</span>
+                    </div>
 
-                // ADD CAMPUS START
-                $(document).ready(function () {
-                    $('#submitCampus').click(function () {
-                        var campusName = $('#campus').val();
+                `;
+            }
+            }
+                ],
+                order: [[0, 'asc']],
+                paging: true,
+                searching: true,
+                ordering: true,
+                responsive: true
+            });
+            // DISPLAY RECORD END
 
-                        // Simple validation
-                        if (campusName.trim() === '') {
-                            toastr.error('Please enter a campus name.');
-                            return;
-                        }
-
-                        // AJAX request
-                        $.ajax({
-                            url: 'add_structure.php', // Replace with your server endpoint
-                            type: 'POST',
-                            data: {
-                                identifier: identifier,
-                                campus: campusName
-                            },
-                            success: function (response) {
-                                if (response == "success") {
-                                    // Handle success response
-                                    toastr.success('Campus added successfully!');
-                                    $('#campusTable').DataTable().ajax.reload();
-                                    console.log(response);
-                                    $('#campus').val(''); // Clear input field
-                                } else {
-                                    console.log(response);
-                                    toastr.error('Campus is already existing');
-                                    $('#campus').val(''); // Clear input field
-                                }
-
-                            },
-                            error: function (xhr, status, error) {
-                                // Handle error response
-                                toastr.error('An error occurred: ' + error);
-                            }
-                        });
-                    });
-                });
-                // ADD CAMPUS END
-
-                // DELETE CAMPUS START
-                // Define the function to show the delete modal and handle deletion
-                function deleteCampus(campus) {
-                    // Show the delete confirmation modal
-                    $('#deleteCampusModal').modal('show');
-                    console.log(campus);
-                    // Clear any previous click handlers to avoid multiple bindings
-                    $('#deleteCampus').off('click').on('click', function (event) {
-                        console.log(campus);
-                        // Perform the AJAX request to delete the campus
-                        $.ajax({
-                            url: 'delete_structure.php', // Your server endpoint for deletion
-                            type: 'POST',
-                            data: {
-                                identifier: identifier, // Assuming 'identifier' should be 'campus'
-                                campus: campus
-                            },
-                            success: function (response) {
-                                if (response === "success") {
-                                    // Handle success response
-                                    toastr.success('Campus deleted successfully!');
-                                    $('#campusTable').DataTable().ajax.reload(); // Refresh DataTable
-                                } else {
-                                    // Handle failure response
-                                    toastr.error('An error occurred: ' + response);
-                                }
-
-                                // Hide the modal after the operation
-                                $('#deleteCampusModal').modal('hide');
-                            },
-                            error: function (xhr, status, error) {
-                                // Handle error response
-                                toastr.error('An error occurred: ' + error);
-                                $('#deleteCampusModal').modal(
-                                'hide'); // Hide modal even if there's an error
-                            }
-                        });
-                    });
-                }
-                // DELETE CAMPUS END
-
-                // MY PROFILE START
+            // MY PROFILE START
 function openUpdateModal(userId) {
         fetch(`../../config/get_user.php?id=${userId}`).then(response => response.json()).then(data => {
           if (data.success) {
@@ -603,13 +484,13 @@ function openUpdateModal(userId) {
 
           // Check if the notification text contains the word 'approval' or 'registered'
           if (notificationText.includes('approval') || notificationText.includes('registered')) {
-            window.location.href = `users.php`;
+            window.location.href = `../users.php`;
           } else {
             console.log('The notification does not contain the word "approval".');
 
             // If not, perform the AJAX request
             $.ajax({
-              url: 'redirect_notification.php', // Replace with the actual path to your PHP script
+              url: '../redirect_notification.php', // Replace with the actual path to your PHP script
               type: 'POST',
               data: {
                 email: email
@@ -619,7 +500,7 @@ function openUpdateModal(userId) {
                 if (result.status === 'success') {
                   console.log('Campus:', result.campus);
                   console.log('College:', result.college);
-                  window.location.href = `../request_documents/documents.php?campus=${encodeURIComponent(result.campus)}&college=${encodeURIComponent(result.college)}`;
+                  window.location.href = `../request_documents/programs.php?campus=${encodeURIComponent(result.campus)}&college=${encodeURIComponent(result.college)}`;
                   // Optionally, update the UI with this information
                 } else {
                   console.error(result.message);
@@ -641,7 +522,7 @@ function openUpdateModal(userId) {
       // Update the notification count
       function updateNotificationCount() {
         $.ajax({
-          url: '../config/get_notification_count.php', // PHP file to get notification count
+          url: '../../config/get_notification_count.php', // PHP file to get notification count
           type: 'GET',
           success: function(count) {
             $('#notification-count').text(count);
@@ -655,7 +536,7 @@ function openUpdateModal(userId) {
       // Fetch and display notifications
       function notificationUpdate() {
         $.ajax({
-          url: '../config/fetch_notifications.php', // PHP file to fetch notifications
+          url: '../../config/fetch_notifications.php', // PHP file to fetch notifications
           type: 'GET',
           dataType: 'json',
           success: function(data) {
@@ -695,7 +576,7 @@ function openUpdateModal(userId) {
       //Update the status of a specific notification when clicked (mark as read, for example)
       function notificationDetailUpdate(notificationId) {
         $.ajax({
-          url: '../config/mark_notification_read.php', // PHP file to mark notification as read
+          url: '../../config/mark_notification_read.php', // PHP file to mark notification as read
           type: 'POST',
           data: {
             id: notificationId
