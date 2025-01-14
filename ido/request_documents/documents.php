@@ -235,6 +235,7 @@ if (!isset($_SESSION['id'])) {
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="card px-4 py-4">
                             <nav aria-label="breadcrumb">
+<<<<<<< HEAD
                                 <ol class="breadcrumb fs-4">
                                     <li class="breadcrumb-item"><a href="programs.php"><?php echo $campusName; ?></a></li>
                                     <li class="breadcrumb-item">
@@ -247,6 +248,20 @@ if (!isset($_SESSION['id'])) {
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">Documents</li>
                                 </ol>
+=======
+                            <ol class="breadcrumb fs-4">
+                    <li class="breadcrumb-item"><a href="programs.php"><?php echo $campusName; ?></a></li>
+                    <li class="breadcrumb-item">
+                      <a href="colleges.php?campus=<?php echo urlencode($campusName); ?>">
+                        <?php echo $collegeName; ?>
+                      </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a href="#" onclick="window.history.back(); return false;"><?php echo $programName; ?></a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Areas</li>
+                  </ol>
+>>>>>>> 55dc3c8649743653ff7edb853d3366c65c2eae2d
                             </nav>
                             <div class="d-flex flex-column">
                                 <div class="d-flex flex-row align-items-end mb-3">
@@ -308,6 +323,7 @@ if (!isset($_SESSION['id'])) {
             <!-- Approve Modal -->
             <!-- Approve Modal Structure -->
             <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
+<<<<<<< HEAD
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -372,7 +388,76 @@ if (!isset($_SESSION['id'])) {
                         </div>
                     </div>
                 </div>
+=======
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="approveModalLabel">Approve Document</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+>>>>>>> 55dc3c8649743653ff7edb853d3366c65c2eae2d
             </div>
+            <div class="modal-body">
+                <form id="approveForm" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="modalArea" class="form-label">
+                            <i class="bx bx-layer"></i> Area
+                        </label>
+                        <input type="text" class="form-control" id="modalArea" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalParameter" class="form-label">
+                            <i class="bx bx-cog"></i> Parameter
+                        </label>
+                        <input type="text" class="form-control" id="modalParameter" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalQuality" class="form-label">
+                            <i class="bx bx-check-circle"></i> Quality
+                        </label>
+                        <input type="text" class="form-control" id="modalQuality" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalCampus" class="form-label">
+                            <i class="bx bx-buildings"></i> Campus
+                        </label>
+                        <input type="text" class="form-control" id="modalCampus" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalCollege" class="form-label">
+                            <i class="bx bx-book"></i> College
+                        </label>
+                        <input type="text" class="form-control" id="modalCollege" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalProgram" class="form-label">
+                            <i class="bx bx-briefcase"></i> Program
+                        </label>
+                        <input type="text" class="form-control" id="modalProgram" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalProgram" class="form-label">
+                            <i class='bx bx-menu'></i> Benchmark
+                        </label>
+                        <input type="text" class="form-control" id="modalBenchmark" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="uploadFile" class="form-label">
+                            <i class='bx bx-upload'></i> Upload File
+                        </label>
+                        <input type="file" class="form-control" id="uploadFile" name="file" accept=".pdf" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" id="confirmApprove">Approve</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 
 
@@ -512,6 +597,7 @@ programName
                 $(document).ready(function() {
                     let selectedDocumentId; // Store the selected document ID
 
+<<<<<<< HEAD
                     // Initialize DataTable
                     var table = $('#documentTable').DataTable({
                         ajax: {
@@ -548,12 +634,74 @@ programName
                                 render: function(data, type, row) {
                                     // Get today's date
                                     var today = new Date();
+=======
+    // Initialize DataTable
+    var table = $('#documentTable').DataTable({
+        ajax: {
+            url: 'get_structure.php',
+            type: 'GET',
+            data: {
+                identifier: "documents",
+                campus: campusName,
+                college: collegeName
+            },
+            dataSrc: 'data'
+        },
+        columns: [
+            { data: 'requestor' },
+            { data: 'area' },
+            { data: 'parameter' },
+            { data: 'quality' },
+            { data: 'benchmark' },
+            { data: 'requested_date' },
+            {
+                data: null,
+                render: function (data, type, row) {
+                    return `
+                        <button class="btn btn-primary text-white approve-btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#approveModal"
+                            data-id="${row.id}"
+                            data-area="${row.area}"
+                            data-parameter="${row.parameter}"
+                            data-quality="${row.quality}"
+                            data-campus="${row.campus}"
+                            data-college="${row.college}"
+                            data-benchmark="${row.benchmark}"
+                            data-program="${row.program}">Approve</button>
+                        <button class="btn btn-danger text-white"
+                                data-bs-toggle="modal"
+                                data-bs-target="#rejectModal"
+                                data-id="${row.id}"
+                                style="background-color: #ff3e1d !important; border-color: #ff3e1d !important;">Reject</button>
+                    `;
+                },
+                orderable: false,
+                searchable: false
+            }
+        ],
+        order: [[0, 'asc']],
+        paging: true,
+        searching: true,
+        ordering: true,
+        responsive: true
+    });
+>>>>>>> 55dc3c8649743653ff7edb853d3366c65c2eae2d
 
                                     // Parse the priority date
                                     var priorityDate = new Date(data);
 
+<<<<<<< HEAD
                                     // Calculate the difference in days
                                     var diffDays = Math.ceil((priorityDate - today) / (1000 * 3600 * 24));
+=======
+        // Apply filters
+        table
+            .column(1).search(areaValue === 'Select Area' ? '' : areaValue)
+            .column(2).search(parameterValue === 'Select Parameter' ? '' : parameterValue)
+            .column(3).search(qualityValue === 'Select Quality' ? '' : qualityValue)
+            .draw(); // Redraw the table with the applied filters
+>>>>>>> 55dc3c8649743653ff7edb853d3366c65c2eae2d
 
                                     // Check if the priority date is less than 5 days
                                     if (diffDays <= 5) {
@@ -616,8 +764,76 @@ programName
                             var priorityDate = new Date(data.priority);
                             console.log(data.status);
 
+<<<<<<< HEAD
                             // Calculate the difference in days
                             var diffDays = Math.ceil((priorityDate - today) / (1000 * 3600 * 24));
+=======
+    // Handle the Approve button click to populate the modal
+$(document).on('click', '.approve-btn', function () {
+    // Get data from the clicked button
+    var area = $(this).data('area');
+    var parameter = $(this).data('parameter');
+    var quality = $(this).data('quality');
+    var campus = $(this).data('campus');
+    var college = $(this).data('college');
+    var program = $(this).data('program');
+    var benchmark = $(this).data('benchmark');
+    var documentId = $(this).data('id');
+    // Populate the modal with the data
+    $('#modalArea').val(area);  // Set disabled inputs
+    $('#modalParameter').val(parameter);
+    $('#modalQuality').val(quality);
+    $('#modalCampus').val(campus);
+    $('#modalCollege').val(college);
+    $('#modalProgram').val(program);
+    $('#modalBenchmark').val(benchmark);
+    // Store the document ID in the "Approve" button in case you need it on confirmation
+    $('#confirmApprove').data('id', documentId);
+});
+
+$('#confirmApprove').on('click', function () {
+    // Get the document ID stored in the "Approve" button
+    var documentId = $(this).data('id');
+    
+    // Prepare the form data, including the file
+    var formData = new FormData();
+    formData.append('id', documentId);  // Add document ID
+    formData.append('area', $('#modalArea').val());  // Add the modal data values
+    formData.append('parameter', $('#modalParameter').val());
+    formData.append('quality', $('#modalQuality').val());
+    formData.append('campus', $('#modalCampus').val());
+    formData.append('college', $('#modalCollege').val());
+    formData.append('program', $('#modalProgram').val());
+    formData.append('benchmark', $('#modalBenchmark').val());
+    // Get the file from the file input
+    var fileInput = $('#uploadFile')[0].files[0];
+    if (fileInput) {
+        formData.append('fileInput', fileInput);  // Add the file to the form data
+    }
+    
+    // Perform the AJAX request
+    $.ajax({
+        url: 'upload.php',
+        type: 'POST',
+        data: formData,
+        processData: false,  // Important: Prevent jQuery from converting the data
+        contentType: false,  // Important: Let the browser set the content type
+        success: function (response) {
+            if (response.status === "success") {
+                toastr.success('Document approved successfully!');
+            } else {
+                toastr.error('An error occurred: ' + response);
+            }
+            $('#approveModal').modal('hide');
+            table.ajax.reload();  // Reload the table to reflect the changes
+        },
+        error: function (xhr, status, error) {
+            toastr.error('An error occurred: ' + error);
+            $('#approveModal').modal('hide');
+        }
+    });
+});
+>>>>>>> 55dc3c8649743653ff7edb853d3366c65c2eae2d
 
                             // Check the number of days and apply the appropriate background color
                             if (diffDays <= 5 && data.status === "Pending") {
@@ -837,6 +1053,7 @@ programName
                 });
                 // UPDATING PASSWORD END
 
+<<<<<<< HEAD
                 // NOTIFICATION START
                 $(document).ready(function() {
                     // Initial load of notification count
@@ -931,11 +1148,108 @@ programName
                                     };
                                     const formattedDate = date.toLocaleString('en-US', options);
                                     $('#notification').append(`
+=======
+      // NOTIFICATION START
+      $(document).ready(function() {
+        // Initial load of notification count
+        updateNotificationCount();
+
+        // Event listener for the notification icon
+        $('.nav-item.dropdown-notifications').on('click', function() {
+          notificationUpdate();
+        });
+
+        // Delegate the click event to dynamically added notifications
+        $('#notification').on('click', '.notification-item', function() {
+          const notificationId = $(this).data('id');
+
+          // Extract the email from the notification (assuming it's stored in a <strong> tag)
+          var email = $(this).find('strong').text();
+          console.log('Notification clicked, email:', email); // Debugging line
+
+          // Extract the full text of the notification
+          var notificationText = $(this).text();
+          console.log('Notification clicked, text:', notificationText); // Debugging line
+
+          // Check if the notification text contains the word 'approval' or 'registered'
+          if (notificationText.includes('approval') || notificationText.includes('registered')) {
+            window.location.href = `../users.php`;
+          } else {
+            console.log('The notification does not contain the word "approval".');
+
+            // If not, perform the AJAX request
+            $.ajax({
+              url: '../redirect_notification.php', // Replace with the actual path to your PHP script
+              type: 'POST',
+              data: {
+                email: email
+              },
+              success: function(response) {
+                var result = JSON.parse(response);
+                if (result.status === 'success') {
+                  console.log('Campus:', result.campus);
+                  console.log('College:', result.college);
+                  window.location.href = `../request_documents/programs.php?campus=${encodeURIComponent(result.campus)}&college=${encodeURIComponent(result.college)}`;
+                  // Optionally, update the UI with this information
+                } else {
+                  console.error(result.message);
+                  // Optionally show an error message to the user
+                }
+              },
+              error: function(xhr, status, error) {
+                console.error('AJAX error:', status, error);
+              }
+            });
+          }
+
+          // Optionally, call your notificationDetailUpdate function, if needed
+          notificationDetailUpdate(notificationId);
+        });
+
+      });
+
+      // Update the notification count
+      function updateNotificationCount() {
+        $.ajax({
+          url: '../../config/get_notification_count.php', // PHP file to get notification count
+          type: 'GET',
+          success: function(count) {
+            $('#notification-count').text(count);
+          },
+          error: function() {
+            console.error("Error fetching notification count");
+          }
+        });
+      }
+
+      // Fetch and display notifications
+      function notificationUpdate() {
+        $.ajax({
+          url: '../../config/fetch_notifications.php', // PHP file to fetch notifications
+          type: 'GET',
+          dataType: 'json',
+          success: function(data) {
+            $('#notification').empty(); // Clear existing notifications
+            if (data.length > 0) {
+              data.forEach(function(notification) {
+                // Format the created_at date
+                const date = new Date(notification.timestamp);
+                const options = {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                };
+                const formattedDate = date.toLocaleString('en-US', options);
+                $('#notification').append(`
+>>>>>>> 55dc3c8649743653ff7edb853d3366c65c2eae2d
                         <li class="list-group-item text-dark notification-item" data-id="${notification.id}" style="cursor:pointer;">
                             ${notification.description} <br>
                             <small class="text-success">${formattedDate}</small>
                         </li>
                     `);
+<<<<<<< HEAD
                                 });
                             } else {
                                 $('#notification').append('<li class="list-group-item">No new notifications.</li>');
@@ -974,6 +1288,46 @@ programName
                     });
                 }
                 // NOTIFICATION END
+=======
+              });
+            } else {
+              $('#notification').append('<li class="list-group-item">No new notifications.</li>');
+            }
+
+            // Update the notification count after displaying the notifications
+            updateNotificationCount();
+          },
+          error: function() {
+            console.error("Error fetching notifications");
+          }
+        });
+      }
+
+      //Update the status of a specific notification when clicked (mark as read, for example)
+      function notificationDetailUpdate(notificationId) {
+        $.ajax({
+          url: '../../config/mark_notification_read.php', // PHP file to mark notification as read
+          type: 'POST',
+          data: {
+            id: notificationId
+          },
+          success: function(response) {
+            if (response.success) {
+              // Optionally, you can update the UI here, e.g., mark the notification as read
+              // For example, add a "read" class or modify the notification appearance
+              $(`[data-id="${notificationId}"]`).addClass('read'); // Assuming "read" class has specific styling
+              console.log("Notification marked as read");
+            } else {
+              console.error("Error marking notification as read");
+            }
+          },
+          error: function() {
+            console.error("Error marking notification as read");
+          }
+        });
+      }
+      // NOTIFICATION END
+>>>>>>> 55dc3c8649743653ff7edb853d3366c65c2eae2d
             </script>
 </body>
 
