@@ -41,11 +41,7 @@ if (isset($_FILES['fileInput']) && isset($_POST['area']) && isset($_POST['parame
     $uploadDate = date('Y-m-d');
     
     // Validate file type (allow only PDF for example)
-<<<<<<< HEAD
     $allowedExtensions = ['pdf', 'jpg', 'jpeg', 'png', 'gif'];
-=======
-    $allowedExtensions = ['pdf'];
->>>>>>> 55dc3c8649743653ff7edb853d3366c65c2eae2d
     if (!in_array(strtolower($fileExtension), $allowedExtensions)) {
         $response['status'] = 'error';
         $response['message'] = 'Invalid file type. Only PDF, DOC, DOCX, and XLSX files are allowed.';
@@ -69,11 +65,7 @@ if (isset($_FILES['fileInput']) && isset($_POST['area']) && isset($_POST['parame
 
             if (mysqli_query($conn, $query)) {
                 // Update the request status to "Approved"
-<<<<<<< HEAD
                 $approveDocument = "UPDATE request_documents SET file_name = '$fileName', status = 'Approved', processed_date = CURDATE() WHERE id = $id";
-=======
-                $approveDocument = "UPDATE request_documents SET status = 'Approved' WHERE id = $id";
->>>>>>> 55dc3c8649743653ff7edb853d3366c65c2eae2d
                 $result = mysqli_query($conn, $approveDocument);
 
                 if ($result) {

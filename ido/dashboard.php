@@ -438,19 +438,12 @@ if (!isset($_SESSION['id'])) {
                         <label for="eventTitle" class="form-label">Event Title</label>
                         <select class="form-control" id="eventTitle" required>
                           <option value="" disabled selected>Select event level</option>
-<<<<<<< HEAD
                           <option value="Preliminary Survey Visit">Preliminary Survey Visit</option>
                           <option value="Level 1 - Phase 1">Level 1 - Phase 1</option>
                           <option value="Level 1 - Phase 2">Level 1 - Phase 2</option>
                           <option value="Level 2 - Phase 1">Level 2 - Phase 1</option>
                           <option value="Level 2 - Phase 2">Level 2 - Phase 2</option>
                           <option value="Level 3 - Phase 1">Level 3 - Phase 1</option>
-=======
-                          <option value="Level 1">Level 1</option>
-                          <option value="Level 2">Level 2</option>
-                          <option value="Level 3">Level 3</option>
-                          <option value="Level 4">Level 4</option>
->>>>>>> 55dc3c8649743653ff7edb853d3366c65c2eae2d
                         </select>
                       </div>
 

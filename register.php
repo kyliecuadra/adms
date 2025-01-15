@@ -1,3 +1,24 @@
+<?php 
+require("config/db_connection.php");
+
+// Delete archived documents older than 5 years
+mysqli_query($conn, "DELETE FROM archived_documents WHERE archived_date < NOW() - INTERVAL 5 YEAR");
+
+session_start();
+
+if (isset($_SESSION['id'])) {
+    if ($_SESSION['role'] == "ido") {
+        header("location: ido/dashboard.php");
+        exit;
+    } elseif ($_SESSION['role'] == "quaac") {
+        header("location: quaac/dashboard.php");
+        exit;
+    } else {
+        header("location: areacoordinator/dashboard.php");
+        exit;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 

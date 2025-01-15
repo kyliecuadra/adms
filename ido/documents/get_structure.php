@@ -104,11 +104,7 @@ elseif (isset($_GET['identifier']) && $_GET['identifier'] === "documents") {
     $parameterName = $_GET['parameter'];
     $qualityName = $_GET['quality'];
     // SQL query to get campus data
-<<<<<<< HEAD
     $query = "SELECT * FROM documents WHERE area = '$areaName' AND parameter = '$parameterName' AND quality = '$qualityName' AND campus = '$campusName' AND college = '$collegeName' AND program = '$programName' ORDER BY benchmark ASC";
-=======
-    $query = "SELECT * FROM documents WHERE area = '$areaName' AND parameter = '$parameterName' AND quality = '$qualityName' AND campus = '$campusName' AND college = '$collegeName' AND program = '$programName'";
->>>>>>> 55dc3c8649743653ff7edb853d3366c65c2eae2d
     
     // Execute the query
     $result = mysqli_query($conn, $query);

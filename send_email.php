@@ -8,16 +8,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $subject = isset($_POST['subject']) ? trim($_POST['subject']) : '';
     $message = isset($_POST['message']) ? trim($_POST['message']) : '';
 
-    // Query to get the admin's email from the users table
-    $result = mysqli_query($conn, "SELECT email FROM users WHERE role = 'ido' LIMIT 1");
+    // Query to get all admin emails with 'ido' role
+    $result = mysqli_query($conn, "SELECT email FROM users WHERE role = 'ido'");
 
     if ($result) {
-        $row = mysqli_fetch_assoc($result);
-        $adminEmail = $row['email'] ?? null;
+        // Initialize an empty array for the recipient emails
+        $adminEmails = [];
 
-        if ($adminEmail) {
-            // Set the recipient email address
-            $to = $adminEmail;
+        // Fetch all the emails and store them in the array
+        while ($row = mysqli_fetch_assoc($result)) {
+            $adminEmails[] = $row['email'];
+        }
+
+        if (!empty($adminEmails)) {
+            // Create a comma-separated list of email addresses
+            $to = implode(',', $adminEmails);
 
             // Create the Gmail link
             $gmailLink = "https://mail.google.com/mail/?view=cm&fs=1&to=" . urlencode($to) . "&su=" . urlencode($subject) . "&body=" . urlencode($message);
@@ -25,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Respond with the Gmail link
             echo json_encode(["status" => "success", "link" => $gmailLink]);
         } else {
-            echo json_encode(["status" => "error", "message" => "Admin email not found."]);
+            echo json_encode(["status" => "error", "message" => "No admin emails found."]);
         }
     } else {
         echo json_encode(["status" => "error", "message" => "Query failed: " . mysqli_error($conn)]);
