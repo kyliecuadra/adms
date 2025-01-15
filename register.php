@@ -99,7 +99,7 @@ if (isset($_SESSION['id'])) {
                 <div class="container">
 
                 <div class="mb-3 mt-4">
-                    <p>Already have an account? <a href="index.php"> Sign in.</a></p>
+                    <p>Already have an account? <a href="login-page.php"> Sign in.</a></p>
                     <button type="submit" class="btn mb-4 next-step">Sign up</button>
                 </div>
             </form>

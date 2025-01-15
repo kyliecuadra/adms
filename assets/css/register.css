@@ -8,27 +8,53 @@
 }
 
 main {
-  background-image: url('../img/bg.jpg'); /* Replace 'your-image-url.jpg' with the actual path to your image */
-  background-position: right center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed; /* Optional: This keeps the background fixed while scrolling */
-  overflow: hidden; /* Optional: This hides the overflow content */
   position: relative;
   min-height: 100vh;
-  background-color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
+  overflow: hidden;
+  background-color: #fff; /* Fallback color */
+}
+
+/* Pseudo-element for blurred background */
+main::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('../img/bg.jpg');
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  filter: blur(8px); /* Adjust blur amount as needed */
+  z-index: 0; /* Keep it behind the content */
+}
+
+/* Dark overlay */
+main::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3); /* Adjust opacity for darkness */
+  z-index: 1; /* Keep it above the blurred image */
 }
 
 main .formBox {
-    width: 80%;
-	  height: 100%;
-    background-color: #fff;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+  width: 80%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  position: relative; /* Ensure this is positioned above the overlay */
+  z-index: 2; /* Bring it above the blurred background */
 }
 
 main .formBox .signin {

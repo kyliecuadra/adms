@@ -64,6 +64,23 @@ session_start();
                 <li class="nav-item">
                   <a class="ud-menu-scroll" href="#contact">Contact</a>
                 </li>
+                <?php
+                if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
+                  // Fetch the user name from the session or database if needed
+                  $userName = $_SESSION['name']; // Assuming 'name' is stored in the session
+                  echo '<li class="nav-item d-inline-block d-sm-none">';
+                  echo "<a href='login-page.php' class='ud-menu-scroll'><span>Welcome, $userName</span></a>";
+                  echo '</li>';
+                } else {
+                  echo '<li class="nav-item d-inline-block d-sm-none">';
+                  echo '<a href="login-page.php">Sign In</a>';
+                  echo '</li>';
+                  echo '<li class="nav-item d-inline-block d-sm-none">';
+                  echo '<a href="register.php">Sign Up</a>';
+                  echo '</li>';
+                }
+                ?>
+
               </ul>
             </div>
 
