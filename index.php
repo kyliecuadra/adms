@@ -491,7 +491,7 @@ session_start();
                 <div class="ud-info-meta">
                   <h5>How Can We Help?</h5>
                   <p>(046) 481-8722</p>
-                  <div id="contact-email">Loading email...</div>
+                  <div id="contact-email"></div>
                 </div>
               </div>
             </div>
@@ -704,7 +704,7 @@ session_start();
           // Check if the response contains any emails
           if (response.length > 0) {
             // Join multiple emails with a comma
-            $('#contact-email').text(response.join(', '));
+            $('#contact-email').html(response.join('<br>'));
           } else {
             $('#contact-email').text('No contact email available');
           }
