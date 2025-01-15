@@ -72,7 +72,7 @@ session_start();
               if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                 // Fetch the user name from the session or database if needed
                 $userName = $_SESSION['name'] ?? 'Guest'; // Assuming 'name' is stored in the session
-                echo "<span class='text-white'>Welcome, $userName</span>"; // Display user's name
+                echo "<span class='ud-main-btn ud-login-btn'>Welcome, $userName</span>"; // Display user's name
               } else {
                 echo '<a href="login-page.php" class="ud-main-btn ud-login-btn">Sign In</a>';
                 echo '<a class="ud-main-btn ud-white-btn" href="register.php">Sign Up</a>';
