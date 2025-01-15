@@ -1430,7 +1430,7 @@ p {
 }
 
 .ud-widget .ud-footer-logo {
-  max-width: 160px;
+  max-width: 250px;
   display: block;
   margin-bottom: 10px;
 }
@@ -1456,7 +1456,7 @@ p {
 }
 
 .ud-widget .ud-widget-socials a {
-  font-size: 16px;
+  font-size: 24px;
   color: #dddddd;
   margin-right: 20px;
 }

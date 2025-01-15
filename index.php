@@ -575,8 +575,8 @@ session_start();
         <div class="row">
           <div class="col-xl-4 col-lg-4 col-md-6">
             <div class="ud-widget">
-              <a href="index.html" class="ud-footer-logo">
-                <img src="assets/img/logo/logo.svg" alt="logo" />
+              <a href="index.php" class="ud-footer-logo">
+                <img src="assets/img/logo/logo2.png" alt="logo" />
               </a>
               <p class="ud-widget-desc">
                 A digital solution that organizes, stores, and manages documents for accreditation processes, ensuring easy access and compliance during assessments.
