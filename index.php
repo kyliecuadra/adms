@@ -511,19 +511,6 @@ session_start();
                   placeholder="Juan Dela Cruz" />
               </div>
               <div class="ud-form-group">
-                <label for="email">Email*</label>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="example@yourmail.com"
-                  <?php
-                  if (isset($_SESSION['id']) && !empty($_SESSION['id']) && isset($_SESSION['email'])) {
-                    // Set the email value from the session
-                    echo 'value="' . htmlspecialchars($_SESSION['email']) . '"';
-                  }
-                  ?> />
-              </div>
-              <div class="ud-form-group">
                 <label for="phone">Phone*</label>
                 <input
                   type="text"
