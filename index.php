@@ -534,7 +534,7 @@ session_start();
                   placeholder="type your message here"></textarea>
               </div>
               <div class="ud-form-group mb-0">
-                <button type="submit" class="ud-main-btn" id="sendEmail">
+                <button class="ud-main-btn" id="sendEmail">
                   Send Message
                 </button>
               </div>
@@ -647,6 +647,7 @@ session_start();
     window.document.addEventListener("scroll", onScroll);
 
     $('#sendEmail').on('click', function() {
+      event.preventDefault();
       const subject = $('#subject').val();
       const message = $('#message').val();
 
@@ -668,8 +669,6 @@ session_start();
           if (res.status === "success") {
             // Open the Gmail link
             window.open(res.link, '_blank');
-            const modal = bootstrap.Modal.getInstance(document.getElementById('contactModal'));
-            modal.hide();
             $('#contactForm')[0].reset(); // Clear the form
           } else {
             alert(res.message);
@@ -692,8 +691,6 @@ session_start();
           if (response.length > 0) {
             // Join multiple emails with a comma
             $('#contact-email').html(response.join('<br>'));
-          } else {
-            $('#contact-email').text('No contact email available');
           }
         },
         error: function() {
