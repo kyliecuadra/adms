@@ -11,6 +11,7 @@ $currentParameter = isset($_POST['currentParameter']) ? mysqli_real_escape_strin
 $currentQuality = isset($_POST['currentQuality']) ? mysqli_real_escape_string($conn, $_POST['currentQuality']) : '';
 $currentBenchmark = isset($_POST['currentBenchmark']) ? mysqli_real_escape_string($conn, $_POST['currentBenchmark']) : '';
 $currentFilename = isset($_POST['currentFilename']) ? mysqli_real_escape_string($conn, $_POST['currentFilename']) : '';
+$currentParentBenchmark = isset($_POST['currentParentBenchmark']) ? mysqli_real_escape_string($conn, $_POST['currentParentBenchmark']) : '';
 
 // Fetch existing document data from the database
 $query = "SELECT * FROM documents WHERE id = '$id'";
@@ -74,8 +75,8 @@ if ($hasFieldChanges || $fileChanged) {
         }
     }
     // Insert the new record into the documents table
-    $insertSql = "INSERT INTO documents (id, area, parameter, quality, file_name, benchmark, campus, college, program)
-                  VALUES ('$id', '$newArea', '$newParameter', '$newQuality', '$newFilename', '$newBenchmark', '$campus', '$college', '$program')
+    $insertSql = "INSERT INTO documents (id, area, parameter, quality, file_name, benchmark, campus, college, program, parent_benchmark)
+                  VALUES ('$id', '$newArea', '$newParameter', '$newQuality', '$newFilename', '$newBenchmark', '$campus', '$college', '$program', '$currentParentBenchmark')
                   ON DUPLICATE KEY UPDATE 
                       area = '$newArea', 
                       parameter = '$newParameter', 

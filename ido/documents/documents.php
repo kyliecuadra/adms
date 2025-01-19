@@ -454,6 +454,7 @@ if (!isset($_SESSION['id'])) {
                                 <input type="hidden" name="campus" value="<?php echo $campusName; ?>">
                                 <input type="hidden" name="college" value="<?php echo $collegeName; ?>">
                                 <input type="hidden" name="program" value="<?php echo $programName; ?>">
+                                <input type="hidden" name="currentParentBenchmark" id="currentParentBenchmark">
                                 <div class="mb-3">
                                     <label for="area" class="form-label">Area</label>
                                     <select id="currentArea" name="currentArea" class="form-control"></select>
@@ -619,7 +620,7 @@ if (!isset($_SESSION['id'])) {
                         <button class="btn btn-info btn-sm" title="View" onclick="viewDocument('${row.filename}', '${row.benchmark}')">
                             <i class="fas fa-eye"></i>
                         </button>
-                        <button class="btn btn-primary btn-sm" title="Update" onclick="updateDocument('${row.area}', '${row.parameter}', '${row.quality}', '${row.filename}', '${row.benchmark}', '${row.id}')">
+                        <button class="btn btn-primary btn-sm" title="Update" onclick="updateDocument('${row.area}', '${row.parameter}', '${row.quality}', '${row.filename}', '${row.benchmark}', '${row.id}', 0)">
                             <i class="fas fa-edit"></i>
                         </button>
                         <button class="btn btn-primary btn-sm" title="Add Sub-Document" onclick="addSubDocument('${row.id}')">
@@ -669,7 +670,7 @@ if (!isset($_SESSION['id'])) {
                             <button class="btn btn-info btn-sm" title="View" onclick="viewDocument('${subRow.filename}', '${subRow.benchmark}')">
                                 <i class="fas fa-eye"></i>
                             </button>
-                            <button class="btn btn-primary btn-sm" title="Update" onclick="updateDocument('${subRow.area}', '${subRow.parameter}', '${subRow.quality}', '${subRow.filename}', '${subRow.benchmark}', '${subRow.id}')">
+                            <button class="btn btn-primary btn-sm" title="Update" onclick="updateDocument('${subRow.area}', '${subRow.parameter}', '${subRow.quality}', '${subRow.filename}', '${subRow.benchmark}', '${subRow.id}', '${subRow.parent_benchmark}') ">
                                 <i class="fas fa-edit"></i>
                             </button>
                             <button class="btn btn-primary btn-sm" title="Add Sub-Document" onclick="addSubDocument('${subRow.id}')">
@@ -799,12 +800,13 @@ if (!isset($_SESSION['id'])) {
                 // VIEW DOCUMENT END
 
                 // UPDATE DOCUMENT START
-                function updateDocument(area, parameter, quality, filename, benchmark, id) {
+                function updateDocument(area, parameter, quality, filename, benchmark, id, parent_benchmark) {
                     $('#currentId').val(id);
                     $('#currentArea').val(area);
                     $('#currentParameter').val(parameter);
                     $('#currentQuality').val(quality);
                     $('#currentBenchmark').val(benchmark);
+                    $('#currentParentBenchmark').val(parent_benchmark);
 
                     // Display the current file name (if any) in a readable format
                     $('#currentFileName').text(filename ? filename : 'No file chosen');
