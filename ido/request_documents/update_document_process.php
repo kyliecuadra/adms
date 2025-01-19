@@ -1,6 +1,6 @@
 <?php
 require("../../config/db_connection.php");
-
+date_default_timezone_set('Asia/Manila');
 // Get the form data
 $id = isset($_POST['currentId']) ? mysqli_real_escape_string($conn, $_POST['currentId']) : '';
 $campus = isset($_POST['campus']) ? mysqli_real_escape_string($conn, $_POST['campus']) : '';
@@ -55,8 +55,11 @@ if (!mysqli_query($conn, $deleteSql)) {
 }
 
 // Insert the new record into the documents table
-$insertSql = "INSERT INTO documents (area, parameter, quality, file_name, program, campus, college)
-              VALUES ('$currentArea', '$currentParameter', '$currentQuality', '$newFilename', '$programsString', '$campus', '$college')";
+$uploadDate = date('Y-m-d');
+$insertSql = "INSERT INTO documents (area, parameter, quality, file_name, program, campus, college, upload_date)
+              VALUES ('$currentArea', '$currentParameter', '$currentQuality', '$newFilename', '$programsString', '$campus', '$college', '$uploadDate')";
+
+              echo $insertSql;
 
 if (mysqli_query($conn, $insertSql)) {
     echo 'Document updated successfully!';

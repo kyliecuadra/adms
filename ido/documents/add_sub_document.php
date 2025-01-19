@@ -2,7 +2,7 @@
 require("../../config/db_connection.php");
 session_start();
 $targetDir = "../../assets/documents/";
-
+date_default_timezone_set('Asia/Manila');
 if (!file_exists($targetDir)) {
     mkdir($targetDir, 0755, true);
 }

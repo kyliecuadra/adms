@@ -3,7 +3,7 @@ require("../../config/db_connection.php");
 
 // Define the target directory where files will be uploaded
 $targetDir = "../../assets/documents/";
-
+date_default_timezone_set('Asia/Manila');
 if (!file_exists($targetDir)) {
     mkdir($targetDir, 0755, true);
 }
